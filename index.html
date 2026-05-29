@@ -374,6 +374,16 @@ nav a:hover{color:var(--gold);}
 
 <div id="tip"></div>
 
+<!-- MODAL ADVERTENCIA MÁXIMO -->
+<div class="modal-ov" id="modal-max-warn">
+  <div class="modal-box" style="text-align:center;max-width:360px;">
+    <div style="font-size:2.5rem;margin-bottom:0.5rem;">⚠️</div>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);margin-bottom:0.5rem;">LÍMITE MÁXIMO</h3>
+    <p id="modal-max-warn-msg" style="color:#ccc;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.</p>
+    <button id="modal-max-warn-btn" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;padding:0.75rem 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;font-weight:700;">✅ GRACIAS</button>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="modal-ov" id="modal">
   <div class="modal-box">
@@ -938,12 +948,12 @@ nav a:hover{color:var(--gold);}
     <div class="pr-calc-box">
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-width-label">Ancho</div>
-        <input type="range" class="pr-slider" id="pr-w" min="1" max="100" value="10" step="1">
+        <input type="range" class="pr-slider" id="pr-w" min="1" max="40" value="10" step="1">
         <div class="pr-calc-val" id="pr-w-val">10 px</div>
       </div>
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-height-label">Alto</div>
-        <input type="range" class="pr-slider" id="pr-h" min="1" max="100" value="10" step="1">
+        <input type="range" class="pr-slider" id="pr-h" min="1" max="40" value="10" step="1">
         <div class="pr-calc-val" id="pr-h-val">10 px</div>
       </div>
       <div class="pr-calc-result">
@@ -1685,6 +1695,20 @@ function openModal(x,y){
   document.getElementById('mcoord').textContent=`Coordenadas: x=${selX}, y=${selY}`;
   document.getElementById('modal').classList.add('open');
 }
+function showMaxWarn(){
+  const en=window._lang==='en';
+  const msg=document.getElementById('modal-max-warn-msg');
+  if(msg) msg.innerHTML=en
+    ?'You exceeded the maximum limit of <strong style="color:var(--gold);">40×40 pixels</strong>!<br>Please go back to the mural and choose your block carefully.'
+    :'¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.';
+  const btn=document.getElementById('modal-max-warn-btn');
+  if(btn) btn.textContent=en?'✅ THANKS':'✅ GRACIAS';
+  if(btn) btn.onclick=function(){
+    document.getElementById('modal-max-warn').classList.remove('open');
+    // Solo cierra — el usuario vuelve al mural a elegir de nuevo
+  };
+  document.getElementById('modal-max-warn').classList.add('open');
+}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 document.getElementById('mcl').addEventListener('click',closeModal);
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
@@ -2378,7 +2402,14 @@ function filterFaq(cat, btn){
       selecting=false;
       const s=getSel();
       if(s){
-        const w=s.x2-s.x1+1,h=s.y2-s.y1+1;
+        const MAX_SEL=40;
+        const w=s.x2-s.x1+1, h=s.y2-s.y1+1;
+        if(w>MAX_SEL || h>MAX_SEL){
+          // Solo aviso — NO abre confirmación — el usuario vuelve a elegir
+          selS=null; selE=null; draw(); drawMini();
+          showMaxWarn();
+          return;
+        }
         window.muSelX=s.x1; window.muSelY=s.y1;
         window._muSel={x1:s.x1,y1:s.y1,w,h};
         if(selInfo) selInfo.textContent=window._lang==='en'
@@ -2493,9 +2524,11 @@ function filterFaq(cat, btn){
 
   function updateCalc(){
     if(!prW || !prH) return;
+    const MAX=40; const en=window._lang==='en';
+    if(parseInt(prW.value)>MAX){ prW.value=MAX; showMaxWarn(null); }
+    if(parseInt(prH.value)>MAX){ prH.value=MAX; showMaxWarn(null); }
     const w = parseInt(prW.value), h = parseInt(prH.value);
     const tot = w*h;
-    const en = window._lang==='en';
     const price = '$'+tot.toLocaleString()+' USD';
     prWV.textContent = w+' px';
     prHV.textContent = h+' px';
