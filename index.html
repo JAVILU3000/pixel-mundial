@@ -336,7 +336,13 @@ nav a:hover{color:var(--gold);}
 .mu-topbar-right{font-size:0.65rem;font-weight:800;color:var(--green);letter-spacing:0.1em;white-space:nowrap;}
 .mu-main{display:flex;align-items:stretch;gap:0;}
 .mu-canvas-wrap{flex:1;padding:10px;background:#060606;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-#mu-canvas{display:block;width:100%;border-radius:8px;cursor:crosshair;border:2px solid rgba(255,255,255,0.1);background:#0a200a;}
+.mu-canvas-container{position:relative;width:100%;display:flex;flex-direction:row;}
+#mu-canvas{display:block;flex:1;border-radius:8px;cursor:crosshair;border:2px solid rgba(255,255,255,0.1);background:#0a200a;}
+.mu-scrollbar-v-wrap{display:flex;align-items:stretch;width:14px;margin-left:4px;}
+.mu-scrollbar-v{-webkit-appearance:slider-vertical;appearance:slider-vertical;writing-mode:vertical-lr;direction:rtl;width:14px;flex:1;cursor:pointer;accent-color:var(--gold);background:rgba(255,215,0,0.08);border-radius:7px;outline:none;border:1px solid rgba(255,215,0,0.2);}
+.mu-scrollbar-h{width:100%;height:14px;margin-top:4px;cursor:pointer;accent-color:var(--gold);background:rgba(255,215,0,0.08);border-radius:7px;outline:none;border:1px solid rgba(255,215,0,0.2);-webkit-appearance:none;appearance:none;}
+.mu-scrollbar-h::-webkit-slider-thumb{-webkit-appearance:none;width:40px;height:14px;background:var(--gold);border-radius:7px;cursor:pointer;}
+.mu-scrollbar-v::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:40px;background:var(--gold);border-radius:7px;cursor:pointer;}
 .mu-controls{display:flex;align-items:center;gap:6px;margin-top:7px;}
 .mu-ctrl-btn{background:#111;border:1px solid rgba(255,215,0,0.2);color:var(--gold);font-size:1rem;font-weight:900;width:28px;height:28px;border-radius:5px;cursor:pointer;transition:all .2s;flex-shrink:0;}
 .mu-ctrl-btn:hover{background:var(--gold);color:#000;}
@@ -378,9 +384,9 @@ nav a:hover{color:var(--gold);}
 <div class="modal-ov" id="modal-max-warn">
   <div class="modal-box" style="text-align:center;max-width:360px;">
     <div style="font-size:2.5rem;margin-bottom:0.5rem;">⚠️</div>
-    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);margin-bottom:0.5rem;">LÍMITE MÁXIMO</h3>
+    <h3 data-lang="modal-max-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);margin-bottom:0.5rem;">LÍMITE MÁXIMO</h3>
     <p id="modal-max-warn-msg" style="color:#ccc;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.</p>
-    <button id="modal-max-warn-btn" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;padding:0.75rem 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;font-weight:700;">✅ GRACIAS</button>
+    <button id="modal-max-warn-btn" data-lang="modal-max-warn-btn" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;padding:0.75rem 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;font-weight:700;">✅ GRACIAS</button>
   </div>
 </div>
 
@@ -573,7 +579,12 @@ nav a:hover{color:var(--gold);}
   </div>
   <div class="mu-main">
     <div class="mu-canvas-wrap">
-      <canvas id="mu-canvas"></canvas>
+      <div class="mu-canvas-container">
+        <div id="mu-canvas-tip" style="display:none;position:fixed;z-index:9999;background:#0f0f0f;border:1px solid rgba(255,215,0,0.5);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;color:#FFD700;font-family:'Montserrat',sans-serif;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,0.8);white-space:nowrap;letter-spacing:0.03em;"></div>
+        <canvas id="mu-canvas"></canvas>
+        <div class="mu-scrollbar-v-wrap"><input type="range" id="mu-scroll-v" class="mu-scrollbar-v" min="0" max="1000" value="0" step="1"></div>
+      </div>
+      <input type="range" id="mu-scroll-h" class="mu-scrollbar-h" min="0" max="1000" value="0" step="1">
       <div class="mu-controls">
         <button class="mu-ctrl-btn" id="mu-zoom-in">+</button>
         <button class="mu-ctrl-btn" id="mu-zoom-out">−</button>
@@ -785,7 +796,7 @@ nav a:hover{color:var(--gold);}
 }
 .cf-step-num{
   font-family:'Bebas Neue',sans-serif;font-size:4rem;
-  color:rgba(255,215,0,0.07);line-height:1;margin-bottom:0.3rem;
+  color:rgba(255,215,0,0.35);line-height:1;margin-bottom:0.3rem;
 }
 .cf-step-icon{font-size:2.2rem;margin-bottom:0.8rem;display:block;}
 .cf-step-title{font-size:0.9rem;font-weight:900;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.7rem;}
@@ -1752,7 +1763,7 @@ const TRANS = {
     'cf-step2-badge':'PASO 02','cf-step2-title':'Personaliza tu espacio',
     'cf-step2-desc':'Sube la imagen que quieras mostrar al mundo: bandera, logo, frase, fan art o recuerdo.',
     'cf-step3-badge':'PASO 03','cf-step3-title':'Compra y séllalo',
-    'cf-step3-desc':'Paga $1 USD por píxel con wallet o tarjeta. Tu espacio queda tuyo para siempre en la historia.',
+    'cf-step3-desc':'Paga $1 USD por píxel con tarjeta a través de Stripe. Tu espacio queda tuyo para siempre en la historia.',
     'cf-cta-title':'¿LISTO PARA DEJAR TU ','cf-cta-gold':'HUELLA ETERNA','cf-cta-sub':'El mural se sellará para siempre al finalizar el Mundial 2026.',
     'cf-cta-btn':'⊞ COMPRAR MI PÍXEL AHORA',
     // PRECIOS
@@ -1877,12 +1888,14 @@ const TRANS = {
     'secure-full-text':'🔒 Compra <strong style="color:var(--gold)">segura y permanente</strong>',
     'fq-title-cf':'PREGUNTAS FRECUENTES',
     'fq-a5-cf':'¡Por supuesto! Puedes comprar tantos píxeles como quieras. Más píxeles = más espacio para tu imagen o mensaje. Muchos fans compran bloques de 10x10 o más.',
-    'fq-a4-cf':'Aceptamos tarjetas de crédito/débito (Visa, Mastercard, Amex) y wallets crypto. El pago es seguro, encriptado y procesado instantáneamente.',
+    'fq-a4-cf':'Aceptamos tarjetas de crédito/débito (Visa, Mastercard, Amex) a través de Stripe. El pago es seguro, encriptado y procesado instantáneamente.',
     'fq-a8-cf':'Tu imagen aparece en el mural de forma instantánea, segundos después de confirmar tu compra. Podrás verla en el mural en tiempo real.',
     'fq-a9-cf':'Desde cualquier país del mundo. El mural es global — ya hay participantes de más de 50 países. Cualquier persona apasionada por el fútbol puede ser parte.',
     'fq-a1-full':'Al finalizar el Mundial 2026 el mural se congela y sella permanentemente. Nadie podrá modificarlo ni eliminarlo. Es un recuerdo histórico digital eterno que quedará en línea para siempre.',
     'fq-secure-note':'🔒 Pago seguro con Stripe · Permanente · Instantáneo',
     'pr-price-unit':'por píxel',
+    'modal-max-title':'LÍMITE MÁXIMO',
+    'modal-max-warn-btn':'✅ GRACIAS',
     'modal-confirm-title-old':'🏆 Tu Píxel',
     'modal-old-body':'Estás a punto de comprar este píxel por <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Tu huella quedará sellada para siempre al finalizar el Mundial 2026.',
     'modal-old-secure':'🛡️ Tu compra es segura y permanente. El mural se sellará el 11/06/2026.',
@@ -1905,9 +1918,12 @@ const TRANS = {
     'modal-upload-gallery':'Galería','modal-upload-gallery-sub':'Desde tu teléfono o computador',
     'modal-upload-camera':'Cámara','modal-upload-camera-sub':'Tomar foto en el momento',
     'modal-upload-original':'Tu imagen original','modal-upload-preview':'Vista previa en el mural',
+    'uw-solo-movil':'📱 Solo móvil',
+    'uw-cropper-title':'✂️ Ajusta tu imagen',
+    'uw-cropper-hint':'Arrastra para mover · Pellizca para hacer zoom',
     'modal-upload-text-label':'Texto o enlace (opcional)',
     'modal-upload-text-hint':'Visible al pasar el cursor sobre tu píxel en el mural',
-    'modal-upload-pay-btn':'💳 PROCEDER AL PAGO',
+    'modal-upload-pay-btn':'👁️ VER CÓMO QUEDARÁ',
     'modal-upload-back':'← VOLVER'
   },
   en: {
@@ -1946,7 +1962,7 @@ const TRANS = {
     'cf-step2-badge':'STEP 02','cf-step2-title':'Personalize your space',
     'cf-step2-desc':'Upload the image you want to show the world: flag, logo, phrase, fan art or memory.',
     'cf-step3-badge':'STEP 03','cf-step3-title':'Buy and seal it',
-    'cf-step3-desc':'Pay $1 USD per pixel with wallet or card. Your space is yours forever in history.',
+    'cf-step3-desc':'Pay $1 USD per pixel by card through Stripe. Your space is yours forever in history.',
     'cf-cta-title':'READY TO LEAVE YOUR ','cf-cta-gold':'ETERNAL MARK','cf-cta-sub':'The mural will be sealed forever at the end of the 2026 World Cup.',
     'cf-cta-btn':'⊞ BUY MY PIXEL NOW',
     // PRICING
@@ -2071,12 +2087,14 @@ const TRANS = {
     'secure-full-text':'🔒 <strong style="color:var(--gold)">Secure and permanent</strong> purchase',
     'fq-title-cf':'FREQUENTLY ASKED QUESTIONS',
     'fq-a5-cf':'Of course! You can buy as many pixels as you want. More pixels = more space for your image or message. Many fans buy 10x10 blocks or larger.',
-    'fq-a4-cf':'We accept credit/debit cards (Visa, Mastercard, Amex) and crypto wallets. Payment is secure, encrypted and processed instantly.',
+    'fq-a4-cf':'We accept credit/debit cards (Visa, Mastercard, Amex) through Stripe. Payment is secure, encrypted and processed instantly.',
     'fq-a8-cf':'Your image appears on the mural instantly, seconds after confirming your purchase. You can see it in real time.',
     'fq-a9-cf':'From any country in the world. The mural is global — there are already participants from over 50 countries. Anyone passionate about football can be part of it.',
     'fq-a1-full':'When the 2026 World Cup ends, the mural is permanently frozen and sealed. No one can modify or delete it. It is an eternal digital historical memory that will remain online forever.',
     'fq-secure-note':'🔒 Secure payment with Stripe · Permanent · Instant',
     'pr-price-unit':'per pixel',
+    'modal-max-title':'MAXIMUM LIMIT',
+    'modal-max-warn-btn':'✅ THANKS',
     'modal-confirm-title-old':'🏆 Your Pixel',
     'modal-old-body':'You are about to purchase this pixel for <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Your mark will be sealed forever at the end of the 2026 World Cup.',
     'modal-old-secure':'🛡️ Your purchase is secure and permanent. The mural will be sealed on 06/11/2026.',
@@ -2099,12 +2117,27 @@ const TRANS = {
     'modal-upload-gallery':'Gallery','modal-upload-gallery-sub':'From your phone or computer',
     'modal-upload-camera':'Camera','modal-upload-camera-sub':'Take a photo right now',
     'modal-upload-original':'Your original image','modal-upload-preview':'Preview on the mural',
+    'uw-solo-movil':'📱 Mobile only',
+    'uw-cropper-title':'✂️ Adjust your image',
+    'uw-cropper-hint':'Drag to move · Pinch to zoom',
     'modal-upload-text-label':'Text or link (optional)',
     'modal-upload-text-hint':'Visible when hovering over your pixel on the mural',
-    'modal-upload-pay-btn':'💳 PROCEED TO PAYMENT',
+    'modal-upload-pay-btn':'👁️ SEE HOW IT WILL LOOK',
     'modal-upload-back':'← BACK'
   }
 };
+
+function reapplyLang(containerId){
+  const l=window._lang||'es';
+  const t=TRANS[l];
+  if(!t) return;
+  const container=document.getElementById(containerId);
+  if(!container) return;
+  container.querySelectorAll('[data-lang]').forEach(el=>{
+    const key=el.getAttribute('data-lang');
+    if(t[key]!==undefined) el.innerHTML=t[key];
+  });
+}
 
 function setLang(l){
   const t = TRANS[l];
@@ -2202,7 +2235,7 @@ function filterFaq(cat, btn){
   window.muSelX=0; window.muSelY=0; window._muSel={x1:0,y1:0,w:1,h:1};
 
   // Register a purchased block with its image
-  window.registerSoldBlock = function(x1, y1, w, h, imageUrl, blockColor){
+  window.registerSoldBlock = function(x1, y1, w, h, imageUrl, blockColor, buyerText){
     const imgObj = new Image();
     imgObj.onload = function(){
       const blockKey = x1+','+y1+','+w+','+h;
@@ -2212,9 +2245,28 @@ function filterFaq(cat, btn){
             color: blockColor||'#2a0a0a',
             img: imgObj,
             blockKey: blockKey,
-            x1:x1, y1:y1, w:w, h:h
+            x1:x1, y1:y1, w:w, h:h,
+            text: buyerText||''
           });
         }
+      }
+      // Update counters
+      let totalSoldPx=0, totalBuyers=0;
+      const blocksSeen=new Set();
+      sold.forEach((d,k)=>{
+        if(d.blockKey&&!blocksSeen.has(d.blockKey)){blocksSeen.add(d.blockKey);totalBuyers++;}
+        totalSoldPx++;
+      });
+      const soldEl=document.getElementById('mu-stat-sold');
+      const buyersEl=document.getElementById('mu-stat-buyers');
+      if(soldEl) soldEl.textContent=totalSoldPx.toLocaleString();
+      if(buyersEl) buyersEl.textContent=totalBuyers.toLocaleString();
+      const pct=(totalSoldPx/1000000*100).toFixed(2);
+      if(progFill) progFill.style.width=pct+'%';
+      if(soldTxt){
+        soldTxt.textContent=window._lang==='en'
+          ?`PIXELS SOLD: ${totalSoldPx.toLocaleString()} / 1,000,000 (${pct}%)`
+          :`PÍXELES VENDIDOS: ${totalSoldPx.toLocaleString()} / 1,000,000 (${pct}%)`;
       }
       draw(); drawMini();
     };
@@ -2233,6 +2285,7 @@ function filterFaq(cat, btn){
     canvas.height = Math.round(W * (MR/MC));
     sc = W / MC;
     vx=0; vy=0;
+    if(typeof updateScrollbars==='function') updateScrollbars();
     draw(); drawMini();
   }
 
@@ -2307,13 +2360,24 @@ function filterFaq(cat, btn){
     }
     // Draw sold block images on top (Million Dollar Homepage style)
     const drawn = new Set();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     sold.forEach((d, k) => {
       if(!d || !d.img || !d.blockKey) return;
       if(drawn.has(d.blockKey)) return;
       drawn.add(d.blockKey);
       const bx=(d.x1-vx)*sc, by=(d.y1-vy)*sc;
       const bw=d.w*sc, bh=d.h*sc;
-      ctx.drawImage(d.img, bx, by, bw, bh);
+      // Draw image fitting exactly the block (no cover crop — show full image)
+      const iw=d.img.naturalWidth||d.img.width;
+      const ih=d.img.naturalHeight||d.img.height;
+      if(!iw||!ih){ ctx.drawImage(d.img,bx,by,bw,bh); return; }
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(bx,by,bw,bh);
+      ctx.clip();
+      ctx.drawImage(d.img, 0, 0, iw, ih, bx, by, bw, bh);
+      ctx.restore();
     });
 
     // Selection border
@@ -2375,20 +2439,44 @@ function filterFaq(cat, btn){
     if(pdown&&!selecting){
       vx=Math.max(0,Math.min(MC-canvas.width/sc,vx0-(e.clientX-sx0)/sc));
       vy=Math.max(0,Math.min(MR-canvas.height/sc,vy0-(e.clientY-sy0)/sc));
-      draw(); drawMini(); return;
+      updateScrollbars(); draw(); drawMini(); return;
     }
     hov=p;
+    const canvasTip = document.getElementById('mu-canvas-tip');
     if(p){
-      if(hint) hint.textContent=sold.has(p.x+','+p.y)
-        ? `(${p.x},${p.y}) — ${window._lang==='en'?'SOLD':'VENDIDO'}`
-        : `(${p.x},${p.y}) · ${window._lang==='en'?'Drag to select':'Arrastra para seleccionar'}`;
+      const isSold = sold.has(p.x+','+p.y);
+      canvas.style.cursor = isSold
+        ? 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KICA8dGV4dCB5PSIyNiIgZm9udC1zaXplPSIyNiIgZm9udC1mYW1pbHk9InNlcmlmIj7wn4+GPC90ZXh0Pgo8L3N2Zz4=") 4 4, pointer'
+        : 'crosshair';
+      if(isSold){
+        const d=sold.get(p.x+','+p.y);
+        const tipText = d&&d.text ? d.text : (window._lang==='en'?'SOLD':'VENDIDO');
+        if(canvasTip){
+          canvasTip.textContent = '🏆 ' + tipText;
+          canvasTip.style.display='block';
+          canvasTip.style.left=(e.clientX+16)+'px';
+          canvasTip.style.top=(e.clientY-42)+'px';
+        }
+        if(hint) hint.textContent = tipText;
+      } else {
+        if(canvasTip) canvasTip.style.display='none';
+        if(hint) hint.textContent=`(${p.x},${p.y}) · ${window._lang==='en'?'Drag to select':'Arrastra para seleccionar'}`;
+      }
     } else {
+      canvas.style.cursor = 'crosshair';
+      if(canvasTip) canvasTip.style.display='none';
       if(hint) hint.textContent=window._lang==='en'?'Click and drag to select pixels':'Haz clic y arrastra para seleccionar píxeles';
     }
     draw();
   });
 
-  canvas.addEventListener('mouseleave',()=>{hov=null;if(!selecting)draw();});
+  canvas.addEventListener('mouseleave',()=>{
+    hov=null;
+    canvas.style.cursor='crosshair';
+    const canvasTip=document.getElementById('mu-canvas-tip');
+    if(canvasTip) canvasTip.style.display='none';
+    if(!selecting)draw();
+  });
 
   canvas.addEventListener('mousedown',e=>{
     const p=pxAt(e);
@@ -2429,7 +2517,7 @@ function filterFaq(cat, btn){
     sc=Math.max(0.4,Math.min(30,sc*(e.deltaY<0?1.2:0.83)));
     vx=Math.max(0,Math.min(MC-canvas.width/sc,wx-mx/sc));
     vy=Math.max(0,Math.min(MR-canvas.height/sc,wy-my/sc));
-    draw(); drawMini();
+    updateScrollbars(); draw(); drawMini();
   },{passive:false});
 
   // Touch
@@ -2442,23 +2530,37 @@ function filterFaq(cat, btn){
     if(e.touches.length===1&&pdown){
       vx=Math.max(0,Math.min(MC-canvas.width/sc,vx0-(e.touches[0].clientX-sx0)/sc));
       vy=Math.max(0,Math.min(MR-canvas.height/sc,vy0-(e.touches[0].clientY-sy0)/sc));
-      draw(); drawMini();
+      updateScrollbars(); draw(); drawMini();
     } else if(e.touches.length===2){
       const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-      sc=Math.max(0.4,Math.min(30,sc*(d/t2d))); t2d=d; draw(); drawMini();
+      sc=Math.max(0.4,Math.min(30,sc*(d/t2d))); t2d=d; updateScrollbars(); draw(); drawMini();
     }
     e.preventDefault();
   },{passive:false});
   canvas.addEventListener('touchend',()=>{pdown=false;selecting=false;});
 
   // Zoom buttons
-  document.getElementById('mu-zoom-in').onclick=()=>{sc=Math.min(30,sc*1.3);draw();drawMini();};
-  document.getElementById('mu-zoom-out').onclick=()=>{sc=Math.max(0.4,sc*0.77);draw();drawMini();};
+  document.getElementById('mu-zoom-in').onclick=()=>{sc=Math.min(30,sc*1.3);updateScrollbars();draw();drawMini();};
+  document.getElementById('mu-zoom-out').onclick=()=>{sc=Math.max(0.4,sc*0.77);updateScrollbars();draw();drawMini();};
   document.getElementById('mu-zoom-reset').onclick=()=>{
     const W=canvas.parentElement.offsetWidth-22;
     canvas.width=W; canvas.height=Math.round(W*(MR/MC));
-    sc=W/MC; vx=0; vy=0; draw(); drawMini();
+    sc=W/MC; vx=0; vy=0; updateScrollbars(); draw(); drawMini();
   };
+
+  // Scrollbars
+  const scrollH = document.getElementById('mu-scroll-h');
+  const scrollV = document.getElementById('mu-scroll-v');
+
+  function updateScrollbars(){
+    const maxVx = Math.max(0, MC - canvas.width/sc);
+    const maxVy = Math.max(0, MR - canvas.height/sc);
+    if(scrollH){ scrollH.max=Math.round(maxVx*10)||1; scrollH.value=Math.round(vx*10); scrollH.style.display=maxVx>0?'block':'none'; }
+    if(scrollV){ scrollV.max=Math.round(maxVy*10)||1; scrollV.value=Math.round(vy*10); scrollV.parentElement.style.display=maxVy>0?'flex':'none'; }
+  }
+
+  if(scrollH) scrollH.addEventListener('input',()=>{ vx=parseFloat(scrollH.value)/10; draw(); drawMini(); });
+  if(scrollV) scrollV.addEventListener('input',()=>{ vy=parseFloat(scrollV.value)/10; draw(); drawMini(); });
 
   // Stats
   const dEl=document.getElementById('mu-stat-days');
@@ -2473,6 +2575,22 @@ function filterFaq(cat, btn){
   }
   init();
   setTimeout(init,200);
+  // ── DEMO BLOCK: Ecuador Flag (center of mural, 20×13) ──
+  setTimeout(function(){
+    window.registerSoldBlock(
+      240, 111, 20, 13,
+      'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAEEAZADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD36iiiv5EPuAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK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',
+      '#DAA520',
+      '🇪🇨 Ecuador · @javilu3000'
+    );
+    // ── DEMO BLOCK: Aqua Andina (pegado a Ecuador, 5×7) ──
+    window.registerSoldBlock(
+      260, 114, 5, 7,
+      'data:image/jpeg;base64,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',
+      '#2196C8',
+      '💧 Aqua Andina · @aquaandina_'
+    );
+  }, 300);
 })();
 
 
@@ -2587,7 +2705,7 @@ function showConfirmModal(s){
     showUploadStep(s.x1,s.y1,w,h);
   };
   const modal=document.getElementById('mu-confirm-modal');
-  if(modal) modal.style.display='flex';
+  if(modal){ modal.style.display='flex'; reapplyLang('mu-confirm-modal'); }
 }
 
 function showUploadStep(x1,y1,w,h){
@@ -2595,12 +2713,12 @@ function showUploadStep(x1,y1,w,h){
   muUploadedImageData=null;
   const info=document.getElementById('uw-block-info');
   if(info) info.innerHTML=window._lang==='en'
-    ? `Block ${w}×${h} · ${(w*h).toLocaleString()} pixels · <strong style="color:#FFD700;">$${(w*h).toLocaleString()} USD</strong>`
-    : `Bloque ${w}×${h} · ${(w*h).toLocaleString()} píxeles · <strong style="color:#FFD700;">$${(w*h).toLocaleString()} USD</strong>`;
+    ? `Block ${w}×${h} · ${(w*h).toLocaleString()} pixels`
+    : `Bloque ${w}×${h} · ${(w*h).toLocaleString()} píxeles`;
   const preview=document.getElementById('uw-preview');
   if(preview) preview.style.display='none';
   const btn=document.getElementById('uw-pay-btn');
-  if(btn){btn.classList.remove('active');btn.textContent=window._lang==='en'?'💳 PROCEED TO PAYMENT':'💳 PROCEDER AL PAGO';}
+  if(btn){btn.style.display='none';btn.classList.remove('active');}
   ['gallery','camera'].forEach(t=>{
     const el=document.getElementById('uw-opt-'+t);
     if(el) el.classList.remove('sel');
@@ -2610,10 +2728,23 @@ function showUploadStep(x1,y1,w,h){
   const cm=document.getElementById('mu-confirm-modal');
   if(cm) cm.style.display='none';
   const modal=document.getElementById('mu-upload-modal');
-  if(modal) modal.style.display='flex';
+  if(modal){ modal.style.display='flex'; reapplyLang('mu-upload-modal'); }
 }
 
 function uwSelectOpt(type){
+  if(type==='camera'){
+    const isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    if(!isMobile){
+      const en=window._lang==='en';
+      document.getElementById('uw-camera-modal').style.display='flex';
+      document.getElementById('uw-camera-title').textContent=en?'Mobile only':'Solo móvil 📱';
+      document.getElementById('uw-camera-msg').textContent=en
+        ?'The camera option only works on mobile devices. On desktop, use "Gallery" to select an image from your computer.'
+        :'La opción de cámara solo funciona en dispositivos móviles. Desde el computador, usa "Galería" para seleccionar una imagen.';
+      document.getElementById('uw-camera-btn').textContent=en?'Got it':'Entendido';
+      return;
+    }
+  }
   ['gallery','camera'].forEach(t=>{
     const el=document.getElementById('uw-opt-'+t);
     if(el) el.classList.remove('sel');
@@ -2628,11 +2759,24 @@ function uwHandleFile(input,type){
   const file=input.files[0];
   if(!file) return;
   if(!['image/jpeg','image/png','image/gif'].includes(file.type)){
-    alert(window._lang==='en'?'Only JPG, PNG or GIF images are accepted.':'Solo se aceptan imágenes JPG, PNG o GIF.');
+    const en2=window._lang==='en';
+    document.getElementById('uw-camera-title').textContent=en2?'Invalid format':'Formato no válido';
+    document.getElementById('uw-camera-msg').textContent=en2
+      ?'Only JPG, PNG or GIF images are accepted.'
+      :'Solo se aceptan imágenes JPG, PNG o GIF.';
+    document.getElementById('uw-camera-btn').textContent=en2?'Got it':'Entendido';
+    document.getElementById('uw-camera-modal').style.display='flex';
     return;
   }
-  if(file.size>2*1024*1024){
-    alert(window._lang==='en'?'Image cannot exceed 2MB. Please reduce the size.':'La imagen no puede superar 2MB. Por favor reduce el tamaño.');
+  if(file.size>10*1024*1024){
+    const en=window._lang==='en';
+    const modal=document.getElementById('uw-camera-modal');
+    document.getElementById('uw-camera-title').textContent=en?'Image too large':'Imagen muy grande';
+    document.getElementById('uw-camera-msg').textContent=en
+      ?'The image cannot exceed 10MB. Please choose a smaller image.'
+      :'La imagen no puede superar 10MB. Por favor elige una imagen más pequeña.';
+    document.getElementById('uw-camera-btn').textContent=en?'Got it':'Entendido';
+    if(modal) modal.style.display='flex';
     return;
   }
   const reader=new FileReader();
@@ -2645,133 +2789,157 @@ function uwHandleFile(input,type){
 
 function uwShowPreview(dataUrl,file){
   const preview=document.getElementById('uw-preview');
-  const prevImg=document.getElementById('uw-prev-img');
   const prevCanvas=document.getElementById('uw-prev-canvas');
   const fname=document.getElementById('uw-fname');
   const fmeta=document.getElementById('uw-fmeta');
   const btn=document.getElementById('uw-pay-btn');
   if(fname) fname.textContent=file.name;
   if(fmeta) fmeta.textContent=Math.round(file.size/1024)+'KB · '+file.type.replace('image/','').toUpperCase()+' · '+(window._lang==='en'?'Image ready':'Imagen lista');
-  if(prevImg) prevImg.src=dataUrl;
+
   const img=new Image();
   img.onload=function(){
-    if(!muUploadSel||!prevCanvas) return;
+    if(!muUploadSel) return;
     const {w,h}=muUploadSel;
-    // ── REAL IMAGE PREVIEW (Million Dollar Homepage style) ──
-    // Show the actual image as it will appear on the mural — no pixelation
-    const displaySize = Math.max(240, Math.min(360, prevCanvas.parentElement ? prevCanvas.parentElement.offsetWidth - 20 : 280));
-    // Make canvas aspect-ratio match the selected block
-    const aspect = h / w;
-    prevCanvas.width  = displaySize;
-    prevCanvas.height = Math.round(displaySize * aspect);
-    const pctx = prevCanvas.getContext('2d');
 
-    // Draw a subtle grid background (like the mural grass)
-    const gridSize = Math.max(4, Math.round(displaySize / w));
-    for(let r=0;r<h;r++){
-      for(let c=0;c<w;c++){
-        pctx.fillStyle=((Math.floor(c/4)+Math.floor(r/4))%2===0)?'#1e5c1e':'#155215';
-        pctx.fillRect(c*gridSize, r*gridSize, gridSize, gridSize);
-      }
+    // ── SETUP CROPPER ──
+    const cropBox  = document.getElementById('uw-cropper-box');
+    const cropImg  = document.getElementById('uw-crop-img');
+    const cropFrame= document.getElementById('uw-crop-frame');
+    if(!cropBox||!cropImg||!cropFrame) return;
+
+    const boxW = cropBox.offsetWidth || 340;
+    const boxH = 260;
+    cropBox.style.height = boxH+'px';
+
+    const iw=img.naturalWidth, ih=img.naturalHeight;
+    // Fit image inside box keeping aspect ratio (contain)
+    const fitScale = Math.min(boxW/iw, boxH/ih);
+    let imgW=iw*fitScale, imgH=ih*fitScale;
+    let imgX=(boxW-imgW)/2, imgY=(boxH-imgH)/2;
+
+    // Crop frame: same aspect ratio as the block (w:h)
+    const blockAspect = w/h;
+    let frameW, frameH;
+    if(boxW/boxH > blockAspect){
+      frameH = boxH * 0.85;
+      frameW = frameH * blockAspect;
+    } else {
+      frameW = boxW * 0.85;
+      frameH = frameW / blockAspect;
+    }
+    frameW = Math.min(frameW, imgW);
+    frameH = Math.min(frameH, imgH);
+    let frameX = (boxW-frameW)/2;
+    let frameY = (boxH-frameH)/2;
+
+    function clampImg(){
+      // Keep image covering the frame always
+      imgX = Math.min(frameX, imgX);
+      imgY = Math.min(frameY, imgY);
+      imgX = Math.max(frameX+frameW-imgW, imgX);
+      imgY = Math.max(frameY+frameH-imgH, imgY);
     }
 
-    // Draw the real image on top — crisp, no pixelation
-    pctx.imageSmoothingEnabled = true;
-    pctx.imageSmoothingQuality = 'high';
-    pctx.drawImage(img, 0, 0, prevCanvas.width, prevCanvas.height);
-
-    // Draw a subtle grid overlay so user sees the pixel structure
-    pctx.strokeStyle = 'rgba(0,0,0,0.08)';
-    pctx.lineWidth = 0.5;
-    for(let c=0;c<=w;c++){
-      pctx.beginPath();
-      pctx.moveTo(c*gridSize, 0);
-      pctx.lineTo(c*gridSize, prevCanvas.height);
-      pctx.stroke();
-    }
-    for(let r=0;r<=h;r++){
-      pctx.beginPath();
-      pctx.moveTo(0, r*gridSize);
-      pctx.lineTo(prevCanvas.width, r*gridSize);
-      pctx.stroke();
+    function applyTransform(){
+      cropImg.style.width  = imgW+'px';
+      cropImg.style.height = imgH+'px';
+      cropImg.style.left   = imgX+'px';
+      cropImg.style.top    = imgY+'px';
+      cropFrame.style.left  = frameX+'px';
+      cropFrame.style.top   = frameY+'px';
+      cropFrame.style.width = frameW+'px';
+      cropFrame.style.height= frameH+'px';
+      renderPreview();
     }
 
-    // Store image for mural registration after payment
-    window.muUploadedImageData = img.src;
-
-    // dummy so the rest of the original code block doesn't break:
-    const _dummy_displaySize = displaySize; if(false){
-    const displaySize = Math.max(280, Math.min(400, prevCanvas.parentElement ? prevCanvas.parentElement.offsetWidth - 20 : 300));
-    const pxSize = Math.round(displaySize / Math.max(w, h));
-    prevCanvas.width  = w * pxSize;
-    prevCanvas.height = h * pxSize;
-    const pctx = prevCanvas.getContext('2d');
-
-    // Step 1: draw image into a high-res temp canvas first (4× block size)
-    // to allow better downsampling with edge sharpening
-    const overScale = 4;
-    const tmp = document.createElement('canvas');
-    tmp.width  = w * overScale;
-    tmp.height = h * overScale;
-    const tctx = tmp.getContext('2d');
-    tctx.imageSmoothingEnabled = true;
-    tctx.imageSmoothingQuality = 'high';
-    tctx.drawImage(img, 0, 0, tmp.width, tmp.height);
-
-    // Step 2: for each pixel block, sample the average colour from the hi-res canvas
-    const hiData = tctx.getImageData(0, 0, tmp.width, tmp.height);
-    function avgColor(col, row) {
-      let R=0,G=0,B=0,A=0;
-      const x0=col*overScale, y0=row*overScale;
-      for(let dy=0;dy<overScale;dy++){
-        for(let dx=0;dx<overScale;dx++){
-          const idx=((y0+dy)*tmp.width+(x0+dx))*4;
-          R+=hiData.data[idx]; G+=hiData.data[idx+1]; B+=hiData.data[idx+2]; A+=hiData.data[idx+3];
+    function renderPreview(){
+      if(!prevCanvas) return;
+      // Calc source crop in original image coordinates
+      const scaleBack = iw/imgW;
+      const srcX = (frameX-imgX)*scaleBack;
+      const srcY = (frameY-imgY)*scaleBack;
+      const srcW = frameW*scaleBack;
+      const srcH = frameH*scaleBack;
+      // Output canvas matches block aspect
+      const outW = 400, outH = Math.round(400*(h/w));
+      prevCanvas.width  = outW;
+      prevCanvas.height = outH;
+      const pctx = prevCanvas.getContext('2d');
+      pctx.imageSmoothingEnabled=true;
+      pctx.imageSmoothingQuality='high';
+      // Draw grass background
+      for(let rr=0;rr<h;rr++){
+        for(let cc=0;cc<w;cc++){
+          pctx.fillStyle=((Math.floor(cc/4)+Math.floor(rr/4))%2===0)?'#1e5c1e':'#155215';
+          const gs=outW/w;
+          pctx.fillRect(cc*gs,rr*gs,gs,gs);
         }
       }
-      const n=overScale*overScale;
-      return [Math.round(R/n),Math.round(G/n),Math.round(B/n),Math.round(A/n)];
+      pctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
+      // Save cropped data for mural
+      const tmp=document.createElement('canvas');
+      tmp.width=outW; tmp.height=outH;
+      const tctx=tmp.getContext('2d');
+      tctx.drawImage(img,srcX,srcY,srcW,srcH,0,0,outW,outH);
+      window.muUploadedImageData = tmp.toDataURL('image/jpeg',0.95);
     }
 
-    // Step 3: apply contrast + saturation boost so logos stay vivid at low res
-    function enhance(r,g,b,a){
-      // Saturation boost
-      const avg=(r+g+b)/3;
-      const sat=1.5; // 1=none, 1.5=+50% saturation
-      r=Math.min(255,Math.round(avg+(r-avg)*sat));
-      g=Math.min(255,Math.round(avg+(g-avg)*sat));
-      b=Math.min(255,Math.round(avg+(b-avg)*sat));
-      // Contrast boost (stretch towards extremes)
-      const con=1.2;
-      r=Math.min(255,Math.max(0,Math.round(128+(r-128)*con)));
-      g=Math.min(255,Math.max(0,Math.round(128+(g-128)*con)));
-      b=Math.min(255,Math.max(0,Math.round(128+(b-128)*con)));
-      return [r,g,b,a];
-    }
+    cropImg.src=dataUrl;
+    clampImg();
+    applyTransform();
 
-    // Step 4: draw each pixel block with a 1px dark grid gap for clarity
-    const gap = pxSize > 6 ? 1 : 0;
-    pctx.fillStyle = '#1a1a1a';
-    pctx.fillRect(0, 0, prevCanvas.width, prevCanvas.height);
-    for(let r=0;r<h;r++){
-      for(let c=0;c<w;c++){
-        let [R,G,B,A]=avgColor(c,r);
-        [R,G,B,A]=enhance(R,G,B,A);
-        pctx.fillStyle=`rgba(${R},${G},${B},${A/255})`;
-        pctx.fillRect(c*pxSize+gap, r*pxSize+gap, pxSize-gap, pxSize-gap);
+    // ── DRAG TO PAN ──
+    let drag=false, dsx=0, dsy=0, dix=0, diy=0;
+    cropBox.onmousedown=function(e){
+      drag=true; dsx=e.clientX; dsy=e.clientY; dix=imgX; diy=imgY;
+      e.preventDefault();
+    };
+    window.addEventListener('mousemove',function(e){
+      if(!drag) return;
+      imgX=dix+(e.clientX-dsx); imgY=diy+(e.clientY-dsy);
+      clampImg(); applyTransform();
+    });
+    window.addEventListener('mouseup',()=>drag=false);
+
+    // Touch pan
+    let tdown=false, tsx=0,tsy=0,tix=0,tiy=0;
+    cropBox.ontouchstart=function(e){
+      if(e.touches.length===1){tdown=true;tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;tix=imgX;tiy=imgY;}
+      e.preventDefault();
+    };
+    cropBox.ontouchmove=function(e){
+      if(tdown&&e.touches.length===1){
+        imgX=tix+(e.touches[0].clientX-tsx); imgY=tiy+(e.touches[0].clientY-tsy);
+        clampImg(); applyTransform();
       }
+      e.preventDefault();
+    };
+    cropBox.ontouchend=()=>tdown=false;
+
+    // Wheel zoom
+    cropBox.onwheel=function(e){
+      e.preventDefault();
+      const factor=e.deltaY<0?1.1:0.91;
+      const rect=cropBox.getBoundingClientRect();
+      const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+      const newW=Math.max(frameW,Math.min(iw*2,imgW*factor));
+      const newH=imgH*(newW/imgW);
+      imgX=mx-(mx-imgX)*(newW/imgW);
+      imgY=my-(my-imgY)*(newH/imgH);
+      imgW=newW; imgH=newH;
+      clampImg(); applyTransform();
+    };
+
+    if(preview) preview.style.display='block';
+    if(btn){
+      btn.style.display='block';
+      btn.classList.add('active');
+      btn.textContent=window._lang==='en'
+        ?'👁️ SEE HOW IT WILL LOOK'
+        :'👁️ VER CÓMO QUEDARÁ';
     }
   };
-  } // close dummy if
   img.src=dataUrl;
-  if(preview) preview.style.display='block';
-  if(btn){
-    const total=muUploadSel?muUploadSel.w*muUploadSel.h:1;
-    btn.classList.add('active');
-    btn.textContent= window._lang==='en'
-      ? '💳 PROCEED TO PAYMENT — $'+total.toLocaleString()+' USD'
-      : '💳 PROCEDER AL PAGO — $'+total.toLocaleString()+' USD';
-  }
 }
 
 function uwClear(){
@@ -2784,14 +2952,38 @@ function uwClear(){
     if(fi) fi.value='';
   });
   const btn=document.getElementById('uw-pay-btn');
-  if(btn){btn.classList.remove('active');btn.textContent=window._lang==='en'?'💳 PROCEED TO PAYMENT':'💳 PROCEDER AL PAGO';}
+  if(btn){btn.style.display='none';btn.classList.remove('active');}
 }
 
 function uwProceed(){
   if(!muUploadedImageData){alert(window._lang==='en'?'Please select an image first.':'Por favor selecciona una imagen primero.');return;}
-  document.getElementById('mu-upload-modal').style.display='none';
+  // Show final preview confirm modal
   const sel=muUploadSel||{x1:0,y1:0,w:1,h:1};
-  openModal(sel.x1,sel.y1);
+  const en=window._lang==='en';
+  // Populate preview modal
+  const img=document.getElementById('mu-previewconfirm-img');
+  if(img) img.src=muUploadedImageData;
+  const infoEl=document.getElementById('mu-previewconfirm-info');
+  if(infoEl) infoEl.innerHTML=en
+    ?`Block <strong style="color:#FFD700">${sel.w}×${sel.h}</strong> · ${(sel.w*sel.h).toLocaleString()} pixels · <strong style="color:#FFD700">$${(sel.w*sel.h).toLocaleString()} USD</strong>`
+    :`Bloque <strong style="color:#FFD700">${sel.w}×${sel.h}</strong> · ${(sel.w*sel.h).toLocaleString()} píxeles · <strong style="color:#FFD700">$${(sel.w*sel.h).toLocaleString()} USD</strong>`;
+  const title=document.getElementById('mu-previewconfirm-title');
+  if(title) title.textContent=en?'Does it look good?':'¿Así quedará tu imagen?';
+  const sub=document.getElementById('mu-previewconfirm-sub');
+  if(sub) sub.textContent=en?'This is exactly how your block will appear on the mural forever.':'Así se verá tu bloque en el mural para siempre.';
+  const yesBtn=document.getElementById('mu-previewconfirm-yes');
+  if(yesBtn){
+    yesBtn.textContent=en?'✅ YES, I LOVE IT — PAY NOW':'✅ SÍ, ME ENCANTA — PAGAR AHORA';
+    yesBtn.onclick=()=>{
+      document.getElementById('mu-previewconfirm-modal').style.display='none';
+      openModal(sel.x1,sel.y1);
+    };
+  }
+  const backBtn=document.getElementById('mu-previewconfirm-back');
+  if(backBtn) backBtn.textContent=en?'✏️ EDIT IMAGE':'✏️ EDITAR IMAGEN';
+  document.getElementById('mu-upload-modal').style.display='none';
+  document.getElementById('mu-previewconfirm-modal').style.display='flex';
+  reapplyLang('mu-previewconfirm-modal');
 }
 
 // Keep old functions as aliases for backward compat
@@ -3050,17 +3242,14 @@ function filterFaq(cat, btn){
         </div>
       </div>
       <div style="text-align:center;border-top:1px solid rgba(255,215,0,0.15);padding-top:0.8rem;">
-        <div style="font-size:0.62rem;color:#888;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:3px;" data-lang="modal-lbl-total">Total a pagar</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#FFD700;line-height:1;" id="mu-confirm-price">$1 <span style="font-size:1rem;color:#fff;font-weight:700;">USD</span></div>
-        <div style="font-size:0.62rem;color:#666;margin-top:3px;" data-lang="modal-lbl-once">Pago único · Para siempre · No reembolsable</div>
+        <div style="font-size:0.6rem;color:#888;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;" data-lang="modal-lbl-total">Total a pagar</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:#FFD700;line-height:1;" id="mu-confirm-price">$1 <span style="font-size:1rem;color:#fff;font-weight:700;">USD</span></div>
       </div>
     </div>
-    <p style="font-size:0.78rem;color:#888;line-height:1.6;margin-bottom:1.2rem;" data-lang="modal-confirm-body">¿Estás seguro? Una vez comprado, la imagen será <strong style="color:#fff;">permanente y definitiva</strong>.</p>
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
       <button id="mu-confirm-yes" style="width:100%;padding:13px;border-radius:7px;background:#FFD700;color:#000;font-weight:900;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;" data-lang="modal-confirm-yes">✅ SÍ, CONFIRMO — SUBIR MI IMAGEN</button>
       <button onclick="document.getElementById('mu-confirm-modal').style.display='none'" style="width:100%;padding:11px;border-radius:7px;background:transparent;color:#ccc;font-weight:700;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid rgba(255,215,0,0.2);cursor:pointer;" data-lang="modal-confirm-change">✏️ CAMBIAR SELECCIÓN</button>
     </div>
-    <div style="text-align:center;margin-top:0.8rem;font-size:0.65rem;color:#555;" data-lang="modal-stripe-note">🔒 Pago seguro con Stripe · Tu píxel aparece al instante</div>
   </div>
 </div>
 
@@ -3097,6 +3286,24 @@ function filterFaq(cat, btn){
 .uw-prev-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .uw-prev-label{font-size:11px;color:#666;text-align:center;margin-bottom:4px;}
 .uw-prev-box{border-radius:8px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;}
+/* ── CROPPER ── */
+.uw-cropper-wrap{margin-bottom:0.8rem;}
+.uw-cropper-label{font-size:11px;font-weight:800;color:#FFD700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:between;gap:6px;}
+.uw-cropper-hint{font-size:10px;color:#555;font-weight:400;letter-spacing:0;text-transform:none;margin-left:auto;}
+.uw-cropper-box{position:relative;width:100%;background:#0a0a0a;border:1px solid rgba(255,215,0,0.2);border-radius:10px;overflow:hidden;cursor:move;user-select:none;touch-action:none;}
+.uw-cropper-box img{display:block;position:absolute;pointer-events:none;}
+.uw-crop-frame{position:absolute;border:2px solid #FFD700;box-shadow:0 0 0 9999px rgba(0,0,0,0.55);pointer-events:none;box-sizing:border-box;}
+.uw-crop-frame::before,.uw-crop-frame::after{content:'';position:absolute;background:#FFD700;}
+.uw-crop-frame::before{left:33.33%;top:0;width:1px;height:100%;opacity:0.4;}
+.uw-crop-frame::after{left:66.66%;top:0;width:1px;height:100%;opacity:0.4;}
+.uw-crop-corner{position:absolute;width:12px;height:12px;border-color:#FFD700;border-style:solid;pointer-events:none;}
+.uw-crop-corner.tl{top:-1px;left:-1px;border-width:3px 0 0 3px;}
+.uw-crop-corner.tr{top:-1px;right:-1px;border-width:3px 3px 0 0;}
+.uw-crop-corner.bl{bottom:-1px;left:-1px;border-width:0 0 3px 3px;}
+.uw-crop-corner.br{bottom:-1px;right:-1px;border-width:0 3px 3px 0;}
+.uw-crop-preview-label{font-size:11px;color:#666;text-align:center;margin:8px 0 4px;}
+.uw-crop-preview-box{width:100%;border-radius:8px;overflow:hidden;border:1px solid rgba(255,215,0,0.2);background:#0a200a;}
+.uw-crop-preview-box canvas{display:block;width:100%;}
 .uw-field label{font-size:11px;font-weight:800;color:#FFD700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:5px;}
 .uw-input{width:100%;background:#0a0a0a;border:1px solid rgba(255,215,0,0.2);border-radius:7px;padding:10px 12px;color:#ddd;font-size:13px;font-family:'Montserrat',sans-serif;outline:none;box-sizing:border-box;}
 .uw-input::placeholder{color:#333;}
@@ -3126,7 +3333,7 @@ function filterFaq(cat, btn){
       <span class="uw-step-txt" data-lang="modal-upload-step">Paso 3 de 4</span>
     </div>
 
-    <div class="uw-info" id="uw-block-info">Bloque — · — píxeles · <strong>$— USD</strong></div>
+    <div class="uw-info" id="uw-block-info">Bloque — · — píxeles</div>
     <div class="uw-title" data-lang="modal-upload-title">SUBE TU <em>IMAGEN</em></div>
 
     <div class="uw-grid">
@@ -3139,6 +3346,7 @@ function filterFaq(cat, btn){
         <span class="uw-opt-icon">📷</span>
         <div class="uw-opt-title" data-lang="modal-upload-camera">Cámara</div>
         <div class="uw-opt-sub" data-lang="modal-upload-camera-sub">Tomar foto en el momento</div>
+        <div class="uw-opt-sub" data-lang="uw-solo-movil" style="color:#555;font-size:10px;margin-top:3px;">📱 Solo móvil</div>
       </div>
     </div>
 
@@ -3154,34 +3362,80 @@ function filterFaq(cat, btn){
         </div>
         <div onclick="uwClear()" style="cursor:pointer;color:#555;font-size:1.1rem;padding:4px;flex-shrink:0;">✕</div>
       </div>
-      <div class="uw-prev-grid">
-        <div>
-          <div class="uw-prev-label" data-lang="modal-upload-original">Tu imagen original</div>
-          <div class="uw-prev-box" style="background:#111;border:1px solid rgba(255,215,0,0.15);">
-            <img id="uw-prev-img" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" src="" alt="Preview">
+      <div class="uw-cropper-wrap" id="uw-cropper-wrap">
+        <div class="uw-cropper-label">
+          <span data-lang="uw-cropper-title">✂️ Ajusta tu imagen</span>
+          <span class="uw-cropper-hint" data-lang="uw-cropper-hint">Arrastra para mover · Pellizca para hacer zoom</span>
+        </div>
+        <div class="uw-cropper-box" id="uw-cropper-box" style="height:260px;">
+          <img id="uw-crop-img" src="" alt="" style="transform-origin:0 0;">
+          <div class="uw-crop-frame" id="uw-crop-frame">
+            <div class="uw-crop-corner tl"></div>
+            <div class="uw-crop-corner tr"></div>
+            <div class="uw-crop-corner bl"></div>
+            <div class="uw-crop-corner br"></div>
           </div>
         </div>
-        <div>
-          <div class="uw-prev-label" data-lang="modal-upload-preview">Vista previa en el mural</div>
-          <div class="uw-prev-box" style="background:#1e5c1e;border:1px solid rgba(255,255,255,0.1);">
-            <canvas id="uw-prev-canvas" style="width:100%;height:100%;border-radius:8px;display:block;"></canvas>
-          </div>
+        <div class="uw-crop-preview-label" id="uw-crop-preview-label" data-lang="modal-upload-preview">Vista previa en el mural</div>
+        <div class="uw-crop-preview-box">
+          <canvas id="uw-prev-canvas" style="display:block;width:100%;"></canvas>
         </div>
       </div>
     </div>
 
-    <div class="uw-field" style="margin-bottom:1rem;">
-      <label data-lang="modal-upload-text-label">Texto o enlace (opcional)</label>
-      <input type="text" id="uw-pixel-text" class="uw-input" placeholder="Tu nombre, @instagram, web..." id="uw-pixel-text-input" maxlength="60">
-      <div class="uw-field-hint" data-lang="modal-upload-text-hint">Visible al pasar el cursor sobre tu píxel en el mural</div>
-    </div>
+    <button class="uw-btn-pay active" id="uw-pay-btn" onclick="uwProceed()" style="display:none;" data-lang="modal-upload-pay-btn">👁️ VER CÓMO QUEDARÁ</button>
 
-    <button class="uw-btn-pay" id="uw-pay-btn" onclick="uwProceed()" data-lang="modal-upload-pay-btn">💳 PROCEDER AL PAGO</button>
     <button class="uw-btn-back" onclick="document.getElementById('mu-upload-modal').style.display='none';document.getElementById('mu-confirm-modal').style.display='flex';" data-lang="modal-upload-back">← VOLVER</button>
-    <div class="uw-secure" data-lang="modal-stripe-note">🔒 Pago seguro con <span>Stripe</span> · Tu píxel aparece al instante</div>
   </div>
 </div>
 
+
+<!-- ── PREVIEW CONFIRM MODAL ── -->
+<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:center;justify-content:center;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;">
+<style>
+.upc{background:#0f0f0f;border:1px solid rgba(255,215,0,0.3);border-radius:18px;padding:1.8rem;max-width:400px;width:92%;position:relative;text-align:center;}
+.upc-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#555;font-size:1.3rem;cursor:pointer;}
+.upc-emoji{font-size:2.2rem;margin-bottom:0.5rem;}
+.upc-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#FFD700;letter-spacing:0.04em;margin-bottom:0.3rem;}
+.upc-sub{font-size:0.82rem;color:#888;margin-bottom:1.2rem;line-height:1.5;}
+.upc-img-wrap{width:100%;border-radius:12px;overflow:hidden;border:2px solid rgba(255,215,0,0.3);background:#0a200a;margin-bottom:1rem;position:relative;}
+.upc-img-wrap img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;}
+.upc-info{font-size:0.8rem;color:#888;margin-bottom:1.4rem;}
+.upc-btn-yes{width:100%;padding:14px;border-radius:10px;font-size:0.85rem;font-weight:900;letter-spacing:0.07em;text-transform:uppercase;border:none;cursor:pointer;background:linear-gradient(135deg,#FFD700,#FFC200);color:#000;font-family:'Montserrat',sans-serif;box-shadow:0 0 25px rgba(255,215,0,0.4);transition:all .2s;margin-bottom:10px;}
+.upc-btn-yes:hover{background:#fff;box-shadow:0 0 40px rgba(255,215,0,0.6);}
+.upc-btn-back{width:100%;padding:11px;border-radius:10px;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid rgba(255,215,0,0.2);background:transparent;color:#777;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.upc-btn-back:hover{border-color:rgba(255,215,0,0.4);color:#aaa;}
+.upc-secure{font-size:0.72rem;color:#444;margin-top:0.8rem;letter-spacing:0.04em;}
+</style>
+  <div class="upc">
+    <button class="upc-close" onclick="document.getElementById('mu-previewconfirm-modal').style.display='none';document.getElementById('mu-upload-modal').style.display='flex';">✕</button>
+    <div class="upc-emoji">👀</div>
+    <div class="upc-title" id="mu-previewconfirm-title">¿Así quedará tu imagen?</div>
+    <div class="upc-sub" id="mu-previewconfirm-sub">Así se verá tu bloque en el mural para siempre.</div>
+    <div class="upc-img-wrap">
+      <img id="mu-previewconfirm-img" src="" alt="Preview">
+    </div>
+    <div class="upc-info" id="mu-previewconfirm-info"></div>
+    <div style="margin-bottom:1.2rem;text-align:left;">
+      <label style="font-size:11px;font-weight:800;color:#FFD700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:5px;" data-lang="modal-upload-text-label">Texto o enlace (opcional)</label>
+      <input type="text" id="uw-pixel-text" class="uw-input" placeholder="Tu nombre, @instagram, web..." maxlength="60" style="width:100%;background:#0a0a0a;border:1px solid rgba(255,215,0,0.2);border-radius:7px;padding:10px 12px;color:#ddd;font-size:13px;font-family:'Montserrat',sans-serif;outline:none;box-sizing:border-box;">
+      <div style="font-size:11px;color:#444;margin-top:4px;" data-lang="modal-upload-text-hint">Visible al pasar el cursor sobre tu píxel en el mural</div>
+    </div>
+    <button class="upc-btn-yes" id="mu-previewconfirm-yes">✅ SÍ, ME ENCANTA — PAGAR AHORA</button>
+    <button class="upc-btn-back" id="mu-previewconfirm-back" onclick="document.getElementById('mu-previewconfirm-modal').style.display='none';document.getElementById('mu-upload-modal').style.display='flex';">✏️ EDITAR IMAGEN</button>
+    <div class="upc-secure" data-lang="modal-stripe-note">🔒 Pago seguro con Stripe · Tu píxel aparece al instante</div>
+  </div>
+</div>
+
+<!-- ── CAMERA WARNING MODAL ── -->
+<div id="uw-camera-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(10px);">
+  <div style="background:#0f0f0f;border:1px solid rgba(255,215,0,0.35);border-radius:16px;padding:2rem;max-width:340px;width:88%;text-align:center;position:relative;box-shadow:0 0 40px rgba(255,215,0,0.1);">
+    <div style="font-size:2.8rem;margin-bottom:0.6rem;">📱</div>
+    <div id="uw-camera-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#FFD700;letter-spacing:0.05em;margin-bottom:0.7rem;">Solo móvil</div>
+    <div id="uw-camera-msg" style="font-size:0.82rem;color:#888;line-height:1.6;margin-bottom:1.5rem;"></div>
+    <button id="uw-camera-btn" onclick="document.getElementById('uw-camera-modal').style.display='none'" style="background:linear-gradient(135deg,#FFD700,#FFC200);color:#000;border:none;border-radius:10px;padding:12px 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;transition:all .2s;">Entendido</button>
+  </div>
+</div>
 
 </body>
 </html
