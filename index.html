@@ -134,6 +134,11 @@ nav a:hover{color:var(--gold);}
 }
 .btn-buy:hover{background:#fff;box-shadow:0 0 40px rgba(255,215,0,0.7);transform:translateY(-1px);}
 
+@media(max-width:900px){
+  .btn-buy{display:none;}
+  .ham-btn{display:flex !important;}
+}
+
 /* ── HERO ── */
 .hero{
   position:relative;text-align:center;
@@ -335,6 +340,7 @@ nav a:hover{color:var(--gold);}
   }
   nav#main-nav.mobile-open a:last-child{border-bottom:none;}
   nav#main-nav.mobile-open a:hover,nav#main-nav.mobile-open a.active-nav{color:#FFD700;}
+  nav#main-nav.mobile-open #btn-buy-mobile{display:flex !important;width:100%;margin-top:0.8rem;justify-content:center;}
 }
 @media(max-width:600px){
   .hero h1{font-size:2.6rem;}
@@ -444,6 +450,7 @@ nav a:hover{color:var(--gold);}
     <a href="#precios" id="nav-precios">Precios</a>
     <a href="#faq" id="nav-faq">Preguntas</a>
     <a href="#contacto" id="nav-contacto">Contacto</a>
+    <button class="btn-buy" style="display:none;" id="btn-buy-mobile" onclick="toggleMobileMenu();openModal(500,500);">⊞ COMPRAR PÍXEL</button>
   </nav>
   <div class="header-right">
     <div class="lang-sw">
