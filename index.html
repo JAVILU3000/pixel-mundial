@@ -308,10 +308,33 @@ nav a:hover{color:var(--gold);}
 @media(max-width:900px){
   .mural-area{flex-direction:column;}
   .buy-panel{width:100%;position:static;max-height:none;}
-  nav{display:none;}
+  nav#main-nav{display:none;}
   .countdown-row{flex-direction:column;max-width:260px;}
   .features-bar{flex-wrap:wrap;}
   .feat-item{flex:1 1 45%;border-bottom:1px solid var(--border);}
+}
+/* ── HAMBURGER BUTTON ── */
+.ham-btn{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:38px;height:38px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.25);border-radius:8px;cursor:pointer;padding:0;}
+.ham-btn span{display:block;width:20px;height:2px;background:#FFD700;border-radius:2px;transition:all .3s;}
+.ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham-btn.open span:nth-child(2){opacity:0;}
+.ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+@media(max-width:900px){
+  .ham-btn{display:flex;}
+  /* Mobile drawer */
+  nav#main-nav.mobile-open{
+    display:flex;flex-direction:column;
+    position:fixed;top:64px;left:0;right:0;
+    background:#0a0a0a;border-bottom:2px solid rgba(255,215,0,0.2);
+    padding:1rem 1.5rem 1.5rem;gap:0;z-index:999;
+    box-shadow:0 10px 40px rgba(0,0,0,0.8);
+  }
+  nav#main-nav.mobile-open a{
+    padding:14px 0;font-size:1rem;border-bottom:1px solid rgba(255,255,255,0.06);
+    color:#ccc;letter-spacing:0.08em;
+  }
+  nav#main-nav.mobile-open a:last-child{border-bottom:none;}
+  nav#main-nav.mobile-open a:hover,nav#main-nav.mobile-open a.active-nav{color:#FFD700;}
 }
 @media(max-width:600px){
   .hero h1{font-size:2.6rem;}
@@ -414,7 +437,7 @@ nav a:hover{color:var(--gold);}
       <div class="l2" data-lang="footer-tagline">Tu huella. Para siempre.</div>
     </div>
   </a>
-  <nav>
+  <nav id="main-nav">
     <a href="#inicio" id="nav-inicio" style="color:var(--gold);">Inicio</a>
     <a href="#mural" id="nav-mural">Mural</a>
     <a href="#como" id="nav-como">Cómo funciona</a>
@@ -429,6 +452,9 @@ nav a:hover{color:var(--gold);}
       <span id="len" onclick="setLang('en')">EN</span>
     </div>
     <button class="btn-buy" id="btn-buy" onclick="openModal(500,500)">⊞ COMPRAR PÍXEL</button>
+    <button class="ham-btn" id="ham-btn" onclick="toggleMobileMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -2126,6 +2152,23 @@ const TRANS = {
     'modal-upload-back':'← BACK'
   }
 };
+
+function toggleMobileMenu(){
+  const nav=document.getElementById('main-nav');
+  const btn=document.getElementById('ham-btn');
+  if(!nav||!btn) return;
+  const isOpen=nav.classList.toggle('mobile-open');
+  btn.classList.toggle('open',isOpen);
+}
+// Close menu when a link is clicked
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('#main-nav a').forEach(a=>{
+    a.addEventListener('click',()=>{
+      document.getElementById('main-nav').classList.remove('mobile-open');
+      document.getElementById('ham-btn').classList.remove('open');
+    });
+  });
+});
 
 function reapplyLang(containerId){
   const l=window._lang||'es';
