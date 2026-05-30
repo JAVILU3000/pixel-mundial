@@ -330,19 +330,22 @@ nav a:hover{color:var(--gold);}
   header{
     height:auto;min-height:56px;padding:0.5rem 1rem;
     flex-wrap:nowrap;align-items:center;gap:0.5rem;
+    overflow:visible;
   }
   .logo-text .l2{display:none;}
   .logo-text .l1{font-size:0.85rem;}
   .logo-trophy{font-size:1.5rem;}
   .btn-buy{display:none !important;}
-  /* Stack lang-sw and ham-btn vertically on the right */
+  /* Logo takes only what it needs, header-right fills the rest from the right */
+  .logo{flex-shrink:1;min-width:0;overflow:hidden;}
+  .logo-text .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .header-right{
-    display:flex;flex-direction:column;
-    align-items:flex-end;gap:4px;margin-left:auto;
+    display:flex !important;flex-direction:row;
+    align-items:center;gap:6px;margin-left:auto;flex-shrink:0;
   }
-  .lang-sw{font-size:0.68rem;}
+  .lang-sw{font-size:0.68rem;flex-shrink:0;}
   .lang-sw span{padding:4px 10px;}
-  .ham-btn{display:flex !important;width:36px;height:28px;gap:4px;}
+  .ham-btn{display:flex !important;width:36px;height:36px;gap:4px;flex-shrink:0;}
   .ham-btn span{width:18px;}
 
   /* Mobile nav drawer */
@@ -377,6 +380,14 @@ nav a:hover{color:var(--gold);}
     font-size:0.9rem;
     justify-content:center;
   }
+}
+@media(max-width:480px){
+  /* Very small phones - ensure header-right stays visible */
+  header{padding:0.4rem 0.6rem;}
+  .logo-trophy{font-size:1.3rem;}
+  .logo-text .l1{font-size:0.75rem;}
+  .lang-sw span{padding:3px 7px;font-size:0.62rem;}
+  .ham-btn{width:32px;height:32px;}
 }
 @media(max-width:600px){
   .hero h1{font-size:2.6rem;}
@@ -463,15 +474,15 @@ nav a:hover{color:var(--gold);}
     <div class="mcoord" id="mcoord" style="text-align:center;">📍 Coordenadas en el mural: X=0, Y=0</div>
     <div id="modal-block-info" style="display:flex;gap:0.6rem;margin-bottom:1rem;justify-content:center;">
       <div style="background:#111;border:2px solid rgba(255,215,0,0.5);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
-        <div style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Bloque</div>
+        <div id="modal-lbl-block-el" style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Bloque</div>
         <div id="modal-block-size" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">1×1</div>
       </div>
       <div style="background:#111;border:2px solid rgba(255,215,0,0.5);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
-        <div style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Píxeles</div>
+        <div id="modal-lbl-pixels-el" style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Píxeles</div>
         <div id="modal-block-px" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">1</div>
       </div>
       <div style="background:#111;border:2px solid rgba(255,215,0,0.9);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
-        <div style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Total</div>
+        <div id="modal-lbl-total-el" style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Total</div>
         <div id="modal-block-price" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">$1 USD</div>
       </div>
     </div>
@@ -479,10 +490,10 @@ nav a:hover{color:var(--gold);}
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
       <button onclick="closeModal()" style="background:linear-gradient(135deg,#003087,#009cde);color:#fff;border:none;border-radius:10px;padding:15px;font-size:1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:0.05em;box-shadow:0 0 20px rgba(0,144,222,0.4);">
         <svg width="70" height="18" viewBox="0 0 70 18"><text y="14" font-size="14" font-weight="bold" font-family="Arial" fill="#fff">Pay</text><text y="14" x="28" font-size="14" font-weight="bold" font-family="Arial" fill="#00b4e6">Pal</text></svg>
-        PAGAR CON PAYPAL
+        <span id="modal-btn-paypal-txt">PAGAR CON PAYPAL</span>
       </button>
       <button onclick="closeModal()" style="background:#111;color:#fff;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
-        💳 PAGAR CON TARJETA
+        <span id="modal-btn-card-txt">💳 PAGAR CON TARJETA</span>
         <span style="display:flex;gap:4px;align-items:center;margin-left:4px;">
           <span style="background:#1a1f71;color:#fff;font-size:0.6rem;font-weight:900;font-style:italic;padding:2px 5px;border-radius:3px;letter-spacing:0.05em;">VISA</span>
           <span style="background:#eb001b;color:#fff;font-size:0.6rem;font-weight:900;padding:2px 4px;border-radius:3px;position:relative;">
@@ -497,7 +508,7 @@ nav a:hover{color:var(--gold);}
       <div style="font-size:0.75rem;color:#aaa;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px;">
         🔒 <span data-lang="modal-old-secure">Tu compra es segura con PayPal</span>
       </div>
-      <div style="font-size:0.7rem;color:#555;margin-top:4px;">🏆 El mural se sellará para siempre el 11/06/2026</div>
+      <div id="modal-seal-note" style="font-size:0.7rem;color:#555;margin-top:4px;">🏆 El mural se sellará para siempre el 11/06/2026</div>
     </div>
   </div>
 </div>
@@ -1816,6 +1827,19 @@ function openModal(x,y){
   if(pxEl) pxEl.textContent=total.toLocaleString();
   if(priceEl) priceEl.textContent=`$${total.toLocaleString()} USD`;
   if(pxCount) pxCount.textContent=en?`${total.toLocaleString()} pixels`:`${total.toLocaleString()} píxeles`;
+  // Translate modal labels
+  const lblBlock=document.getElementById('modal-lbl-block-el');
+  const lblPixels=document.getElementById('modal-lbl-pixels-el');
+  const lblTotal=document.getElementById('modal-lbl-total-el');
+  const btnPaypal=document.getElementById('modal-btn-paypal-txt');
+  const btnCard=document.getElementById('modal-btn-card-txt');
+  const sealNote=document.getElementById('modal-seal-note');
+  if(lblBlock) lblBlock.textContent=en?'Block':'Bloque';
+  if(lblPixels) lblPixels.textContent=en?'Pixels':'Píxeles';
+  if(lblTotal) lblTotal.textContent=en?'Total':'Total';
+  if(btnPaypal) btnPaypal.textContent=en?'PAY WITH PAYPAL':'PAGAR CON PAYPAL';
+  if(btnCard) btnCard.innerHTML=en?'💳 PAY BY CARD':'💳 PAGAR CON TARJETA';
+  if(sealNote) sealNote.textContent=en?'🏆 The mural will be sealed forever on 06/11/2026':'🏆 El mural se sellará para siempre el 11/06/2026';
   document.getElementById('modal').classList.add('open');
 }
 function showMaxWarn(){
@@ -2311,6 +2335,20 @@ function setLang(l){
   // Re-trigger calculator so dynamic texts update
   const prW=document.getElementById('pr-w');
   if(prW) prW.dispatchEvent(new Event('input'));
+  // Refresh modal labels if modal is open
+  const en2=l==='en';
+  const lblBlock=document.getElementById('modal-lbl-block-el');
+  const lblPixels=document.getElementById('modal-lbl-pixels-el');
+  const lblTotal=document.getElementById('modal-lbl-total-el');
+  const btnPaypal=document.getElementById('modal-btn-paypal-txt');
+  const btnCard=document.getElementById('modal-btn-card-txt');
+  const sealNote=document.getElementById('modal-seal-note');
+  if(lblBlock) lblBlock.textContent=en2?'Block':'Bloque';
+  if(lblPixels) lblPixels.textContent=en2?'Pixels':'Píxeles';
+  if(lblTotal) lblTotal.textContent=en2?'Total':'Total';
+  if(btnPaypal) btnPaypal.textContent=en2?'PAY WITH PAYPAL':'PAGAR CON PAYPAL';
+  if(btnCard) btnCard.innerHTML=en2?'💳 PAY BY CARD':'💳 PAGAR CON TARJETA';
+  if(sealNote) sealNote.textContent=en2?'🏆 The mural will be sealed forever on 06/11/2026':'🏆 El mural se sellará para siempre el 11/06/2026';
 }
 document.getElementById('les').addEventListener('click',()=>setLang('es'));
 document.getElementById('len').addEventListener('click',()=>setLang('en'));
