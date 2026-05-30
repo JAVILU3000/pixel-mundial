@@ -109,6 +109,7 @@ header{
   background:rgba(5,5,5,0.95);
   backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
+  overflow:visible;
 }
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .logo-trophy{font-size:1.9rem;filter:drop-shadow(0 0 10px var(--gold));}
@@ -485,7 +486,7 @@ nav a:hover{color:var(--gold);}
     <a href="#precios" id="nav-precios">Precios</a>
     <a href="#faq" id="nav-faq">Preguntas</a>
     <a href="#contacto" id="nav-contacto">Contacto</a>
-    <button class="btn-buy" style="display:none;" id="btn-buy-mobile" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'});toggleMobileMenu();">⊞ COMPRAR PÍXEL</button>
+    <button class="btn-buy" style="display:none;" id="btn-buy-mobile">⊞ COMPRAR PÍXEL</button>
   </nav>
   <div class="header-right">
     <div class="lang-sw">
