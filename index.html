@@ -6,7 +6,7 @@
 <title id="page-title">Mundial Eterno 2026 – Your mark. Forever.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
   --gold: #FFD700;
@@ -1749,7 +1749,7 @@ const TRANS = {
     'mu-sub':'Haz clic en la cancha para elegir tu píxel. Cada espacio vale $1.00 USD y queda tuyo para siempre.',
     'mu-panel-title':'Compra Tu Píxel',
     'mu-panel-sub':'Selecciona en la cancha el píxel que deseas comprar',
-    'mu-hint':'Haz clic y arrastra para seleccionar píxeles',
+    'mu-hint':'Mantén presionado para seleccionar · 1 dedo para mover',
     'mu-wallet':'🔒 CONECTAR WALLET','mu-or':'o paga con tarjeta','mu-card':'💳 PAGAR CON TARJETA',
     'mu-secure-txt':'segura y permanente',
     'mu-leg-avail':'Disponible','mu-leg-sel':'Seleccionado','mu-leg-sold':'Vendido','mu-leg-lines':'Líneas',
@@ -1948,7 +1948,7 @@ const TRANS = {
     'mu-sub':'Click on the pitch to choose your pixel. Each space is worth $1.00 USD and is yours forever.',
     'mu-panel-title':'Buy Your Pixel',
     'mu-panel-sub':'Select on the pitch the pixel you want to buy',
-    'mu-hint':'Click and drag to select pixels',
+    'mu-hint':'Hold to select · 1 finger to pan · pinch to zoom',
     'mu-wallet':'🔒 CONNECT WALLET','mu-or':'or pay by card','mu-card':'💳 PAY BY CARD',
     'mu-secure-txt':'secure and permanent',
     'mu-leg-avail':'Available','mu-leg-sel':'Selected','mu-leg-sold':'Sold','mu-leg-lines':'Field lines',
@@ -2522,22 +2522,69 @@ function filterFaq(cat, btn){
 
   // Touch
   let t2d=0;
+  let touchLongPressTimer=null;
   canvas.addEventListener('touchstart',e=>{
-    if(e.touches.length===1){pdown=true;sx0=e.touches[0].clientX;sy0=e.touches[0].clientY;vx0=vx;vy0=vy;}
-    else t2d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-  },{passive:true});
+    if(e.touches.length===1){
+      pdown=true;
+      sx0=e.touches[0].clientX; sy0=e.touches[0].clientY;
+      vx0=vx; vy0=vy;
+      selecting=false; selS=null; selE=null;
+      // Long press (500ms) to start selecting
+      const touch=e.touches[0];
+      touchLongPressTimer=setTimeout(()=>{
+        const p=pxAt(touch);
+        if(p&&!sold.has(p.x+','+p.y)){
+          selecting=true; selS=p; selE=p;
+          // Vibrate to confirm selection started
+          if(navigator.vibrate) navigator.vibrate(40);
+          draw();
+        }
+      },500);
+    } else if(e.touches.length===2){
+      clearTimeout(touchLongPressTimer);
+      selecting=false;
+      t2d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    }
+    e.preventDefault();
+  },{passive:false});
+
   canvas.addEventListener('touchmove',e=>{
     if(e.touches.length===1&&pdown){
-      vx=Math.max(0,Math.min(MC-canvas.width/sc,vx0-(e.touches[0].clientX-sx0)/sc));
-      vy=Math.max(0,Math.min(MR-canvas.height/sc,vy0-(e.touches[0].clientY-sy0)/sc));
-      updateScrollbars(); draw(); drawMini();
+      const dx=e.touches[0].clientX-sx0;
+      const dy=e.touches[0].clientY-sy0;
+      if(selecting){
+        // Drag to expand selection
+        const p=pxAt(e.touches[0]);
+        if(p){ selE=p; draw(); drawMini(); }
+      } else {
+        // Cancel long press if moved
+        if(Math.abs(dx)>5||Math.abs(dy)>5) clearTimeout(touchLongPressTimer);
+        // Pan
+        vx=Math.max(0,Math.min(MC-canvas.width/sc,vx0-dx/sc));
+        vy=Math.max(0,Math.min(MR-canvas.height/sc,vy0-dy/sc));
+        updateScrollbars(); draw(); drawMini();
+      }
     } else if(e.touches.length===2){
       const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
       sc=Math.max(0.4,Math.min(30,sc*(d/t2d))); t2d=d; updateScrollbars(); draw(); drawMini();
     }
     e.preventDefault();
   },{passive:false});
-  canvas.addEventListener('touchend',()=>{pdown=false;selecting=false;});
+
+  canvas.addEventListener('touchend',e=>{
+    clearTimeout(touchLongPressTimer);
+    if(selecting){
+      const s=getSel();
+      if(s){
+        const w=s.x2-s.x1+1, h=s.y2-s.y1+1;
+        if(w>40||h>40){ selS=null;selE=null;draw();drawMini();showMaxWarn();selecting=false;return; }
+        window.muSelX=s.x1; window.muSelY=s.y1;
+        window._muSel={x1:s.x1,y1:s.y1,w,h};
+        showConfirmModal(s);
+      }
+    }
+    pdown=false; selecting=false;
+  });
 
   // Zoom buttons
   document.getElementById('mu-zoom-in').onclick=()=>{sc=Math.min(30,sc*1.3);updateScrollbars();draw();drawMini();};
@@ -2731,26 +2778,32 @@ function showUploadStep(x1,y1,w,h){
   if(modal){ modal.style.display='flex'; reapplyLang('mu-upload-modal'); }
 }
 
-function uwSelectOpt(type){
-  if(type==='camera'){
-    const isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-    if(!isMobile){
-      const en=window._lang==='en';
-      document.getElementById('uw-camera-modal').style.display='flex';
-      document.getElementById('uw-camera-title').textContent=en?'Mobile only':'Solo móvil 📱';
-      document.getElementById('uw-camera-msg').textContent=en
-        ?'The camera option only works on mobile devices. On desktop, use "Gallery" to select an image from your computer.'
-        :'La opción de cámara solo funciona en dispositivos móviles. Desde el computador, usa "Galería" para seleccionar una imagen.';
-      document.getElementById('uw-camera-btn').textContent=en?'Got it':'Entendido';
-      return;
-    }
-  }
+function uwMarkOpt(type){
   ['gallery','camera'].forEach(t=>{
     const el=document.getElementById('uw-opt-'+t);
     if(el) el.classList.remove('sel');
   });
   const el=document.getElementById('uw-opt-'+type);
   if(el) el.classList.add('sel');
+}
+
+function uwSelectCameraDesktop(e){
+  const isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if(!isMobile){
+    e.preventDefault();
+    e.stopPropagation();
+    const en=window._lang==='en';
+    document.getElementById('uw-camera-modal').style.display='flex';
+    document.getElementById('uw-camera-title').textContent=en?'Mobile only':'Solo móvil 📱';
+    document.getElementById('uw-camera-msg').textContent=en
+      ?'The camera option only works on mobile devices. On desktop, use "Gallery" to select an image from your computer.'
+      :'La opción de cámara solo funciona en dispositivos móviles. Desde el computador, usa "Galería" para seleccionar una imagen.';
+    document.getElementById('uw-camera-btn').textContent=en?'Got it':'Entendido';
+  }
+}
+
+function uwSelectOpt(type){
+  uwMarkOpt(type);
   const input=document.getElementById('uw-file-'+type);
   if(input) input.click();
 }
@@ -2990,238 +3043,6 @@ function uwProceed(){
 function proceedToPayment(){uwProceed();}
 function handleDrop(e){e.preventDefault();}
 function handleFileSelect(input){uwHandleFile(input,'gallery');}
-// ── ACTIVE NAV ON SCROLL ──
-(function(){
-  const sections = ['inicio','mural','como','precios','faq','contacto'];
-  const navLinks = {};
-  sections.forEach(id=>{
-    const el = document.getElementById('nav-'+id);
-    if(el) navLinks[id] = el;
-  });
-  function updateActive(){
-    let current = 'inicio';
-    sections.forEach(id=>{
-      const sec = document.getElementById(id);
-      if(sec){
-        const rect = sec.getBoundingClientRect();
-        if(rect.top <= 80) current = id;
-      }
-    });
-    Object.entries(navLinks).forEach(([id,el])=>{
-      el.style.color = id===current ? 'var(--gold)' : '';
-    });
-  }
-  window.addEventListener('scroll', updateActive, {passive:true});
-  updateActive();
-})();
-
-// ── CONTACTO: CONTADOR DE CARACTERES ──
-function updateCounter(){
-  const msg = document.getElementById('ct-msg');
-  const counter = document.getElementById('ct-chars');
-  const wrap = counter ? counter.parentElement : null;
-  if(!msg || !counter) return;
-  const remaining = 500 - msg.value.length;
-  counter.textContent = remaining;
-  if(wrap){
-    wrap.classList.remove('warning','danger');
-    if(remaining <= 50) wrap.classList.add('danger');
-    else if(remaining <= 150) wrap.classList.add('warning');
-  }
-}
-
-// ── CONTACTO: CHIPS ──
-function selectChip(el){
-  document.querySelectorAll('.ct-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ── CONTACTO: BUSCADOR DE PAÍSES ──
-const COUNTRIES = [
-  'Afganistán','Albania','Alemania','Algeria','Andorra','Angola','Arabia Saudita','Argentina','Armenia','Australia',
-  'Austria','Azerbaiyán','Bahamas','Bangladés','Bélgica','Belice','Bolivia','Bosnia y Herzegovina','Brasil','Bulgaria',
-  'Camerún','Canadá','Chile','China','Colombia','Congo','Corea del Sur','Costa Rica','Croacia','Cuba',
-  'Dinamarca','Ecuador','Egipto','El Salvador','Emiratos Árabes Unidos','Eslovaquia','España','Estados Unidos','Estonia','Etiopía',
-  'Filipinas','Finlandia','Francia','Ghana','Grecia','Guatemala','Honduras','Hungría','India','Indonesia',
-  'Irak','Irán','Irlanda','Israel','Italia','Jamaica','Japón','Jordania','Kazajistán','Kenia',
-  'Kuwait','Líbano','Libia','Lituania','Luxemburgo','Macedonia','Malasia','Marruecos','México','Moldova',
-  'Mongolia','Montenegro','Mozambique','Myanmar','Nepal','Nicaragua','Nigeria','Noruega','Nueva Zelanda','Países Bajos',
-  'Pakistán','Palestina','Panamá','Paraguay','Perú','Polonia','Portugal','Puerto Rico','Qatar','Reino Unido',
-  'República Checa','República Dominicana','Rumania','Rusia','Senegal','Serbia','Singapur','Siria','Somalia','Sri Lanka',
-  'Sudáfrica','Suecia','Suiza','Tanzania','Tailandia','Túnez','Turquía','Ucrania','Uganda','Uruguay',
-  'Venezuela','Vietnam','Yemen','Zambia','Zimbabwe','Otro país'
-];
-
-ctSearch = document.getElementById('ct-country-search');
-ctList = document.getElementById('ct-country-list');
-
-function filterCountries(val){
-  const q = val.trim().toLowerCase();
-  ctList.innerHTML = '';
-  const filtered = q ? COUNTRIES2.filter(c=>c.toLowerCase().includes(q)) : COUNTRIES2;
-  if(filtered.length===0){
-    ctList.innerHTML='<div class="ct-country-opt" style="color:#555;">No encontrado</div>';
-  } else {
-    filtered.forEach(c=>{
-      const div = document.createElement('div');
-      div.className = 'ct-country-opt';
-      div.textContent = c;
-      div.onclick = ()=>{
-        ctSearch.value = c;
-        ctList.classList.remove('open');
-      };
-      ctList.appendChild(div);
-    });
-  }
-  ctList.classList.add('open');
-}
-
-if(ctSearch){
-  ctSearch.addEventListener('focus',()=>filterCountries(ctSearch.value));
-  document.addEventListener('click',e=>{
-    if(!ctSearch.contains(e.target)&&!ctList.contains(e.target)){
-      ctList.classList.remove('open');
-    }
-  });
-}
-
-// ── CONFETTI ──
-(function(){
-  const wrap = document.getElementById('confetti');
-  const colors = ['#FFD700','#FFC200','#FF4444','#44FF88','#4488FF','#FF44FF','#ffffff'];
-  for(let i=0;i<55;i++){
-    const p = document.createElement('div');
-    p.className = 'confetti-piece';
-    p.style.cssText = `
-      left:${Math.random()*100}%;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      width:${4+Math.random()*5}px;height:${8+Math.random()*8}px;
-      animation-duration:${3+Math.random()*5}s;
-      animation-delay:${Math.random()*5}s;
-      border-radius:${Math.random()>0.5?'50%':'2px'};
-      opacity:0;
-    `;
-    wrap.appendChild(p);
-  }
-})();
-
-// ── COUNTDOWN ──
-function calcDays(targetDate){
-  const now = new Date();
-  const diff = new Date(targetDate) - now;
-  return Math.max(0, Math.ceil(diff/(1000*60*60*24)));
-}
-document.getElementById('cd-start').textContent = calcDays('2026-06-11');
-document.getElementById('cd-end').textContent   = calcDays('2026-07-19');
-
-// ── IMAGE MURAL ──
-muralImg = document.getElementById('mural-img');
-tip = document.getElementById('tip');
-const PRC=1000, PRR=1000;
-let selX=500, selY=500;
-
-function pixelFromEvent(e){
-  const rect = muralImg.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const px = Math.floor((x / rect.width)  * COLS);
-  const py = Math.floor((y / rect.height) * ROWS);
-  if(px>=0&&px<COLS&&py>=0&&py<ROWS) return {x:px,y:py};
-  return null;
-}
-
-muralImg.addEventListener('mousemove',e=>{
-  const p = pixelFromEvent(e);
-  if(p){
-    tip.style.display='block';
-    tip.style.left=(e.clientX+12)+'px';
-    tip.style.top=(e.clientY-26)+'px';
-    tip.textContent=`⊞ (${p.x},${p.y}) — $1.00 USD · Haz clic para comprar`;
-  } else {
-    tip.style.display='none';
-  }
-});
-muralImg.addEventListener('mouseleave',()=>{ tip.style.display='none'; });
-muralImg.addEventListener('click',e=>{
-  const p = pixelFromEvent(e);
-  if(p){ selX=p.x; selY=p.y; updateMiniGrid(p.x,p.y); openModal(p.x,p.y); }
-});
-// Touch
-muralImg.addEventListener('touchend',e=>{
-  e.preventDefault();
-  const t = e.changedTouches[0];
-  const p = pixelFromEvent(t);
-  if(p){ selX=p.x; selY=p.y; updateMiniGrid(p.x,p.y); openModal(p.x,p.y); }
-},{passive:false});
-
-// ── MINI GRID ──
-function buildMiniGrid(){
-  const mg=document.getElementById('mini-grid');
-  for(let r=0;r<8;r++){
-    for(let c=0;c<10;c++){
-      const el=document.createElement('div');
-      el.className='mc';
-      if(r===3&&c===5){el.classList.add('sel');el.style.background='#FFD700';}
-      el.addEventListener('click',()=>{
-        document.querySelectorAll('.mc').forEach(x=>{x.classList.remove('sel');x.style.background='';});
-        el.classList.add('sel');el.style.background='#FFD700';
-      });
-      mg.appendChild(el);
-    }
-  }
-}
-buildMiniGrid();
-function updateMiniGrid(px,py){
-  const cells=document.querySelectorAll('.mc');
-  cells.forEach(c=>{c.classList.remove('sel');c.style.background='';});
-  const c=Math.min(9,Math.floor((px/COLS)*10));
-  const r=Math.min(7,Math.floor((py/ROWS)*8));
-  const el=cells[r*10+c];
-  if(el){el.classList.add('sel');el.style.background='#FFD700';}
-}
-
-// ── MODAL ──
-function openModal(x,y){
-  selX=x||selX;selY=y||selY;
-  document.getElementById('mcoord').textContent=`Coordenadas: x=${selX}, y=${selY}`;
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
-document.getElementById('mcl').addEventListener('click',closeModal);
-document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
-
-// ── LANG ──
-T={
-  es:{inicio:'Inicio',mural:'Mural',como:'Cómo funciona',precios:'Precios',faq:'Preguntas',contacto:'Contacto',buy:'⊞ COMPRAR PÍXEL'},
-  en:{inicio:'Home',mural:'Mural',como:'How it works',precios:'Pricing',faq:'FAQ',contacto:'Contact',buy:'⊞ BUY PIXEL'}
-};
-
-// ── INIT ──
-setTimeout(()=>{document.getElementById('pfill').style.width='0%';},600);
-
-// ── FAQ ACCORDION ──
-function toggleFaq(el){
-  const isOpen = el.classList.contains('open');
-  document.querySelectorAll('.fq-item').forEach(i=>i.classList.remove('open'));
-  if(!isOpen) el.classList.add('open');
-}
-function filterFaq(cat, btn){
-  document.querySelectorAll('.fq-cat').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.fq-item').forEach(item=>{
-    if(cat==='todas' || item.dataset.cat===cat){
-      item.style.display='block';
-    } else {
-      item.style.display='none';
-      item.classList.remove('open');
-    }
-  });
-}
-
-// ── FAQ ACCORDION (como funciona) ──
-
-
-
 </script>
 <!-- MODAL DE CONFIRMACIÓN -->
 <div id="mu-confirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;z-index:3000;backdrop-filter:blur(12px);font-family:'Montserrat',sans-serif;">
@@ -3337,21 +3158,22 @@ function filterFaq(cat, btn){
     <div class="uw-title" data-lang="modal-upload-title">SUBE TU <em>IMAGEN</em></div>
 
     <div class="uw-grid">
-      <div class="uw-opt" id="uw-opt-gallery" onclick="uwSelectOpt('gallery')">
+      <div class="uw-opt" id="uw-opt-gallery" style="position:relative;overflow:hidden;">
         <span class="uw-opt-icon">🖼️</span>
         <div class="uw-opt-title" data-lang="modal-upload-gallery">Galería</div>
         <div class="uw-opt-sub" data-lang="modal-upload-gallery-sub">Desde tu teléfono o computador</div>
+        <input type="file" id="uw-file-gallery" accept="image/*" onchange="uwMarkOpt('gallery');uwHandleFile(this,'gallery')"
+          style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:100px;">
       </div>
-      <div class="uw-opt" id="uw-opt-camera" onclick="uwSelectOpt('camera')">
+      <div class="uw-opt" id="uw-opt-camera" style="position:relative;overflow:hidden;" onclick="uwSelectCameraDesktop(event)">
         <span class="uw-opt-icon">📷</span>
         <div class="uw-opt-title" data-lang="modal-upload-camera">Cámara</div>
         <div class="uw-opt-sub" data-lang="modal-upload-camera-sub">Tomar foto en el momento</div>
         <div class="uw-opt-sub" data-lang="uw-solo-movil" style="color:#555;font-size:10px;margin-top:3px;">📱 Solo móvil</div>
+        <input type="file" id="uw-file-camera" accept="image/*" capture="environment" onchange="uwMarkOpt('camera');uwHandleFile(this,'camera')"
+          style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:100px;">
       </div>
     </div>
-
-    <input type="file" id="uw-file-gallery" accept="image/jpeg,image/png,image/gif" style="display:none;" onchange="uwHandleFile(this,'gallery')">
-    <input type="file" id="uw-file-camera" accept="image/jpeg,image/png,image/gif" capture="environment" style="display:none;" onchange="uwHandleFile(this,'camera')">
 
     <div class="uw-preview" id="uw-preview">
       <div class="uw-file-row">
