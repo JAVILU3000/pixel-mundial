@@ -332,9 +332,9 @@ nav a:hover{color:var(--gold);}
   .ham-btn{display:none;}
 }
 
-/* Force header-right children visible on mobile — overrides any JS setting display:none */
+/* Force header-right children visible on mobile (ham-btn hidden — replaced by bottom nav) */
 @media(max-width:900px){
-  #ham-btn{display:flex !important;}
+  #ham-btn{display:none !important;}
   .lang-sw{display:flex !important;}
   .header-right{display:flex !important;}
 }
@@ -409,6 +409,34 @@ nav a:hover{color:var(--gold);}
   .sbar-item{border-right:none;border-bottom:1px solid var(--border);}
   .sbar-item:last-child{border-bottom:none;}
 }
+
+/* ── MOBILE BOTTOM NAV ── */
+#mobile-bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  z-index:1002;
+  background:#0d0d0d;
+  border-top:1px solid rgba(255,215,0,0.3);
+  flex-direction:row;align-items:stretch;
+  height:60px;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  box-shadow:0 -4px 20px rgba(0,0,0,0.6);
+}
+@media(max-width:900px){
+  #mobile-bottom-nav{display:flex;}
+  body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px)) !important;}
+}
+.mbn-item{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-decoration:none;color:#4a4a4a;
+  font-size:0.52rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;
+  gap:3px;transition:color .2s;
+  -webkit-tap-highlight-color:transparent;padding:0 2px;
+}
+.mbn-item svg{width:21px;height:21px;fill:currentColor;flex-shrink:0;transition:fill .2s;}
+.mbn-item.active{color:#FFD700;}
+.mbn-item:active{color:#FFD700;}
 
 /* ════ MURAL ════ */
 .mu-section{background:var(--bg);border-top:2px solid rgba(255,215,0,0.15);}
@@ -1639,22 +1667,36 @@ nav a:hover{color:var(--gold);}
 // ── ACTIVE NAV ON SCROLL ──
 (function(){
   const sections = ['inicio','mural','como','precios','faq','contacto'];
+  // Desktop nav links
   const navLinks = {};
   sections.forEach(id=>{
     const el = document.getElementById('nav-'+id);
     if(el) navLinks[id] = el;
   });
+  // Bottom nav items (mobile)
+  const mbnIds = ['inicio','mural','precios','faq','contacto'];
+  const mbnItems = {};
+  mbnIds.forEach(id=>{
+    const el = document.getElementById('mbn-'+id);
+    if(el) mbnItems[id] = el;
+  });
+  // Map sections not in bottom nav to closest item
+  const mbnMap = {como:'inicio'};
+
   function updateActive(){
     let current = 'inicio';
     sections.forEach(id=>{
       const sec = document.getElementById(id);
-      if(sec){
-        const rect = sec.getBoundingClientRect();
-        if(rect.top <= 80) current = id;
-      }
+      if(sec && sec.getBoundingClientRect().top <= 90) current = id;
     });
+    // Desktop nav
     Object.entries(navLinks).forEach(([id,el])=>{
       el.style.color = id===current ? 'var(--gold)' : '';
+    });
+    // Bottom nav
+    const mbnCurrent = mbnMap[current] || current;
+    Object.entries(mbnItems).forEach(([id,el])=>{
+      el.classList.toggle('active', id===mbnCurrent);
     });
   }
   window.addEventListener('scroll', updateActive, {passive:true});
@@ -3243,12 +3285,11 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 (function(){
   function restoreMobileHeader(){
     if(window.innerWidth > 900) return;
-    var btn=document.getElementById('ham-btn');
     var langSw=document.querySelector('.lang-sw');
     var hdrRight=document.querySelector('.header-right');
     if(hdrRight) hdrRight.style.setProperty('display','flex','important');
     if(langSw)   langSw.style.setProperty('display','flex','important');
-    if(btn)      btn.style.setProperty('display','flex','important');
+    // ham-btn is intentionally hidden on mobile (bottom nav replaces it)
   }
   window.addEventListener('load', restoreMobileHeader);
   setTimeout(restoreMobileHeader, 800);
@@ -3469,6 +3510,45 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
     <button id="uw-camera-btn" onclick="document.getElementById('uw-camera-modal').style.display='none'" style="background:linear-gradient(135deg,#FFD700,#FFC200);color:#000;border:none;border-radius:10px;padding:12px 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;transition:all .2s;">Entendido</button>
   </div>
 </div>
+
+<!-- BARRA DE NAVEGACIÓN INFERIOR (solo móvil) -->
+<nav id="mobile-bottom-nav" aria-label="Navegación principal">
+  <a href="#inicio" class="mbn-item active" id="mbn-inicio">
+    <!-- Casa / Inicio -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+    <span data-lang="nav-inicio">Inicio</span>
+  </a>
+  <a href="#mural" class="mbn-item" id="mbn-mural">
+    <!-- Cuadrícula / Mural -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3h7v7H3zm0 11h7v7H3zm11-11h7v7h-7zm0 11h7v7h-7z"/>
+    </svg>
+    <span data-lang="nav-mural">Mural</span>
+  </a>
+  <a href="#precios" class="mbn-item" id="mbn-precios">
+    <!-- Etiqueta / Precios -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
+    </svg>
+    <span data-lang="nav-precios">Precios</span>
+  </a>
+  <a href="#faq" class="mbn-item" id="mbn-faq">
+    <!-- Interrogación / FAQ -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+    </svg>
+    <span>FAQ</span>
+  </a>
+  <a href="#contacto" class="mbn-item" id="mbn-contacto">
+    <!-- Sobre / Contacto -->
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    <span data-lang="nav-contacto">Contacto</span>
+  </a>
+</nav>
 
 </body>
 </html
