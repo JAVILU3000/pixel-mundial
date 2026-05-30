@@ -326,19 +326,30 @@ nav a:hover{color:var(--gold);}
 .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
 @media(max-width:900px){
-  /* Header */
-  header{padding:0 1rem;gap:0.5rem;}
-  .btn-buy{display:none !important;}
-  .ham-btn{display:flex !important;}
+  header{
+    height:auto;min-height:56px;padding:0.5rem 1rem;
+    flex-wrap:nowrap;align-items:center;gap:0.5rem;
+  }
   .logo-text .l2{display:none;}
-  .header-right{gap:0.5rem;}
+  .logo-text .l1{font-size:0.85rem;}
+  .logo-trophy{font-size:1.5rem;}
+  .btn-buy{display:none !important;}
+  /* Stack lang-sw and ham-btn vertically on the right */
+  .header-right{
+    display:flex;flex-direction:column;
+    align-items:flex-end;gap:4px;margin-left:auto;
+  }
+  .lang-sw{font-size:0.68rem;}
+  .lang-sw span{padding:4px 10px;}
+  .ham-btn{display:flex !important;width:36px;height:28px;gap:4px;}
+  .ham-btn span{width:18px;}
 
   /* Mobile nav drawer */
   nav#main-nav.mobile-open{
     display:flex !important;
     flex-direction:column;
     position:fixed;
-    top:60px;left:0;right:0;bottom:0;
+    top:80px;left:0;right:0;bottom:0;
     background:#080808;
     border-top:2px solid rgba(255,215,0,0.25);
     padding:0;
