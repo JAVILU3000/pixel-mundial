@@ -314,18 +314,25 @@ nav a:hover{color:var(--gold);}
   .features-bar{flex-wrap:wrap;}
   .feat-item{flex:1 1 45%;border-bottom:1px solid var(--border);}
 }
-/* ── HAMBURGER BUTTON ── */
+/* ── HAMBURGER BUTTON (mobile-first: visible by default, hidden on desktop) ── */
 .ham-btn{
-  display:none;flex-direction:column;justify-content:center;align-items:center;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
   gap:5px;width:40px;height:40px;
-  background:rgba(255,215,0,0.1);border:1.5px solid rgba(255,215,0,0.4);
+  background:rgba(255,215,0,0.15);border:2px solid rgba(255,215,0,0.6);
   border-radius:8px;cursor:pointer;padding:0;flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
 }
-.ham-btn span{display:block;width:22px;height:2px;background:#FFD700;border-radius:2px;transition:all .3s;}
+.ham-btn span{display:block;width:22px;height:2.5px;background:#FFD700;border-radius:2px;transition:all .3s;}
 .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 .ham-btn.open span:nth-child(2){opacity:0;}
 .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
+/* Hide hamburger and show full nav on desktop */
+@media(min-width:901px){
+  .ham-btn{display:none;}
+}
+
+/* ── MOBILE HEADER & MENU ── */
 @media(max-width:900px){
   header{
     height:auto;min-height:56px;padding:0.5rem 1rem;
@@ -336,16 +343,15 @@ nav a:hover{color:var(--gold);}
   .logo-text .l1{font-size:0.85rem;}
   .logo-trophy{font-size:1.5rem;}
   .btn-buy{display:none !important;}
-  /* Logo takes only what it needs, header-right fills the rest from the right */
   .logo{flex-shrink:1;min-width:0;overflow:hidden;}
   .logo-text .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .header-right{
-    display:flex !important;flex-direction:row;
+    display:flex;flex-direction:row;
     align-items:center;gap:6px;margin-left:auto;flex-shrink:0;
   }
   .lang-sw{font-size:0.68rem;flex-shrink:0;}
   .lang-sw span{padding:4px 10px;}
-  .ham-btn{display:flex !important;width:36px;height:36px;gap:4px;flex-shrink:0;}
+  .ham-btn{width:36px;height:36px;gap:4px;}
   .ham-btn span{width:18px;}
 
   /* Mobile nav drawer */
@@ -374,7 +380,6 @@ nav a:hover{color:var(--gold);}
   }
   nav#main-nav.mobile-open a:first-child{border-top:none;}
   nav#main-nav.mobile-open a:hover{color:#FFD700;background:rgba(255,215,0,0.05);padding-left:2rem;}
-  /* Botón comprar dentro del menú */
   nav#main-nav.mobile-open #btn-buy-mobile{
     display:flex !important;
     margin:1.2rem 1.5rem;
@@ -385,12 +390,11 @@ nav a:hover{color:var(--gold);}
   }
 }
 @media(max-width:480px){
-  /* Very small phones - ensure header-right stays visible */
   header{padding:0.4rem 0.6rem;}
   .logo-trophy{font-size:1.3rem;}
   .logo-text .l1{font-size:0.75rem;}
   .lang-sw span{padding:3px 7px;font-size:0.62rem;}
-  .ham-btn{width:32px;height:32px;}
+  .ham-btn{width:36px;height:36px;}
 }
 @media(max-width:600px){
   .hero h1{font-size:2.6rem;}
