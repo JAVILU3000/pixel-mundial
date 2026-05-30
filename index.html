@@ -332,6 +332,13 @@ nav a:hover{color:var(--gold);}
   .ham-btn{display:none;}
 }
 
+/* Force header-right children visible on mobile — overrides any JS setting display:none */
+@media(max-width:900px){
+  #ham-btn{display:flex !important;}
+  .lang-sw{display:flex !important;}
+  .header-right{display:flex !important;}
+}
+
 /* ── MOBILE HEADER & MENU ── */
 @media(max-width:900px){
   header{
@@ -3230,6 +3237,23 @@ function uwProceed(){
 function proceedToPayment(){uwProceed();}
 function handleDrop(e){e.preventDefault();}
 function handleFileSelect(input){uwHandleFile(input,'gallery');}
+
+// ── MOBILE HEADER SAFEGUARD ──
+// Forces header-right elements visible on mobile in case any JS sets display:none on them
+(function(){
+  function restoreMobileHeader(){
+    if(window.innerWidth > 900) return;
+    var btn=document.getElementById('ham-btn');
+    var langSw=document.querySelector('.lang-sw');
+    var hdrRight=document.querySelector('.header-right');
+    if(hdrRight) hdrRight.style.setProperty('display','flex','important');
+    if(langSw)   langSw.style.setProperty('display','flex','important');
+    if(btn)      btn.style.setProperty('display','flex','important');
+  }
+  window.addEventListener('load', restoreMobileHeader);
+  setTimeout(restoreMobileHeader, 800);
+  setTimeout(restoreMobileHeader, 1600);
+})();
 </script>
 <!-- MODAL DE CONFIRMACIÓN -->
 <div id="mu-confirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;z-index:3000;backdrop-filter:blur(12px);font-family:'Montserrat',sans-serif;">
