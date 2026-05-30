@@ -460,13 +460,45 @@ nav a:hover{color:var(--gold);}
   <div class="modal-box">
     <button class="modal-close" id="mcl">✕</button>
     <h3 data-lang="modal-confirm-title-old">🏆 Tu Píxel</h3>
-    <div class="mcoord" id="mcoord">Coordenadas: x=0, y=0</div>
-    <p data-lang="modal-old-body">Estás a punto de comprar este píxel por <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Tu huella quedará sellada para siempre al finalizar el Mundial 2026.</p>
-    <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button class="btn-wallet" data-lang="mu-wallet" onclick="closeModal()">🔒 CONECTAR WALLET</button>
-      <button class="btn-card" data-lang="mu-card" onclick="closeModal()">💳 PAGAR CON TARJETA</button>
+    <div class="mcoord" id="mcoord" style="text-align:center;">📍 Coordenadas en el mural: X=0, Y=0</div>
+    <div id="modal-block-info" style="display:flex;gap:0.6rem;margin-bottom:1rem;justify-content:center;">
+      <div style="background:#111;border:2px solid rgba(255,215,0,0.5);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
+        <div style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Bloque</div>
+        <div id="modal-block-size" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">1×1</div>
+      </div>
+      <div style="background:#111;border:2px solid rgba(255,215,0,0.5);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
+        <div style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Píxeles</div>
+        <div id="modal-block-px" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">1</div>
+      </div>
+      <div style="background:#111;border:2px solid rgba(255,215,0,0.9);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
+        <div style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Total</div>
+        <div id="modal-block-price" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">$1 USD</div>
+      </div>
     </div>
-    <div class="secure-txt" style="margin-top:1rem;" data-lang="modal-old-secure">🛡️ Tu compra es segura y permanente. El mural se sellará el 11/06/2026.</div>
+    <p style="font-size:0.82rem;color:#ccc;line-height:1.6;margin-bottom:1.2rem;text-align:center;" data-lang="modal-old-body">Estás a punto de comprar <strong style="color:var(--gold)" id="modal-px-count">1 píxel</strong> — cada píxel vale <strong style="color:var(--gold);white-space:nowrap;">$1.00 USD</strong>.<br><span style="color:#aaa;">Tu huella quedará sellada para siempre al finalizar el Mundial 2026.</span></p>
+    <div style="display:flex;flex-direction:column;gap:0.6rem;">
+      <button onclick="closeModal()" style="background:linear-gradient(135deg,#003087,#009cde);color:#fff;border:none;border-radius:10px;padding:15px;font-size:1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:0.05em;box-shadow:0 0 20px rgba(0,144,222,0.4);">
+        <svg width="70" height="18" viewBox="0 0 70 18"><text y="14" font-size="14" font-weight="bold" font-family="Arial" fill="#fff">Pay</text><text y="14" x="28" font-size="14" font-weight="bold" font-family="Arial" fill="#00b4e6">Pal</text></svg>
+        PAGAR CON PAYPAL
+      </button>
+      <button onclick="closeModal()" style="background:#111;color:#fff;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
+        💳 PAGAR CON TARJETA
+        <span style="display:flex;gap:4px;align-items:center;margin-left:4px;">
+          <span style="background:#1a1f71;color:#fff;font-size:0.6rem;font-weight:900;font-style:italic;padding:2px 5px;border-radius:3px;letter-spacing:0.05em;">VISA</span>
+          <span style="background:#eb001b;color:#fff;font-size:0.6rem;font-weight:900;padding:2px 4px;border-radius:3px;position:relative;">
+            <span style="background:#ff5f00;width:8px;height:8px;border-radius:50%;display:inline-block;vertical-align:middle;"></span>
+            <span style="background:#f79e1b;width:8px;height:8px;border-radius:50%;display:inline-block;vertical-align:middle;margin-left:-4px;"></span>
+          </span>
+          <span style="background:#2557d6;color:#fff;font-size:0.55rem;font-weight:900;padding:2px 4px;border-radius:3px;">AMEX</span>
+        </span>
+      </button>
+    </div>
+    <div style="margin-top:1rem;text-align:center;">
+      <div style="font-size:0.75rem;color:#aaa;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px;">
+        🔒 <span data-lang="modal-old-secure">Tu compra es segura con PayPal</span>
+      </div>
+      <div style="font-size:0.7rem;color:#555;margin-top:4px;">🏆 El mural se sellará para siempre el 11/06/2026</div>
+    </div>
   </div>
 </div>
 
@@ -1232,7 +1264,7 @@ nav a:hover{color:var(--gold);}
 
     <div class="fq-item" data-cat="pagos" onclick="toggleFaq(this)">
       <div class="fq-head"><div class="fq-num">04</div><div class="fq-q" data-lang="fq-q4">¿Qué métodos de pago aceptan?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a4-body"><span class="fq-tag" data-lang="fq-cat-pagos">Pagos</span>Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex) a través de Stripe — una de las plataformas de pago más seguras del mundo, disponible en más de 195 países. El pago es encriptado y procesado al instante.</div>
+      <div class="fq-body" data-lang="fq-a4-body"><span class="fq-tag" data-lang="fq-cat-pagos">Pagos</span>Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex) a través de PayPal — una de las plataformas de pago más seguras y confiables del mundo. El pago es encriptado y procesado al instante.</div>
     </div>
 
     <div class="fq-item" data-cat="pixel" onclick="toggleFaq(this)">
@@ -1298,7 +1330,7 @@ nav a:hover{color:var(--gold);}
     <h3 class="fq-cta-title"><span data-lang="fq-cta-title-q">¿YA TIENES TODO CLARO? DEJA TU </span><em data-lang="fq-cta-gold">HUELLA</em></h3>
     <p class="fq-cta-sub" data-lang="fq-cta-sub">El mural se sellará eternamente al finalizar el Mundial 2026.</p>
     <button class="fq-cta-btn" onclick="document.getElementById('modal').classList.add('open')" data-lang="fq-cta-btn">⊞ COMPRAR MI PÍXEL — $1.00 USD</button>
-    <div class="fq-cta-note" data-lang="fq-secure-note">🔒 Pago seguro con Stripe · Permanente · Instantáneo</div>
+    <div class="fq-cta-note" data-lang="fq-secure-note">🔒 Pago seguro con PayPal · Permanente · Instantáneo</div>
   </div>
 
 </section>
@@ -1771,8 +1803,19 @@ function updateMiniGrid(px,py){
 
 // ── MODAL ──
 function openModal(x,y){
-  selX=x||selX;selY=y||selY;
-  document.getElementById('mcoord').textContent=`Coordenadas: x=${selX}, y=${selY}`;
+  selX=x||selX; selY=y||selY;
+  const en=window._lang==='en';
+  document.getElementById('mcoord').textContent=`📍 ${en?'Coordinates on mural':'Coordenadas en el mural'}: X=${selX}, Y=${selY}`;
+  const sel=window._muSel||{w:1,h:1};
+  const total=sel.w*sel.h;
+  const sizeEl=document.getElementById('modal-block-size');
+  const pxEl=document.getElementById('modal-block-px');
+  const priceEl=document.getElementById('modal-block-price');
+  const pxCount=document.getElementById('modal-px-count');
+  if(sizeEl) sizeEl.textContent=`${sel.w}×${sel.h}`;
+  if(pxEl) pxEl.textContent=total.toLocaleString();
+  if(priceEl) priceEl.textContent=`$${total.toLocaleString()} USD`;
+  if(pxCount) pxCount.textContent=en?`${total.toLocaleString()} pixels`:`${total.toLocaleString()} píxeles`;
   document.getElementById('modal').classList.add('open');
 }
 function showMaxWarn(){
@@ -1832,7 +1875,7 @@ const TRANS = {
     'cf-step2-badge':'PASO 02','cf-step2-title':'Personaliza tu espacio',
     'cf-step2-desc':'Sube la imagen que quieras mostrar al mundo: bandera, logo, frase, fan art o recuerdo.',
     'cf-step3-badge':'PASO 03','cf-step3-title':'Compra y séllalo',
-    'cf-step3-desc':'Paga $1 USD por píxel con tarjeta a través de Stripe. Tu espacio queda tuyo para siempre en la historia.',
+    'cf-step3-desc':'Paga $1 USD por píxel de forma segura a través de PayPal. Tu espacio queda tuyo para siempre en la historia.',
     'cf-cta-title':'¿LISTO PARA DEJAR TU ','cf-cta-gold':'HUELLA ETERNA','cf-cta-sub':'El mural se sellará para siempre al finalizar el Mundial 2026.',
     'cf-cta-btn':'⊞ COMPRAR MI PÍXEL AHORA',
     // PRECIOS
@@ -1856,7 +1899,7 @@ const TRANS = {
     'fq-q3':'¿Cuánto cuesta un píxel?',
     'fq-a3':'Cada píxel cuesta $1.00 USD. Puedes comprar desde 1 solo píxel hasta un bloque de 100×100 píxeles. El precio es fijo.',
     'fq-q4':'¿Qué métodos de pago aceptan?',
-    'fq-a4':'Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex) a través de Stripe, disponible en más de 195 países.',
+    'fq-a4':'Aceptamos pagos seguros a través de PayPal. Puedes pagar con tu cuenta PayPal o con tarjeta de crédito/débito (Visa, Mastercard, Amex).',
     'fq-q5':'¿Puedo comprar más de un píxel?',
     'fq-a5':'Sí, puedes comprar tantos como quieras. El máximo es un bloque de 100×100 píxeles.',
     'fq-q6':'¿Qué puedo poner en mi píxel?',
@@ -1938,7 +1981,7 @@ const TRANS = {
     // EXTRA MISSING ES
     'fq-a2-body':'El mural se sellará el 19 de julio de 2026, al finalizar la final del Mundial. A partir de ese momento nadie podrá comprar más píxeles y el mural quedará congelado eternamente.',
     'fq-a3-body':'Cada píxel cuesta $1.00 USD. Puedes comprar desde 1 solo píxel hasta un bloque de 100×100 píxeles. El precio es fijo — no hay descuentos ni aumentos.',
-    'fq-a4-body':'Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex) a través de Stripe — una de las plataformas de pago más seguras del mundo, disponible en más de 195 países. El pago es encriptado y procesado al instante.',
+    'fq-a4-body':'Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex) a través de PayPal — una de las plataformas de pago más seguras y confiables del mundo. El pago es encriptado y procesado al instante.',
     'fq-a5-body':'Sí, puedes comprar tantos como quieras. El máximo por compra es un bloque de 100×100 píxeles. Muchos fans compran bloques para mostrar su bandera, logo o mensaje más grande.',
     'fq-a6-body':'Puedes subir cualquier imagen: bandera, logo, foto, fan art, texto pixelado o mensaje. También puedes enlazar tu Instagram, TikTok, Facebook, X o cualquier sitio web.',
     'fq-a7-body':'No. La imagen que subas al momento de la compra es definitiva y permanente. Esto garantiza la integridad del mural y le da mayor valor a cada píxel. Elige bien tu imagen antes de comprar.',
@@ -1957,17 +2000,17 @@ const TRANS = {
     'secure-full-text':'🔒 Compra <strong style="color:var(--gold)">segura y permanente</strong>',
     'fq-title-cf':'PREGUNTAS FRECUENTES',
     'fq-a5-cf':'¡Por supuesto! Puedes comprar tantos píxeles como quieras. Más píxeles = más espacio para tu imagen o mensaje. Muchos fans compran bloques de 10x10 o más.',
-    'fq-a4-cf':'Aceptamos tarjetas de crédito/débito (Visa, Mastercard, Amex) a través de Stripe. El pago es seguro, encriptado y procesado instantáneamente.',
+    'fq-a4-cf':'Aceptamos pagos a través de PayPal. Puedes usar tu cuenta PayPal o tarjeta de crédito/débito. El pago es seguro, encriptado y procesado instantáneamente.',
     'fq-a8-cf':'Tu imagen aparece en el mural de forma instantánea, segundos después de confirmar tu compra. Podrás verla en el mural en tiempo real.',
     'fq-a9-cf':'Desde cualquier país del mundo. El mural es global — ya hay participantes de más de 50 países. Cualquier persona apasionada por el fútbol puede ser parte.',
     'fq-a1-full':'Al finalizar el Mundial 2026 el mural se congela y sella permanentemente. Nadie podrá modificarlo ni eliminarlo. Es un recuerdo histórico digital eterno que quedará en línea para siempre.',
-    'fq-secure-note':'🔒 Pago seguro con Stripe · Permanente · Instantáneo',
+    'fq-secure-note':'<img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" style="height:16px;vertical-align:middle;margin-right:4px;border-radius:3px;"> Pago seguro con PayPal · Permanente · Instantáneo',
     'pr-price-unit':'por píxel',
     'modal-max-title':'LÍMITE MÁXIMO',
     'modal-max-warn-btn':'✅ GRACIAS',
     'modal-confirm-title-old':'🏆 Tu Píxel',
     'modal-old-body':'Estás a punto de comprar este píxel por <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Tu huella quedará sellada para siempre al finalizar el Mundial 2026.',
-    'modal-old-secure':'🛡️ Tu compra es segura y permanente. El mural se sellará el 11/06/2026.',
+    'modal-old-secure':'Tu compra es segura con PayPal',
     'ct-chars-label':' caracteres restantes',
     'ct-online-sub':' — respondemos en tiempo real durante horario de oficina.',
     'mu-wallet':'🔒 CONECTAR WALLET','mu-or':'o paga con tarjeta','mu-card':'💳 PAGAR CON TARJETA',
@@ -1981,7 +2024,7 @@ const TRANS = {
     'modal-confirm-body':'¿Estás seguro? Una vez comprado, la imagen será <strong style="color:#fff;">permanente y definitiva</strong>.',
     'modal-confirm-yes':'✅ SÍ, CONFIRMO — SUBIR MI IMAGEN',
     'modal-confirm-change':'✏️ CAMBIAR SELECCIÓN',
-    'modal-stripe-note':'🔒 Pago seguro con Stripe · Tu píxel aparece al instante',
+    'modal-stripe-note':'<img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" style="height:14px;vertical-align:middle;margin-right:4px;border-radius:3px;"> Pago seguro con PayPal · Tu píxel aparece al instante',
     'modal-upload-step':'Paso 3 de 4',
     'modal-upload-title':'SUBE TU <em>IMAGEN</em>',
     'modal-upload-gallery':'Galería','modal-upload-gallery-sub':'Desde tu teléfono o computador',
@@ -1991,7 +2034,7 @@ const TRANS = {
     'uw-cropper-title':'✂️ Ajusta tu imagen',
     'uw-cropper-hint':'Arrastra para mover · Pellizca para hacer zoom',
     'modal-upload-text-label':'Texto o enlace (opcional)',
-    'modal-upload-text-hint':'Visible al pasar el cursor sobre tu píxel en el mural',
+    'modal-upload-text-hint':'💡 Pon tu nombre, usuario de Instagram, Facebook, TikTok o el enlace de tu web — se mostrará al pasar el cursor sobre tu píxel',
     'modal-upload-pay-btn':'👁️ VER CÓMO QUEDARÁ',
     'modal-upload-back':'← VOLVER'
   },
@@ -2031,7 +2074,7 @@ const TRANS = {
     'cf-step2-badge':'STEP 02','cf-step2-title':'Personalize your space',
     'cf-step2-desc':'Upload the image you want to show the world: flag, logo, phrase, fan art or memory.',
     'cf-step3-badge':'STEP 03','cf-step3-title':'Buy and seal it',
-    'cf-step3-desc':'Pay $1 USD per pixel by card through Stripe. Your space is yours forever in history.',
+    'cf-step3-desc':'Pay $1 USD per pixel securely through PayPal. Your space is yours forever in history.',
     'cf-cta-title':'READY TO LEAVE YOUR ','cf-cta-gold':'ETERNAL MARK','cf-cta-sub':'The mural will be sealed forever at the end of the 2026 World Cup.',
     'cf-cta-btn':'⊞ BUY MY PIXEL NOW',
     // PRICING
@@ -2055,7 +2098,7 @@ const TRANS = {
     'fq-q3':'How much does a pixel cost?',
     'fq-a3':'Each pixel costs $1.00 USD. You can buy from 1 pixel up to a 100×100 block. The price is fixed.',
     'fq-q4':'What payment methods do you accept?',
-    'fq-a4':'We accept credit and debit cards (Visa, Mastercard, Amex) through Stripe, available in over 195 countries.',
+    'fq-a4':'We accept secure payments through PayPal. You can pay with your PayPal account or credit/debit card (Visa, Mastercard, Amex).',
     'fq-q5':'Can I buy more than one pixel?',
     'fq-a5':'Yes, you can buy as many as you want. The maximum is a 100×100 pixel block.',
     'fq-q6':'What can I put on my pixel?',
@@ -2137,7 +2180,7 @@ const TRANS = {
     // EXTRA MISSING EN
     'fq-a2-body':'The mural will be sealed on July 19, 2026, when the World Cup Final ends. From that moment on, no one can buy more pixels and the mural will be frozen forever.',
     'fq-a3-body':'Each pixel costs $1.00 USD. You can buy from 1 single pixel up to a 100×100 pixel block. The price is fixed — no discounts or increases.',
-    'fq-a4-body':'We accept credit and debit cards (Visa, Mastercard, Amex) through Stripe — one of the most secure payment platforms in the world, available in over 195 countries. Payment is encrypted and processed instantly.',
+    'fq-a4-body':'We accept payments through PayPal — one of the most trusted payment platforms in the world. Payment is encrypted and processed instantly.',
     'fq-a5-body':'Yes, you can buy as many as you want. The maximum per purchase is a 100×100 pixel block. Many fans buy blocks to display their flag, logo or a larger message.',
     'fq-a6-body':'You can upload any image: flag, logo, photo, fan art, pixelated text or message. You can also link your Instagram, TikTok, Facebook, X or any website.',
     'fq-a7-body':'No. The image you upload at the time of purchase is final and permanent. This guarantees the integrity of the mural and adds value to each pixel. Choose your image carefully before buying.',
@@ -2156,17 +2199,17 @@ const TRANS = {
     'secure-full-text':'🔒 <strong style="color:var(--gold)">Secure and permanent</strong> purchase',
     'fq-title-cf':'FREQUENTLY ASKED QUESTIONS',
     'fq-a5-cf':'Of course! You can buy as many pixels as you want. More pixels = more space for your image or message. Many fans buy 10x10 blocks or larger.',
-    'fq-a4-cf':'We accept credit/debit cards (Visa, Mastercard, Amex) through Stripe. Payment is secure, encrypted and processed instantly.',
+    'fq-a4-cf':'We accept payments through PayPal. You can use your PayPal account or credit/debit card. Payment is secure, encrypted and processed instantly.',
     'fq-a8-cf':'Your image appears on the mural instantly, seconds after confirming your purchase. You can see it in real time.',
     'fq-a9-cf':'From any country in the world. The mural is global — there are already participants from over 50 countries. Anyone passionate about football can be part of it.',
     'fq-a1-full':'When the 2026 World Cup ends, the mural is permanently frozen and sealed. No one can modify or delete it. It is an eternal digital historical memory that will remain online forever.',
-    'fq-secure-note':'🔒 Secure payment with Stripe · Permanent · Instant',
+    'fq-secure-note':'<img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" style="height:16px;vertical-align:middle;margin-right:4px;border-radius:3px;"> Secure payment with PayPal · Permanent · Instant',
     'pr-price-unit':'per pixel',
     'modal-max-title':'MAXIMUM LIMIT',
     'modal-max-warn-btn':'✅ THANKS',
     'modal-confirm-title-old':'🏆 Your Pixel',
     'modal-old-body':'You are about to purchase this pixel for <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Your mark will be sealed forever at the end of the 2026 World Cup.',
-    'modal-old-secure':'🛡️ Your purchase is secure and permanent. The mural will be sealed on 06/11/2026.',
+    'modal-old-secure':'Your purchase is secure with PayPal',
     'ct-chars-label':' characters remaining',
     'ct-online-sub':' — we respond in real time during office hours.',
     'mu-wallet':'🔒 CONNECT WALLET','mu-or':'or pay by card','mu-card':'💳 PAY BY CARD',
@@ -2180,7 +2223,7 @@ const TRANS = {
     'modal-confirm-body':'Are you sure? Once purchased, the image will be <strong style="color:#fff;">permanent and final</strong>.',
     'modal-confirm-yes':'✅ YES, CONFIRM — UPLOAD MY IMAGE',
     'modal-confirm-change':'✏️ CHANGE SELECTION',
-    'modal-stripe-note':'🔒 Secure payment with Stripe · Your pixel appears instantly',
+    'modal-stripe-note':'<img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" style="height:14px;vertical-align:middle;margin-right:4px;border-radius:3px;"> Secure payment with PayPal · Your pixel appears instantly',
     'modal-upload-step':'Step 3 of 4',
     'modal-upload-title':'UPLOAD YOUR <em>IMAGE</em>',
     'modal-upload-gallery':'Gallery','modal-upload-gallery-sub':'From your phone or computer',
@@ -2190,7 +2233,7 @@ const TRANS = {
     'uw-cropper-title':'✂️ Adjust your image',
     'uw-cropper-hint':'Drag to move · Pinch to zoom',
     'modal-upload-text-label':'Text or link (optional)',
-    'modal-upload-text-hint':'Visible when hovering over your pixel on the mural',
+    'modal-upload-text-hint':'💡 Add your name, Instagram, Facebook, TikTok handle or website link — shown when hovering over your pixel',
     'modal-upload-pay-btn':'👁️ SEE HOW IT WILL LOOK',
     'modal-upload-back':'← BACK'
   }
@@ -2829,7 +2872,7 @@ function showConfirmModal(s){
   const pixels=document.getElementById('mu-confirm-pixels');
   const price=document.getElementById('mu-confirm-price');
   const yesBtn=document.getElementById('mu-confirm-yes');
-  if(coord) coord.textContent=`${window._lang==='en'?'Corner':'Esquina'}: (${s.x1}, ${s.y1})`;
+  if(coord) coord.textContent=`📍 ${window._lang==='en'?'Coordinates on mural':'Coordenadas en el mural'}: X=${s.x1}, Y=${s.y1}`;
   if(block) block.textContent=`${w} x ${h}`;
   if(pixels) pixels.textContent=total.toLocaleString();
   if(price) price.innerHTML=`$${total.toLocaleString()} <span style="font-size:1rem;color:#fff;font-weight:700;">USD</span>`;
@@ -3136,7 +3179,7 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
     <button onclick="document.getElementById('mu-confirm-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:#666;font-size:1.3rem;cursor:pointer;">✕</button>
     <div style="font-size:1.5rem;margin-bottom:0.4rem;">⊞</div>
     <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;margin-bottom:0.3rem;" data-lang="modal-confirm-title">CONFIRMA TU SELECCIÓN</h3>
-    <div style="font-size:0.7rem;color:#FFD700;letter-spacing:0.1em;margin-bottom:1rem;" id="mu-confirm-coord">Esquina: (0, 0)</div>
+    <div style="font-size:0.7rem;color:#FFD700;letter-spacing:0.1em;margin-bottom:1rem;" id="mu-confirm-coord">📍 Posición en el mural: (0, 0)</div>
     <div style="background:#000;border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:1rem;margin-bottom:1.2rem;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">
         <div style="text-align:center;background:#111;border-radius:8px;padding:0.7rem;">
@@ -3313,7 +3356,7 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 .upc-btn-yes:hover{background:#fff;box-shadow:0 0 40px rgba(255,215,0,0.6);}
 .upc-btn-back{width:100%;padding:11px;border-radius:10px;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid rgba(255,215,0,0.2);background:transparent;color:#777;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
 .upc-btn-back:hover{border-color:rgba(255,215,0,0.4);color:#aaa;}
-.upc-secure{font-size:0.72rem;color:#444;margin-top:0.8rem;letter-spacing:0.04em;}
+.upc-secure{font-size:0.75rem;color:#aaa;margin-top:0.8rem;letter-spacing:0.04em;}
 </style>
   <div class="upc">
     <button class="upc-close" onclick="document.getElementById('mu-previewconfirm-modal').style.display='none';document.getElementById('mu-upload-modal').style.display='flex';">✕</button>
@@ -3331,7 +3374,7 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
     </div>
     <button class="upc-btn-yes" id="mu-previewconfirm-yes">✅ SÍ, ME ENCANTA — PAGAR AHORA</button>
     <button class="upc-btn-back" id="mu-previewconfirm-back" onclick="document.getElementById('mu-previewconfirm-modal').style.display='none';document.getElementById('mu-upload-modal').style.display='flex';">✏️ EDITAR IMAGEN</button>
-    <div class="upc-secure" data-lang="modal-stripe-note">🔒 Pago seguro con Stripe · Tu píxel aparece al instante</div>
+    <div class="upc-secure" data-lang="modal-stripe-note"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" style="height:14px;vertical-align:middle;margin-right:4px;border-radius:3px;"> Pago seguro con PayPal · Tu píxel aparece al instante</div>
   </div>
 </div>
 
