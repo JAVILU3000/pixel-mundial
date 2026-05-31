@@ -669,10 +669,18 @@ nav a:hover{color:var(--gold);}
       <div class="pa"><sup>$</sup>1<span>.00 USD</span></div>
       <div class="pn" data-lang="inicio-price-note">Pago único · Para siempre</div>
     </div>
-    <button class="btn-wallet" data-lang="mu-wallet" onclick="openModal(selX,selY)">🔒 CONECTAR WALLET</button>
-    <div class="or-line" data-lang="mu-or" data-lang="inicio-or">o paga con tarjeta</div>
-    <button class="btn-card" data-lang="mu-card" onclick="openModal(selX,selY)">💳 PAGAR CON TARJETA</button>
-    <div class="secure-txt" data-lang="secure-full-text">🔒 Compra <strong style="color:var(--gold)">segura y permanente</strong></div>
+    <button class="btn-wallet" onclick="openModal(selX,selY)" style="background:linear-gradient(135deg,#003087,#009cde);box-shadow:0 0 20px rgba(0,144,222,0.3);">
+      <svg width="58" height="16" viewBox="0 0 70 18"><text y="14" font-size="14" font-weight="bold" font-family="Arial" fill="#fff">Pay</text><text y="14" x="28" font-size="14" font-weight="bold" font-family="Arial" fill="#00b4e6">Pal</text></svg>
+      PAGAR CON PAYPAL
+    </button>
+    <button class="btn-card" data-lang="mu-card" onclick="openModal(selX,selY)" style="border-color:rgba(255,215,0,0.4);">
+      💳 PAGAR CON TARJETA
+      <span style="display:flex;gap:3px;align-items:center;margin-left:2px;">
+        <span style="background:#1a1f71;color:#fff;font-size:0.55rem;font-weight:900;font-style:italic;padding:2px 4px;border-radius:2px;letter-spacing:0.03em;">VISA</span>
+        <span style="background:#2557d6;color:#fff;font-size:0.5rem;font-weight:900;padding:2px 4px;border-radius:2px;letter-spacing:0.02em;">AMEX</span>
+      </span>
+    </button>
+    <div class="secure-txt">🔒 <span data-lang="modal-old-secure">Tu compra es segura con PayPal</span></div>
   </div>
 </div>
 
