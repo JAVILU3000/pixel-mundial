@@ -423,7 +423,7 @@ nav a:hover{color:var(--gold);}
   box-shadow:0 -4px 20px rgba(0,0,0,0.6);
 }
 @media(max-width:900px){
-  #mobile-bottom-nav{display:flex;width:100vw;}
+  #mobile-bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;width:100vw;}
   body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px)) !important;}
 }
 .mbn-item{
