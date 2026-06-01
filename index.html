@@ -762,14 +762,14 @@ nav a:hover{color:var(--gold);}
         <div class="mu-price-note" data-lang="inicio-price-note">Pago único · Para siempre</div>
         <div class="mu-price-sel" id="mu-sel-info" data-lang="mu-sel-none">Ningún píxel seleccionado</div>
       </div>
-      <button class="mu-card-btn" data-lang="mu-card" onclick="openModal(window.muSelX||0,window.muSelY||0)" style="border:1px solid rgba(255,215,0,0.4);">
+      <button class="mu-card-btn" data-lang="mu-card" onclick="openModal(window.muSelX||0,window.muSelY||0)" style="border:1px solid rgba(255,215,0,0.4);display:none;">
         💳 PAGAR CON TARJETA
         <span style="display:flex;gap:3px;align-items:center;margin-left:2px;">
           <span style="background:#1a1f71;color:#fff;font-size:0.55rem;font-weight:900;font-style:italic;padding:2px 4px;border-radius:2px;letter-spacing:0.03em;">VISA</span>
           <span style="background:#2557d6;color:#fff;font-size:0.5rem;font-weight:900;padding:2px 4px;border-radius:2px;letter-spacing:0.02em;">AMEX</span>
         </span>
       </button>
-      <div class="mu-secure"><span data-lang="secure-payment-txt">Pago 100% seguro 🔒 Visa · Mastercard · Payphone</span></div>
+      <div class="mu-secure" style="display:none;"><span data-lang="secure-payment-txt">Pago 100% seguro 🔒 Visa · Mastercard · Payphone</span></div>
     </div>
   </div>
   <div class="mu-legend">
