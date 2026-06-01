@@ -3594,9 +3594,18 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 </div><!-- /#page-wrap -->
 
 <!-- PAYPHONE CAJITA DE PAGOS OVERLAY -->
-<div id="pp-box-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.96);align-items:center;justify-content:center;flex-direction:column;padding:1rem;">
-  <button onclick="closePPBox()" style="position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:#aaa;font-size:1.8rem;cursor:pointer;line-height:1;" aria-label="Cerrar">✕</button>
-  <div id="pp-box-inner" style="width:100%;max-width:460px;"></div>
+<div id="pp-box-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem;">
+  <div style="position:relative;background:#1a1a1a;border:2px solid #FFD700;border-radius:16px;padding:24px;width:100%;max-width:480px;box-shadow:0 0 40px rgba(255,215,0,0.15);">
+    <!-- Botón cerrar -->
+    <button onclick="closePPBox()" aria-label="Cerrar" style="position:absolute;top:12px;right:14px;background:none;border:1px solid rgba(255,215,0,0.25);border-radius:6px;color:#aaa;font-size:1rem;line-height:1;padding:4px 8px;cursor:pointer;transition:color .2s,border-color .2s;" onmouseover="this.style.color='#FFD700';this.style.borderColor='#FFD700';" onmouseout="this.style.color='#aaa';this.style.borderColor='rgba(255,215,0,0.25)';">✕</button>
+    <!-- Encabezado -->
+    <div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,215,0,0.15);">
+      <div style="font-size:1.4rem;margin-bottom:6px;">🔒</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;color:#FFD700;font-weight:700;">Pago Seguro · Mundial Eterno 2026</div>
+    </div>
+    <!-- Contenedor SDK -->
+    <div id="pp-box-inner"></div>
+  </div>
 </div>
 
 <script src="https://cdn.payphonetodoesposible.com/box/v2.0/payphone-payment-box.js"></script>
