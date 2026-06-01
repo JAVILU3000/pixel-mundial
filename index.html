@@ -1473,7 +1473,8 @@ nav a:hover{color:var(--gold);}
     <div class="ct-form-col">
       <div class="ct-col-title" data-lang="ct-form-title">Envíanos un mensaje</div>
 
-      <form action="https://formspree.io/f/mrednbbk" method="POST">
+      <div id="ct-form-feedback" style="display:none;padding:1.2rem;border-radius:8px;font-weight:700;font-size:0.95rem;text-align:center;margin-bottom:1rem;"></div>
+      <form id="ct-contact-form" action="https://formspree.io/f/mrednbbk" method="POST">
       <div class="ct-form-row">
         <div class="ct-field">
           <label class="ct-label-f" data-lang="ct-name-label">Tu nombre</label>
@@ -1736,6 +1737,50 @@ function selectChip(el){
   const hidden = document.getElementById('ct-subject-hidden');
   if(hidden) hidden.value = el.textContent.trim();
 }
+
+// ── CONTACTO: ENVÍO AJAX ──
+(function(){
+  const form = document.getElementById('ct-contact-form');
+  if(!form) return;
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const feedback = document.getElementById('ct-form-feedback');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    try {
+      const res = await fetch('https://formspree.io/f/mrednbbk', {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {Accept: 'application/json'}
+      });
+      if(res.ok){
+        form.style.display = 'none';
+        feedback.style.display = 'block';
+        feedback.style.background = '#0d0d0d';
+        feedback.style.border = '1px solid #FFD700';
+        feedback.style.color = '#FFD700';
+        feedback.textContent = '✅ ¡Mensaje enviado! Te responderemos pronto.';
+      } else {
+        feedback.style.display = 'block';
+        feedback.style.background = '#1a0000';
+        feedback.style.border = '1px solid #ff4444';
+        feedback.style.color = '#ff4444';
+        feedback.textContent = '❌ Error al enviar. Intenta de nuevo.';
+        btn.disabled = false;
+        btn.textContent = '✉ ENVIAR MENSAJE';
+      }
+    } catch(err){
+      feedback.style.display = 'block';
+      feedback.style.background = '#1a0000';
+      feedback.style.border = '1px solid #ff4444';
+      feedback.style.color = '#ff4444';
+      feedback.textContent = '❌ Error al enviar. Intenta de nuevo.';
+      btn.disabled = false;
+      btn.textContent = '✉ ENVIAR MENSAJE';
+    }
+  });
+})();
 
 // ── CONTACTO: BUSCADOR DE PAÍSES ──
 const COUNTRIES2 = [
