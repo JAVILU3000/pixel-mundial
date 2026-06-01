@@ -1761,6 +1761,13 @@ function selectChip(el){
         feedback.style.border = '1px solid #FFD700';
         feedback.style.color = '#FFD700';
         feedback.textContent = '✅ ¡Mensaje enviado! Te responderemos pronto.';
+        setTimeout(function(){
+          feedback.style.display = 'none';
+          form.reset();
+          form.style.display = '';
+          btn.disabled = false;
+          btn.textContent = '✉ ENVIAR MENSAJE';
+        }, 5000);
       } else {
         feedback.style.display = 'block';
         feedback.style.background = '#1a0000';
