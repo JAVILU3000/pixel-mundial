@@ -534,7 +534,7 @@ nav a:hover{color:var(--gold);}
     </div>
     <p style="font-size:0.82rem;color:#ccc;line-height:1.6;margin-bottom:1.2rem;text-align:center;" data-lang="modal-old-body">Estás a punto de comprar <strong style="color:var(--gold)" id="modal-px-count">1 píxel</strong> — cada píxel vale <strong style="color:var(--gold);white-space:nowrap;">$1.00 USD</strong>.<br><span style="color:#aaa;">Tu huella quedará sellada para siempre al finalizar el Mundial 2026.</span></p>
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button onclick="closeModal()" style="background:var(--gold);color:#000;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
+      <button onclick="pagarConTarjeta()" style="background:var(--gold);color:#000;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
         <span id="modal-btn-card-txt">💳 PAGAR CON TARJETA</span>
         <span style="display:flex;gap:4px;align-items:center;margin-left:4px;">
           <span style="background:#1a1f71;color:#fff;font-size:0.6rem;font-weight:900;font-style:italic;padding:2px 5px;border-radius:3px;letter-spacing:0.05em;">VISA</span>
@@ -1921,6 +1921,37 @@ function showMaxWarn(){
   document.getElementById('modal-max-warn').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+function pagarConTarjeta(){
+  const sel=window._muSel||{w:1,h:1};
+  const total=sel.w*sel.h;
+  const amountCents=total*100;
+  const clientTransactionId='px-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
+  closeModal();
+  const overlay=document.getElementById('pp-box-overlay');
+  overlay.style.display='flex';
+  document.getElementById('pp-box-inner').innerHTML='';
+  new PPaymentButtonBox({
+    token:'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUIc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw',
+    amount:amountCents,
+    amountWithoutTax:amountCents,
+    amountWithTax:0,
+    tax:0,
+    service:0,
+    tip:0,
+    currency:'USD',
+    storeId:'0d38c7cf-abd6-46d7-b6ae-ba497c02ce79',
+    reference:'Pixel Mundial X='+selX+' Y='+selY,
+    clientTransactionId:clientTransactionId,
+    responseUrl:'https://mundialeterno.com/pago-resultado',
+    cancellationUrl:'https://mundialeterno.com/'
+  }).render('pp-box-inner');
+}
+function closePPBox(){
+  document.getElementById('pp-box-overlay').style.display='none';
+  document.getElementById('pp-box-inner').innerHTML='';
+}
+
 document.getElementById('mcl').addEventListener('click',closeModal);
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 
@@ -3561,6 +3592,14 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 </nav>
 
 </div><!-- /#page-wrap -->
+
+<!-- PAYPHONE CAJITA DE PAGOS OVERLAY -->
+<div id="pp-box-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.96);align-items:center;justify-content:center;flex-direction:column;padding:1rem;">
+  <button onclick="closePPBox()" style="position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:#aaa;font-size:1.8rem;cursor:pointer;line-height:1;" aria-label="Cerrar">✕</button>
+  <div id="pp-box-inner" style="width:100%;max-width:460px;"></div>
+</div>
+
+<script src="https://cdn.payphonetodoesposible.com/box/v2.0/payphone-payment-box.js"></script>
 </body>
 </html
 

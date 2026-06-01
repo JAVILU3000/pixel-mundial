@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Resultado de Pago · Mundial Eterno 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--gold:#FFD700;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#0a0a0a;color:#fff;font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.12em;color:var(--gold);margin-bottom:2rem;text-decoration:none;}
+    .card{background:#111;border:1px solid rgba(255,215,0,0.2);border-radius:16px;padding:2.5rem 2rem;max-width:440px;width:100%;text-align:center;}
+    .icon{font-size:3.5rem;margin-bottom:1rem;line-height:1;}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.05em;margin-bottom:0.75rem;}
+    p{color:#aaa;font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem;}
+    .badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;margin-bottom:1rem;}
+    .badge-ok{background:rgba(0,200,100,0.12);color:#00c864;border:1px solid rgba(0,200,100,0.3);}
+    .badge-err{background:rgba(255,60,60,0.12);color:#ff4444;border:1px solid rgba(255,60,60,0.3);}
+    .badge-pend{background:rgba(255,215,0,0.1);color:var(--gold);border:1px solid rgba(255,215,0,0.3);}
+    .btn{display:inline-block;margin-top:0.5rem;padding:0.8rem 2rem;background:var(--gold);color:#000;font-weight:900;font-size:0.85rem;letter-spacing:0.08em;border-radius:10px;text-decoration:none;transition:opacity .2s;}
+    .btn:hover{opacity:0.85;}
+    .detail{font-size:0.68rem;color:#444;margin-top:1.5rem;word-break:break-all;line-height:1.5;}
+    .spinner{width:48px;height:48px;border:4px solid rgba(255,215,0,0.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1.5rem;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+  </style>
+</head>
+<body>
+  <a href="/" class="logo">🏆 MUNDIAL ETERNO 2026</a>
+  <div class="card" id="card">
+    <div class="spinner" id="spinner"></div>
+    <h1 id="title" style="color:var(--gold)">Verificando pago…</h1>
+    <p id="msg">Estamos confirmando tu transacción. Por favor espera un momento.</p>
+  </div>
+
+<script>
+(async () => {
+  const TOKEN = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUIc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const clientTransactionId = params.get('clientTransactionId');
+  const card = document.getElementById('card');
+
+  function render(ok, status) {
+    if (ok) {
+      card.innerHTML = `
+        <div class="icon">🏆</div>
+        <div class="badge badge-ok">✓ PAGO APROBADO</div>
+        <h1 style="color:#00c864">¡Gracias!</h1>
+        <p>Tu píxel en el Mural Mundial Eterno 2026 ha sido reservado.<br>Tu huella quedará sellada para siempre al finalizar el Mundial.</p>
+        <a href="/" class="btn">← Ver el Mural</a>
+        <div class="detail">ID de transacción: ${clientTransactionId}</div>`;
+    } else if (status === 'Cancelled') {
+      card.innerHTML = `
+        <div class="icon">↩️</div>
+        <div class="badge badge-pend">CANCELADO</div>
+        <h1 style="color:var(--gold)">Pago cancelado</h1>
+        <p>Cancelaste el proceso de pago. Puedes volver e intentarlo de nuevo cuando quieras.</p>
+        <a href="/" class="btn">← Volver al Mural</a>`;
+    } else {
+      card.innerHTML = `
+        <div class="icon">⚠️</div>
+        <div class="badge badge-err">PAGO NO COMPLETADO</div>
+        <h1 style="color:#ff4444">Error en el pago</h1>
+        <p>No se pudo completar el pago. Por favor inténtalo de nuevo o contáctanos si el problema persiste.</p>
+        <a href="/" class="btn">← Volver al Mural</a>
+        <div class="detail">Estado: ${status || 'Error desconocido'}</div>`;
+    }
+  }
+
+  if (!id || !clientTransactionId) {
+    render(false, 'Parámetros inválidos');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://paymentbox.payphonetodoesposible.com/api/confirm', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify({ id: parseInt(id, 10), clientTransactionId })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    render(data.transactionStatus === 'Approved', data.transactionStatus);
+  } catch (e) {
+    render(false, 'Error de conexión');
+  }
+})();
+</script>
+</body>
+</html>
