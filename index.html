@@ -1473,43 +1473,46 @@ nav a:hover{color:var(--gold);}
     <div class="ct-form-col">
       <div class="ct-col-title" data-lang="ct-form-title">Envíanos un mensaje</div>
 
+      <form action="https://formspree.io/f/mrednbbk" method="POST">
       <div class="ct-form-row">
         <div class="ct-field">
           <label class="ct-label-f" data-lang="ct-name-label">Tu nombre</label>
-          <input type="text" class="ct-input" id="ct-name-input" placeholder="Juan Pérez">
+          <input type="text" class="ct-input" id="ct-name-input" name="name" placeholder="Juan Pérez">
         </div>
         <div class="ct-field">
           <label class="ct-label-f" data-lang="ct-email-label">Tu email</label>
-          <input type="text" class="ct-input" placeholder="juan@email.com" id="ct-email-input">
+          <input type="email" class="ct-input" placeholder="juan@email.com" id="ct-email-input" name="email">
         </div>
       </div>
 
       <div class="ct-field">
         <label class="ct-label-f" data-lang="ct-subject-label">Asunto</label>
         <div class="ct-chips">
-          <button class="ct-chip active" onclick="selectChip(this)" data-lang="ct-chip-1" data-lang="ct-chip-1">Compra de píxeles</button>
-          <button class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-2" data-lang="ct-chip-2">Problema técnico</button>
-          <button class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-3" data-lang="ct-alliance-title" data-lang="ct-chip-3">Alianzas y marcas</button>
-          <button class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-4" data-lang="ct-chip-4">Prensa y medios</button>
-          <button class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-5">Otro</button>
+          <button type="button" class="ct-chip active" onclick="selectChip(this)" data-lang="ct-chip-1" data-lang="ct-chip-1">Compra de píxeles</button>
+          <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-2" data-lang="ct-chip-2">Problema técnico</button>
+          <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-3" data-lang="ct-alliance-title" data-lang="ct-chip-3">Alianzas y marcas</button>
+          <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-4" data-lang="ct-chip-4">Prensa y medios</button>
+          <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-5">Otro</button>
         </div>
+        <input type="hidden" name="subject" id="ct-subject-hidden" value="Compra de píxeles">
       </div>
 
       <div class="ct-field">
         <label class="ct-label-f" data-lang="ct-msg-label">Tu mensaje</label>
-        <textarea class="ct-input ct-textarea" id="ct-msg" placeholder="Cuéntanos en qué podemos ayudarte..." id="ct-msg-input" maxlength="500" oninput="updateCounter()"></textarea>
+        <textarea class="ct-input ct-textarea" id="ct-msg" name="message" placeholder="Cuéntanos en qué podemos ayudarte..." id="ct-msg-input" maxlength="500" oninput="updateCounter()"></textarea>
         <div class="ct-char-count"><span id="ct-chars">500</span><span data-lang="ct-chars-label"> caracteres restantes</span></div>
       </div>
 
       <div class="ct-field">
         <label class="ct-label-f" data-lang="ct-country-label">Tu país</label>
         <div class="ct-country-wrap">
-          <input type="text" class="ct-input" id="ct-country-search" placeholder="🔍 Escribe tu país..." id="ct-country-input" oninput="filterCountries(this.value)" autocomplete="off">
+          <input type="text" class="ct-input" id="ct-country-search" name="country" placeholder="🔍 Escribe tu país..." id="ct-country-input" oninput="filterCountries(this.value)" autocomplete="off">
           <div class="ct-country-list" id="ct-country-list"></div>
         </div>
       </div>
 
-      <button class="ct-send-btn" data-lang="ct-send-btn">✉ ENVIAR MENSAJE</button>
+      <button type="submit" class="ct-send-btn" data-lang="ct-send-btn">✉ ENVIAR MENSAJE</button>
+      </form>
       <div class="ct-send-note" data-lang="ct-privacy">🔒 Tu información es privada y nunca será compartida con terceros.</div>
     </div>
 
@@ -1730,6 +1733,8 @@ function updateCounter(){
 function selectChip(el){
   document.querySelectorAll('.ct-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
+  const hidden = document.getElementById('ct-subject-hidden');
+  if(hidden) hidden.value = el.textContent.trim();
 }
 
 // ── CONTACTO: BUSCADOR DE PAÍSES ──
