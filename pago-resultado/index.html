@@ -89,21 +89,26 @@
       const ref = data.reference || '';
       const xMatch = ref.match(/X=(\d+)/);
       const yMatch = ref.match(/Y=(\d+)/);
-      const pixeles = Math.round((data.amount || 0) / 100);
+      const tamano = Math.round((data.amount || 0) / 100);
+      let pending = {};
+      try { pending = JSON.parse(localStorage.getItem('pending_' + clientTransactionId) || '{}'); } catch(e) {}
       fetch('https://script.google.com/macros/s/AKfycbysU-Y65tyE-xvJuNghE-bHEYvHuX2G1m7kTbCLwdrbxOukChe0gDPmkMENEOwFBFCu/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          action: 'confirmPayment',
           fecha: new Date().toISOString(),
           transactionId: data.transactionId || id || clientTransactionId,
           monto: (data.amount || 0) / 100,
           x: xMatch ? xMatch[1] : '',
           y: yMatch ? yMatch[1] : '',
-          tamano: pixeles,
-          nombre: data.email || data.phoneNumber || data.phone || ''
+          tamano: tamano,
+          nombre: pending.texto || data.email || data.phoneNumber || data.phone || '',
+          imagenUrl: pending.imagenUrl || ''
         })
       }).catch(() => {});
+      try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
     }
     render(data.transactionStatus === 'Approved', data.transactionStatus);
   } catch (e) {
