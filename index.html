@@ -3289,8 +3289,10 @@ function uwShowPreview(dataUrl,file){
       const tmp=document.createElement('canvas');
       tmp.width=outW; tmp.height=outH;
       const tctx=tmp.getContext('2d');
+      tctx.imageSmoothingEnabled=true;
+      tctx.imageSmoothingQuality='high';
       tctx.drawImage(img,srcX,srcY,srcW,srcH,0,0,outW,outH);
-      window.muUploadedImageData = tmp.toDataURL('image/jpeg',0.95);
+      window.muUploadedImageData = tmp.toDataURL('image/jpeg',1.0);
     }
 
     cropImg.src=dataUrl;
