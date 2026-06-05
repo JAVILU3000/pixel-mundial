@@ -17,6 +17,7 @@
     .badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;margin-bottom:1rem;}
     .badge-ok{background:rgba(0,200,100,0.12);color:#00c864;border:1px solid rgba(0,200,100,0.3);}
     .badge-err{background:rgba(255,60,60,0.12);color:#ff4444;border:1px solid rgba(255,60,60,0.3);}
+    .badge-warn{background:rgba(255,165,0,0.12);color:#ffa500;border:1px solid rgba(255,165,0,0.3);}
     .badge-pend{background:rgba(255,215,0,0.1);color:var(--gold);border:1px solid rgba(255,215,0,0.3);}
     .btn{display:inline-block;margin-top:0.5rem;padding:0.8rem 2rem;background:var(--gold);color:#000;font-weight:900;font-size:0.85rem;letter-spacing:0.08em;border-radius:10px;text-decoration:none;transition:opacity .2s;}
     .btn:hover{opacity:0.85;}
@@ -28,91 +29,157 @@
 <body>
   <a href="/" class="logo">🏆 MUNDIAL ETERNO 2026</a>
   <div class="card" id="card">
-    <div class="spinner" id="spinner"></div>
-    <h1 id="title" style="color:var(--gold)">Verificando pago…</h1>
-    <p id="msg">Estamos confirmando tu transacción. Por favor espera un momento.</p>
+    <div class="spinner"></div>
+    <h1 style="color:var(--gold)">Verificando pago…</h1>
+    <p>Estamos confirmando tu transacción. Por favor espera un momento.</p>
   </div>
 
 <script>
 (async () => {
   const TOKEN = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUIc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
+  const WEBHOOK = 'https://script.google.com/macros/s/AKfycbysU-Y65tyE-xvJuNghE-bHEYvHuX2G1m7kTbCLwdrbxOukChe0gDPmkMENEOwFBFCu/exec';
+  const PAYPHONE_URL = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   const clientTransactionId = params.get('clientTransactionId');
   const card = document.getElementById('card');
 
-  function render(ok, status) {
-    if (ok) {
+  function render(type, txId) {
+    if (type === 'approved') {
       card.innerHTML = `
         <div class="icon">🏆</div>
         <div class="badge badge-ok">✓ PAGO APROBADO</div>
         <h1 style="color:#00c864">¡Gracias!</h1>
         <p>Tu píxel en el Mural Mundial Eterno 2026 ha sido reservado.<br>Tu huella quedará sellada para siempre al finalizar el Mundial.</p>
         <a href="/" class="btn">← Ver el Mural</a>
-        <div class="detail">ID de transacción: ${clientTransactionId}</div>`;
-    } else if (status === 'Cancelled') {
+        <div class="detail">ID de transacción: ${txId}</div>`;
+    } else if (type === 'cancelled') {
       card.innerHTML = `
         <div class="icon">↩️</div>
         <div class="badge badge-pend">CANCELADO</div>
         <h1 style="color:var(--gold)">Pago cancelado</h1>
         <p>Cancelaste el proceso de pago. Puedes volver e intentarlo de nuevo cuando quieras.</p>
         <a href="/" class="btn">← Volver al Mural</a>`;
+    } else if (type === 'tech_error') {
+      card.innerHTML = `
+        <div class="icon">⚠️</div>
+        <div class="badge badge-warn">VERIFICACIÓN PENDIENTE</div>
+        <h1 style="color:#ffa500">Error técnico</h1>
+        <p>Tu pago puede haber sido procesado correctamente, pero no pudimos verificarlo en este momento. Hemos registrado tu transacción para revisión manual.<br><br>Escríbenos a <strong>contacto@mundialeterno.com</strong> con tu ID y te confirmamos en menos de 24 h.</p>
+        <a href="/" class="btn">← Volver al Mural</a>
+        <div class="detail">ID de transacción: ${txId || clientTransactionId}<br>Payphone ID: ${id}</div>`;
     } else {
       card.innerHTML = `
         <div class="icon">⚠️</div>
         <div class="badge badge-err">PAGO NO COMPLETADO</div>
         <h1 style="color:#ff4444">Error en el pago</h1>
         <p>No se pudo completar el pago. Por favor inténtalo de nuevo o contáctanos si el problema persiste.</p>
-        <a href="/" class="btn">← Volver al Mural</a>
-        <div class="detail">Estado: ${status || 'Error desconocido'}</div>`;
+        <a href="/" class="btn">← Volver al Mural</a>`;
     }
   }
 
+  // Fire-and-forget hacia Google Sheets
+  function saveToSheets(payload) {
+    fetch(WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  }
+
+  // Llama a Payphone con reintentos y timeout por intento
+  async function payphoneConfirm(maxAttempts) {
+    let lastErr;
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      if (attempt > 0) {
+        await new Promise(r => setTimeout(r, 1500 * attempt)); // 0 s, 1.5 s, 3 s
+      }
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 12000);
+      try {
+        const res = await fetch(PAYPHONE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + TOKEN
+          },
+          body: JSON.stringify({ id: parseInt(id, 10), clientTransactionId }),
+          signal: ctrl.signal
+        });
+        clearTimeout(timer);
+        return res; // puede ser !res.ok; el caller lo maneja
+      } catch (e) {
+        clearTimeout(timer);
+        lastErr = e;
+      }
+    }
+    throw lastErr;
+  }
+
   if (!id || !clientTransactionId) {
-    render(false, 'Parámetros inválidos');
+    render('failed');
     return;
   }
 
+  // Recuperar datos guardados antes del pago (misma pestaña / mismo dispositivo)
+  let pending = {};
+  try { pending = JSON.parse(localStorage.getItem('pending_' + clientTransactionId) || '{}'); } catch(e) {}
+
   try {
-    const res = await fetch('https://paymentbox.payphonetodoesposible.com/api/confirm', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + TOKEN
-      },
-      body: JSON.stringify({ id: parseInt(id, 10), clientTransactionId })
-    });
+    const res = await payphoneConfirm(3);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
+
     if (data.transactionStatus === 'Approved') {
       const ref = data.reference || '';
       const xMatch = ref.match(/X=(\d+)/);
       const yMatch = ref.match(/Y=(\d+)/);
-      const tamano = Math.round((data.amount || 0) / 100);
-      let pending = {};
-      try { pending = JSON.parse(localStorage.getItem('pending_' + clientTransactionId) || '{}'); } catch(e) {}
-      fetch('https://script.google.com/macros/s/AKfycbysU-Y65tyE-xvJuNghE-bHEYvHuX2G1m7kTbCLwdrbxOukChe0gDPmkMENEOwFBFCu/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'confirmPayment',
-          fecha: new Date().toISOString(),
-          transactionId: data.transactionId || id || clientTransactionId,
-          monto: (data.amount || 0) / 100,
-          x: xMatch ? xMatch[1] : '',
-          y: yMatch ? yMatch[1] : '',
-          tamano: tamano,
-          nombre: pending.texto || data.email || data.phoneNumber || data.phone || '',
-          imagenUrl: pending.imagenUrl || ''
-        })
-      }).catch(() => {});
+      const monto = (data.amount || 0) / 100;
+
+      saveToSheets({
+        action: 'confirmPayment',
+        fecha: new Date().toISOString(),
+        transactionId: data.transactionId || id || clientTransactionId,
+        monto: monto,
+        x: xMatch ? xMatch[1] : (pending.x || ''),
+        y: yMatch ? yMatch[1] : (pending.y || ''),
+        tamano: Math.round(monto),
+        nombre: pending.texto || data.email || data.phoneNumber || data.phone || '',
+        imagenUrl: pending.imagenUrl || '',
+        status: 'Approved'
+      });
+
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
+      render('approved', data.transactionId || clientTransactionId);
+
+    } else if (data.transactionStatus === 'Cancelled') {
+      render('cancelled');
+    } else {
+      render('failed');
     }
-    render(data.transactionStatus === 'Approved', data.transactionStatus);
+
   } catch (e) {
-    render(false, 'Error de conexión');
+    // Payphone no respondió (red, CORS, timeout). El banco SÍ puede haber cobrado.
+    // Guardamos en Sheets como PENDING_VERIFICATION para revisión manual.
+    const monto = (pending.w && pending.h) ? pending.w * pending.h : 0;
+    saveToSheets({
+      action: 'confirmPayment',
+      fecha: new Date().toISOString(),
+      transactionId: clientTransactionId,
+      monto: monto,
+      x: pending.x || '',
+      y: pending.y || '',
+      tamano: monto,
+      nombre: pending.texto || '',
+      imagenUrl: pending.imagenUrl || '',
+      status: 'PENDING_VERIFICATION',
+      payphoneId: id,
+      error: e.message || 'conexion'
+    });
+
+    render('tech_error', clientTransactionId);
   }
 })();
 </script>
