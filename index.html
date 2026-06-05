@@ -2008,7 +2008,6 @@ async function pagarConTarjeta(){
   try{
     localStorage.setItem('pending_'+clientTransactionId,JSON.stringify({
       imagenUrl,
-      imageDataUrl: window.muUploadedImageData||'',
       texto,x:selX,y:selY,w:sel.w,h:sel.h
     }));
   }catch(e){}
