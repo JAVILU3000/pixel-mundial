@@ -2007,7 +2007,9 @@ async function pagarConTarjeta(){
   }
   try{
     localStorage.setItem('pending_'+clientTransactionId,JSON.stringify({
-      imagenUrl,texto,x:selX,y:selY,w:sel.w,h:sel.h
+      imagenUrl,
+      imageDataUrl: window.muUploadedImageData||'',
+      texto,x:selX,y:selY,w:sel.w,h:sel.h
     }));
   }catch(e){}
   const reference='Pixel Mundial X='+selX+' Y='+selY+' W='+sel.w+' H='+sel.h+(texto?' | '+texto:'');
@@ -2594,21 +2596,19 @@ function filterFaq(cat, btn){
 
   // Register a purchased block with its image
   window.registerSoldBlock = function(x1, y1, w, h, imageUrl, blockColor, buyerText){
-    const imgObj = new Image();
-    imgObj.onload = function(){
+    function markSold(imgObj){
       const blockKey = x1+','+y1+','+w+','+h;
       for(let r=y1;r<y1+h;r++){
         for(let c=x1;c<x1+w;c++){
           sold.set(c+','+r, {
-            color: blockColor||'#2a0a0a',
-            img: imgObj,
+            color: blockColor||'#8B1A1A',
+            img: imgObj||null,
             blockKey: blockKey,
             x1:x1, y1:y1, w:w, h:h,
             text: buyerText||''
           });
         }
       }
-      // Update counters
       let totalSoldPx=0, totalBuyers=0;
       const blocksSeen=new Set();
       sold.forEach((d,k)=>{
@@ -2627,7 +2627,13 @@ function filterFaq(cat, btn){
           :`PÍXELES VENDIDOS: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`;
       }
       draw(); drawMini();
-    };
+    }
+    // Sin URL: marcar el bloque como vendido (color oscuro, sin imagen)
+    if(!imageUrl){ markSold(null); return; }
+    const imgObj = new Image();
+    imgObj.onload = function(){ markSold(imgObj); };
+    // Si la imagen falla, el bloque igual aparece como vendido (sin foto)
+    imgObj.onerror = function(){ markSold(null); };
     imgObj.src = imageUrl;
   };
 
@@ -3001,8 +3007,8 @@ function filterFaq(cat, btn){
   (function loadRecentPixel(){
     try {
       const rp = JSON.parse(localStorage.getItem('recentPixel') || 'null');
-      if (rp && rp.imagenUrl && rp.w && rp.h && Date.now() - rp.ts < 3600000) {
-        window.registerSoldBlock(+rp.x, +rp.y, +rp.w, +rp.h, rp.imagenUrl, '#2a4a0a', rp.nombre || '');
+      if (rp && rp.w && rp.h && Date.now() - rp.ts < 3600000) {
+        window.registerSoldBlock(+rp.x, +rp.y, +rp.w, +rp.h, rp.imagenUrl || '', '#2a4a0a', rp.nombre || '');
         localStorage.removeItem('recentPixel');
       }
     } catch(e) {}

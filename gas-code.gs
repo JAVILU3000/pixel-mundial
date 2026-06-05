@@ -204,7 +204,8 @@ function gasUploadImage(data) {
     var blob   = Utilities.newBlob(bytes, 'image/jpeg', data.filename || 'pixel.jpg');
     var file   = folder.createFile(blob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    return { status: 'ok', url: 'https://drive.google.com/uc?export=view&id=' + file.getId() };
+    // thumbnail?sz=w800 es más fiable que uc?export=view para img src directo
+    return { status: 'ok', url: 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w800' };
   } catch(err) {
     return { status: 'error', message: err.toString() };
   }
