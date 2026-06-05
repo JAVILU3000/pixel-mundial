@@ -2869,6 +2869,13 @@ function filterFaq(cat, btn){
         draw(); drawMini();
         showConfirmModal(s);
       }
+    } else if(Math.abs(e.clientX-sx0)<=5&&Math.abs(e.clientY-sy0)<=5){
+      const p=pxAt(e);
+      if(p&&sold.has(p.x+','+p.y)){
+        const d=sold.get(p.x+','+p.y);
+        const url=d&&d.text;
+        if(url&&(url.startsWith('http://')||url.startsWith('https://')))window.open(url,'_blank','noopener');
+      }
     }
   });
 
@@ -2944,6 +2951,16 @@ function filterFaq(cat, btn){
         window.muSelX=s.x1; window.muSelY=s.y1;
         window._muSel={x1:s.x1,y1:s.y1,w,h};
         showConfirmModal(s);
+      }
+    } else {
+      const t=e.changedTouches[0];
+      if(t&&Math.abs(t.clientX-sx0)<=8&&Math.abs(t.clientY-sy0)<=8){
+        const p=pxAt(t);
+        if(p&&sold.has(p.x+','+p.y)){
+          const d=sold.get(p.x+','+p.y);
+          const url=d&&d.text;
+          if(url&&(url.startsWith('http://')||url.startsWith('https://')))window.open(url,'_blank','noopener');
+        }
       }
     }
     pdown=false; selecting=false;
