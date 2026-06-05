@@ -3039,7 +3039,7 @@ function filterFaq(cat, btn){
         var list = Array.isArray(data) ? data : (data && Array.isArray(data.pixels) ? data.pixels : null);
         if(!list) return;
         list.forEach(function(p){
-          if(!p.imagenUrl || p.x == null || p.y == null || !p.w || !p.h) return;
+          if(p.x == null || p.y == null || !p.w || !p.h) return;
           window.registerSoldBlock(+p.x, +p.y, +p.w, +p.h, p.imagenUrl, p.color || '#2a4a0a', p.nombre || '');
         });
       })

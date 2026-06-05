@@ -104,8 +104,8 @@ function gasGetPixels() {
       var w = parseInt(g('w'), 10);
       var h = parseInt(g('h'), 10);
 
-      // Solo píxeles con imagen, dimensiones válidas y estado aprobado/pendiente
-      if (!imagenUrl || isNaN(x) || isNaN(y) || !w || !h) return;
+      // Solo píxeles con dimensiones válidas y estado aprobado/pendiente
+      if (isNaN(x) || isNaN(y) || !w || !h) return;
       if (status !== 'Approved' && status !== 'PENDING_VERIFICATION') return;
 
       pixels.push({ x: x, y: y, w: w, h: h,
@@ -207,14 +207,25 @@ function gasSavePayment(data) {
 // ── POST: subir imagen a Google Drive ─────────────────────────────
 function gasUploadImage(data) {
   try {
-    var folder = DriveApp.getFolderById(FOLDER_ID);
-    var bytes  = Utilities.base64Decode(data.imageBase64);
-    var blob   = Utilities.newBlob(bytes, 'image/jpeg', data.filename || 'pixel.jpg');
-    var file   = folder.createFile(blob);
+    var folder;
+    try {
+      folder = DriveApp.getFolderById(FOLDER_ID);
+    } catch(e) {
+      // FOLDER_ID inválido o sin acceso → buscar por nombre o crear
+      Logger.log('gasUploadImage: getFolderById falló (' + e + '). Buscando por nombre...');
+      var iter = DriveApp.getFoldersByName('MundialEterno-Imagenes');
+      folder = iter.hasNext() ? iter.next() : DriveApp.createFolder('MundialEterno-Imagenes');
+    }
+    Logger.log('gasUploadImage: folder=' + folder.getName() + ' id=' + folder.getId());
+    var bytes = Utilities.base64Decode(data.imageBase64);
+    var blob  = Utilities.newBlob(bytes, 'image/jpeg', data.filename || 'pixel.jpg');
+    var file  = folder.createFile(blob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    // thumbnail?sz=w800 es más fiable que uc?export=view para img src directo
-    return { status: 'ok', url: 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w800' };
+    var url = 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w800';
+    Logger.log('gasUploadImage: ok → ' + url);
+    return { status: 'ok', url: url };
   } catch(err) {
+    Logger.log('gasUploadImage ERROR: ' + err);
     return { status: 'error', message: err.toString() };
   }
 }
