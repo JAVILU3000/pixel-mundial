@@ -9,8 +9,9 @@ var FOLDER_ID  = 'REEMPLAZA_CON_EL_ID_DE_TU_CARPETA_DE_DRIVE';
 // El ID está en la URL de la carpeta: drive.google.com/drive/folders/ESTE_ES_EL_ID
 // ──────────────────────────────────────────────────────────────────
 
-var PAYPHONE_TOKEN = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUIc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
-var PAYPHONE_URL  = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
+var PAYPHONE_TOKEN    = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUlc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
+var PAYPHONE_STORE_ID = '0d38c7cf-abd6-46d7-b6ae-ba497c02ce79';
+var PAYPHONE_URL      = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
 
 // Columnas del spreadsheet (deben coincidir con los encabezados de la fila 1)
 var COLS = ['fecha','transactionId','monto','x','y','w','h','tamano','nombre','imagenUrl','status','payphoneId','error'];
@@ -120,23 +121,30 @@ function gasGetPixels() {
 // ── POST: confirmar pago con Payphone desde el servidor ───────────
 function gasConfirmPayphone(data) {
   try {
+    var payload = {
+      id                : parseInt(data.id, 10),
+      clientTransactionId: data.clientTransactionId,
+      storeId           : PAYPHONE_STORE_ID
+    };
+    Logger.log('confirmPayphone → payload: ' + JSON.stringify(payload));
+
     var resp = UrlFetchApp.fetch(PAYPHONE_URL, {
       method            : 'post',
       contentType       : 'application/json',
       headers           : { 'Authorization': 'Bearer ' + PAYPHONE_TOKEN },
-      payload           : JSON.stringify({
-                            id: parseInt(data.id, 10),
-                            clientTransactionId: data.clientTransactionId
-                          }),
+      payload           : JSON.stringify(payload),
       muteHttpExceptions: true
     });
 
     var code = resp.getResponseCode();
+    var body = resp.getContentText();
+    Logger.log('confirmPayphone ← HTTP ' + code + ' | ' + body);
+
     var result;
-    try { result = JSON.parse(resp.getContentText()); } catch(e) { result = {}; }
+    try { result = JSON.parse(body); } catch(e) { result = {}; }
 
     if (code !== 200) {
-      return { transactionStatus: 'Error', httpStatus: code };
+      return { transactionStatus: 'Error', httpStatus: code, body: body };
     }
 
     if (result.transactionStatus === 'Approved') {
