@@ -5,7 +5,7 @@
 
 // ── CONFIGURA ESTOS DOS VALORES ────────────────────────────────────
 var SHEET_NAME = 'Ventas';   // nombre exacto de la pestaña en Sheets
-var FOLDER_ID  = 'REEMPLAZA_CON_EL_ID_DE_TU_CARPETA_DE_DRIVE';
+var FOLDER_ID  = '1XX8xw94p8_h8A5Ub8mnON59-j-XxPo0K';
 // El ID está en la URL de la carpeta: drive.google.com/drive/folders/ESTE_ES_EL_ID
 // ──────────────────────────────────────────────────────────────────
 
