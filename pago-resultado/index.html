@@ -111,7 +111,17 @@
   let pending = {};
   try { pending = JSON.parse(localStorage.getItem('pending_' + clientTransactionId) || '{}'); } catch(e) {}
 
-  const monto = (pending.w && pending.h) ? pending.w * pending.h : 0;
+  // Guarda el píxel en localStorage para mostrarlo en el mural al volver
+  function storeRecentPixel(px) {
+    try {
+      localStorage.setItem('recentPixel', JSON.stringify({
+        x: px.x, y: px.y, w: px.w, h: px.h,
+        imagenUrl: px.imagenUrl,
+        nombre: px.nombre,
+        ts: Date.now()
+      }));
+    } catch(e) {}
+  }
 
   try {
     const res = await payphoneConfirm();
@@ -120,23 +130,34 @@
 
     if (data.transactionStatus === 'Approved') {
       const ref = data.reference || '';
+      // Extraer x, y, w, h del reference string: "Pixel Mundial X=.. Y=.. W=.. H=.."
       const xMatch = ref.match(/X=(\d+)/);
       const yMatch = ref.match(/Y=(\d+)/);
+      const wMatch = ref.match(/W=(\d+)/);
+      const hMatch = ref.match(/H=(\d+)/);
       const montoReal = (data.amount || 0) / 100;
+      const px = {
+        x: xMatch ? +xMatch[1] : (pending.x || 0),
+        y: yMatch ? +yMatch[1] : (pending.y || 0),
+        w: wMatch ? +wMatch[1] : (pending.w || Math.round(montoReal)),
+        h: hMatch ? +hMatch[1] : (pending.h || 1),
+        nombre: pending.texto || data.email || data.phoneNumber || data.phone || '',
+        imagenUrl: pending.imagenUrl || ''
+      };
 
       saveToSheets({
         action: 'confirmPayment',
         fecha: new Date().toISOString(),
         transactionId: data.transactionId || id || clientTransactionId,
         monto: montoReal,
-        x: xMatch ? xMatch[1] : (pending.x || ''),
-        y: yMatch ? yMatch[1] : (pending.y || ''),
-        tamano: Math.round(montoReal),
-        nombre: pending.texto || data.email || data.phoneNumber || data.phone || '',
-        imagenUrl: pending.imagenUrl || '',
+        x: px.x, y: px.y, w: px.w, h: px.h,
+        tamano: px.w * px.h,
+        nombre: px.nombre,
+        imagenUrl: px.imagenUrl,
         status: 'Approved'
       });
 
+      storeRecentPixel(px);
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
       render('approved', data.transactionId || clientTransactionId);
 
@@ -148,23 +169,31 @@
 
   } catch (e) {
     // Payphone no respondió a tiempo (timeout / CORS / red).
-    // Payphone solo redirige aquí cuando el banco cobró, así que mostramos éxito
-    // y guardamos en Sheets con PENDING_VERIFICATION para trazabilidad.
+    // Payphone solo redirige aquí cuando el banco cobró, así que mostramos éxito.
+    const px = {
+      x: pending.x || 0,
+      y: pending.y || 0,
+      w: pending.w || 1,
+      h: pending.h || 1,
+      nombre: pending.texto || '',
+      imagenUrl: pending.imagenUrl || ''
+    };
+
     saveToSheets({
       action: 'confirmPayment',
       fecha: new Date().toISOString(),
       transactionId: clientTransactionId,
-      monto: monto,
-      x: pending.x || '',
-      y: pending.y || '',
-      tamano: monto,
-      nombre: pending.texto || '',
-      imagenUrl: pending.imagenUrl || '',
+      monto: px.w * px.h,
+      x: px.x, y: px.y, w: px.w, h: px.h,
+      tamano: px.w * px.h,
+      nombre: px.nombre,
+      imagenUrl: px.imagenUrl,
       status: 'PENDING_VERIFICATION',
       payphoneId: id,
       error: e.message || 'timeout'
     });
 
+    storeRecentPixel(px);
     try { localStorage.removeItem('pending_' + clientTransactionId); } catch(ex) {}
     render('approved', clientTransactionId);
   }
