@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <base target="_top">
   <title>Resultado de Pago · Mundial Eterno 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
@@ -34,6 +35,11 @@
   </div>
 
 <script>
+// Si Payphone redirigió sólo el iframe interno, escapamos al nivel superior.
+if (window.self !== window.top) {
+  window.top.location.href = window.location.href;
+}
+
 (async () => {
   const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyxxiFumL9sBpI4C1MSHNDgCGV0IBTZ6wacv7hR4ZvmI8akU7FntrDCqoKydx40BR2B/exec';
 
