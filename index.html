@@ -1980,7 +1980,6 @@ function showMaxWarn(){
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 
 const GAS_WEBHOOK='https://script.google.com/macros/s/AKfycbyxxiFumL9sBpI4C1MSHNDgCGV0IBTZ6wacv7hR4ZvmI8akU7FntrDCqoKydx40BR2B/exec';
-let _ppPollId=null;
 
 async function pagarConTarjeta(){
   const WEBHOOK=GAS_WEBHOOK;
@@ -2029,32 +2028,10 @@ async function pagarConTarjeta(){
     responseUrl:'https://mundialeterno.com/pago-resultado/',
     cancellationUrl:'https://mundialeterno.com/'
   }).render('pp-box-inner');
-  _ppStartPoll();
 }
 function closePPBox(){
-  if(_ppPollId){clearInterval(_ppPollId);_ppPollId=null;}
   document.getElementById('pp-box-overlay').style.display='none';
   document.getElementById('pp-box-inner').innerHTML='';
-}
-// Detecta cuando el iframe interno de Payphone navega a pago-resultado (misma origin)
-// y redirige la ventana padre antes de que el usuario pueda cerrar el overlay.
-function _ppStartPoll(){
-  if(_ppPollId)clearInterval(_ppPollId);
-  _ppPollId=setInterval(function(){
-    var inner=document.getElementById('pp-box-inner');
-    if(!inner){clearInterval(_ppPollId);_ppPollId=null;return;}
-    var frames=inner.querySelectorAll('iframe');
-    for(var i=0;i<frames.length;i++){
-      try{
-        var href=frames[i].contentWindow.location.href;
-        if(href&&href.indexOf('/pago-resultado')!==-1){
-          clearInterval(_ppPollId);_ppPollId=null;
-          window.location.href=href;
-          return;
-        }
-      }catch(e){/* cross-origin: iframe aún en dominio de Payphone */}
-    }
-  },100);
 }
 
 document.getElementById('mcl').addEventListener('click',closeModal);
