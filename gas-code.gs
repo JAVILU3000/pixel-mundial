@@ -9,7 +9,7 @@ var FOLDER_ID  = '1XX8xw94p8_h8A5Ub8mnON59-j-XxPo0K';
 // El ID está en la URL de la carpeta: drive.google.com/drive/folders/ESTE_ES_EL_ID
 // ──────────────────────────────────────────────────────────────────
 
-var PAYPHONE_TOKEN    = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUlc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
+var PAYPHONE_TOKEN    = 'eLg7ZOaSKrgqkghpcf1p_Jk-Bu8uEGBleiDS4NHY3IyTXAsKNpiOJgFyLu-Cjq33q1Gz_ecaTSHEQK57QRtYLNCHRAlVQRsxLEk6sYQ-FvvvnAeXAFj8QQJ-742TSdY3l5DHQFeS7rjre6ElzFPhwZs0FfVYgksgZ_nLcEjm3Zw74mgG6Yn3kzFRD5gt2HU5Hyv2diWfkXbDWgSIVoSl1V3GItNaTF5dbheyB2hy-q3xWm_1Djn0nnlKkdeMaY9_wK3Va-GiUadg3MYmeDDResZIq5OQTh5mO_ygS4wXERRiEbk8MR0X-CyT1l6DGkXCNYh0K8nd66MOr_jrWxui4MUCPno';
 var PAYPHONE_STORE_ID = '0d38c7cf-abd6-46d7-b6ae-ba497c02ce79';
 var PAYPHONE_URL      = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
 
