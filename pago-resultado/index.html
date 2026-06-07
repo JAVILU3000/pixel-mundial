@@ -163,8 +163,28 @@ if (window.self !== window.top) {
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
       render('approved', clientTransactionId);
 
-    } else {
+    } else if (data.transactionStatus === 'Declined') {
       render('failed');
+    } else {
+      // Estado desconocido — Payphone solo redirige aquí tras interacción real,
+      // así que guardamos como pendiente y mostramos éxito para no bloquear al usuario.
+      saveToSheetsFallback({
+        action: 'confirmPayment',
+        fecha: new Date().toISOString(),
+        transactionId: clientTransactionId,
+        monto: fallbackPx.w * fallbackPx.h,
+        x: fallbackPx.x, y: fallbackPx.y,
+        w: fallbackPx.w, h: fallbackPx.h,
+        tamano: fallbackPx.w * fallbackPx.h,
+        nombre: fallbackPx.nombre,
+        imagenUrl: fallbackPx.imagenUrl,
+        status: 'PENDING_VERIFICATION',
+        payphoneId: id,
+        error: 'unknown_status:' + (data.transactionStatus || '')
+      });
+      storeRecentPixel(fallbackPx);
+      try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
+      render('approved', clientTransactionId);
     }
 
   } catch (e) {

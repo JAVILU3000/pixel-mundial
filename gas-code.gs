@@ -122,9 +122,9 @@ function gasGetPixels() {
 function gasConfirmPayphone(data) {
   try {
     var payload = {
-      id      : parseInt(data.id, 10),
-      clientTxId: data.clientTransactionId,
-      storeId : PAYPHONE_STORE_ID
+      id                 : parseInt(data.id, 10),
+      clientTransactionId: data.clientTransactionId,
+      storeId            : PAYPHONE_STORE_ID
     };
     Logger.log('confirmPayphone → payload: ' + JSON.stringify(payload));
 
@@ -168,7 +168,8 @@ function gasConfirmPayphone(data) {
         tamano       : px.w * px.h,
         nombre       : data.nombre || result.email || result.phoneNumber || '',
         imagenUrl    : data.imagenUrl || '',
-        status       : 'Approved'
+        status       : 'Approved',
+        payphoneId   : data.id || ''
       });
     }
 
