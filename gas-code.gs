@@ -86,30 +86,36 @@ function appendRow(sheet, data) {
 // ── GET: todos los píxeles vendidos ───────────────────────────────
 function gasGetPixels() {
   try {
-    var sheet = getSheet();
-    var lastRow = sheet.getLastRow();
-    if (lastRow < 2) return { pixels: [] };
-
-    var idx = colIndex(sheet);
-    var numCols = sheet.getLastColumn();
-    var rows = sheet.getRange(2, 1, lastRow - 1, numCols).getValues();
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetNames = [SHEET_NAME, 'Hoja 1'];
     var pixels = [];
 
-    rows.forEach(function(row) {
-      var g = function(col) { return idx[col] ? row[idx[col] - 1] : ''; };
-      var status    = String(g('status'));
-      var imagenUrl = String(g('imagenUrl') || '');
-      var x = parseInt(g('x'), 10);
-      var y = parseInt(g('y'), 10);
-      var w = parseInt(g('w'), 10);
-      var h = parseInt(g('h'), 10);
+    sheetNames.forEach(function(name) {
+      var sheet = ss.getSheetByName(name);
+      if (!sheet) return;
+      var lastRow = sheet.getLastRow();
+      if (lastRow < 2) return;
 
-      // Solo píxeles con dimensiones válidas y estado aprobado/pendiente
-      if (isNaN(x) || isNaN(y) || !w || !h) return;
-      if (status !== 'Approved' && status !== 'PENDING_VERIFICATION') return;
+      var idx = colIndex(sheet);
+      var numCols = sheet.getLastColumn();
+      var rows = sheet.getRange(2, 1, lastRow - 1, numCols).getValues();
 
-      pixels.push({ x: x, y: y, w: w, h: h,
-                    nombre: String(g('nombre') || ''), imagenUrl: imagenUrl });
+      rows.forEach(function(row) {
+        var g = function(col) { return idx[col] ? row[idx[col] - 1] : ''; };
+        var status    = String(g('status'));
+        var imagenUrl = String(g('imagenUrl') || '');
+        var x = parseInt(g('x'), 10);
+        var y = parseInt(g('y'), 10);
+        var w = parseInt(g('w'), 10);
+        var h = parseInt(g('h'), 10);
+
+        // Solo píxeles con dimensiones válidas y estado aprobado/pendiente
+        if (isNaN(x) || isNaN(y) || !w || !h) return;
+        if (status !== 'Approved' && status !== 'PENDING_VERIFICATION') return;
+
+        pixels.push({ x: x, y: y, w: w, h: h,
+                      nombre: String(g('nombre') || ''), imagenUrl: imagenUrl });
+      });
     });
 
     return { pixels: pixels };
