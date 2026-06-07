@@ -5,7 +5,7 @@ echo Copiando gas-code.gs al portapapeles...
 type "%~dp0gas-code.gs" | clip
 
 echo Abriendo Google Apps Script en el navegador...
-start "" "https://script.google.com/home/projects/16LxznLW90JIfug3aQB59dk8P3ees3EJGwmc_CRgjeMTR1MIEpDryO1nJ/edit"
+start "" "https://script.google.com/u/0/home/projects/16LxznLW90JIfug3aQB59dk8P3ees3EJGwmc_CRgjeMTR1MIEpDryO1nJ/edit"
 
 echo.
 echo ============================================================
