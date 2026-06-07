@@ -123,8 +123,7 @@ function gasConfirmPayphone(data) {
   try {
     var payload = {
       id                 : parseInt(data.id, 10),
-      clientTransactionId: data.clientTransactionId,
-      storeId            : PAYPHONE_STORE_ID
+      clientTransactionId: data.clientTransactionId
     };
     Logger.log('confirmPayphone → payload: ' + JSON.stringify(payload));
 
