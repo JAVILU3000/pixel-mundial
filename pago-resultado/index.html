@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <base target="_top">
   <title>Resultado de Pago · Mundial Eterno 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
@@ -18,7 +17,7 @@
     .badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;margin-bottom:1rem;}
     .badge-ok{background:rgba(0,200,100,0.12);color:#00c864;border:1px solid rgba(0,200,100,0.3);}
     .badge-err{background:rgba(255,60,60,0.12);color:#ff4444;border:1px solid rgba(255,60,60,0.3);}
-    .badge-pend{background:rgba(255,215,0,0.1);color:var(--gold);border:1px solid rgba(255,215,0,0.3);}
+.badge-pend{background:rgba(255,215,0,0.1);color:var(--gold);border:1px solid rgba(255,215,0,0.3);}
     .btn{display:inline-block;margin-top:0.5rem;padding:0.8rem 2rem;background:var(--gold);color:#000;font-weight:900;font-size:0.85rem;letter-spacing:0.08em;border-radius:10px;text-decoration:none;transition:opacity .2s;}
     .btn:hover{opacity:0.85;}
     .detail{font-size:0.68rem;color:#444;margin-top:1.5rem;word-break:break-all;line-height:1.5;}
@@ -35,17 +34,14 @@
   </div>
 
 <script>
-// Si Payphone redirigió sólo el iframe interno, escapamos al nivel superior.
-if (window.self !== window.top) {
-  window.top.location.href = window.location.href;
-}
-
 (async () => {
-  const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyxxiFumL9sBpI4C1MSHNDgCGV0IBTZ6wacv7hR4ZvmI8akU7FntrDCqoKydx40BR2B/exec';
+  const TOKEN = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUIc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
+  const WEBHOOK = 'https://script.google.com/macros/s/AKfycbysU-Y65tyE-xvJuNghE-bHEYvHuX2G1m7kTbCLwdrbxOukChe0gDPmkMENEOwFBFCu/exec';
+  const PAYPHONE_URL = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const clientTransactionId = params.get('clientTxId');
+  const clientTransactionId = params.get('clientTransactionId');
   const card = document.getElementById('card');
 
   function render(type, txId) {
@@ -74,24 +70,36 @@ if (window.self !== window.top) {
     }
   }
 
-  // Guarda el píxel en localStorage para pintarlo en el mural al volver
-  function storeRecentPixel(px) {
-    try {
-      localStorage.setItem('recentPixel', JSON.stringify({
-        x: px.x, y: px.y, w: px.w, h: px.h,
-        imagenUrl: px.imagenUrl, nombre: px.nombre, ts: Date.now()
-      }));
-    } catch(e) {}
-  }
-
-  // Fallback fire-and-forget: registra en Sheets sin leer respuesta
-  function saveToSheetsFallback(payload) {
+  // Fire-and-forget hacia Google Sheets
+  function saveToSheets(payload) {
     fetch(WEBHOOK, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     }).catch(() => {});
+  }
+
+  // Un solo intento con timeout generoso — sin reintentos para no acumular demora
+  async function payphoneConfirm() {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 20000);
+    try {
+      const res = await fetch(PAYPHONE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + TOKEN
+        },
+        body: JSON.stringify({ id: parseInt(id, 10), clientTransactionId }),
+        signal: ctrl.signal
+      });
+      clearTimeout(timer);
+      return res;
+    } catch (e) {
+      clearTimeout(timer);
+      throw e;
+    }
   }
 
   if (!id || !clientTransactionId) {
@@ -99,111 +107,64 @@ if (window.self !== window.top) {
     return;
   }
 
-  // Datos guardados antes del pago (misma pestaña / mismo dispositivo)
+  // Recuperar datos guardados antes del pago (misma pestaña / mismo dispositivo)
   let pending = {};
   try { pending = JSON.parse(localStorage.getItem('pending_' + clientTransactionId) || '{}'); } catch(e) {}
 
-  const fallbackPx = {
-    x: pending.x || 0, y: pending.y || 0,
-    w: pending.w || 1, h: pending.h || 1,
-    nombre: pending.texto || '',
-    imagenUrl: pending.imagenUrl || ''
-  };
+  const monto = (pending.w && pending.h) ? pending.w * pending.h : 0;
 
   try {
-    // El GAS llama a Payphone server-side (sin CORS) y guarda en Sheets si Approved.
-    // Usamos text/plain para evitar preflight CORS.
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 25000);
-    const res = await fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({
-        action: 'confirmPayphone',
-        id: id,
-        clientTransactionId: clientTransactionId,
-        x: fallbackPx.x, y: fallbackPx.y,
-        w: fallbackPx.w, h: fallbackPx.h,
-        nombre: fallbackPx.nombre,
-        imagenUrl: fallbackPx.imagenUrl
-      }),
-      signal: ctrl.signal
-    });
-    clearTimeout(timer);
-
+    const res = await payphoneConfirm();
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
 
     if (data.transactionStatus === 'Approved') {
-      storeRecentPixel(fallbackPx);
+      const ref = data.reference || '';
+      const xMatch = ref.match(/X=(\d+)/);
+      const yMatch = ref.match(/Y=(\d+)/);
+      const montoReal = (data.amount || 0) / 100;
+
+      saveToSheets({
+        action: 'confirmPayment',
+        fecha: new Date().toISOString(),
+        transactionId: data.transactionId || id || clientTransactionId,
+        monto: montoReal,
+        x: xMatch ? xMatch[1] : (pending.x || ''),
+        y: yMatch ? yMatch[1] : (pending.y || ''),
+        tamano: Math.round(montoReal),
+        nombre: pending.texto || data.email || data.phoneNumber || data.phone || '',
+        imagenUrl: pending.imagenUrl || '',
+        status: 'Approved'
+      });
+
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
-      render('approved', clientTransactionId);
+      render('approved', data.transactionId || clientTransactionId);
 
     } else if (data.transactionStatus === 'Cancelled') {
       render('cancelled');
-
-    } else if (data.transactionStatus === 'Error' || data.error) {
-      // El GAS no pudo alcanzar a Payphone — mostramos éxito igual porque
-      // Payphone solo redirige aquí cuando el banco cobró.
-      saveToSheetsFallback({
-        action: 'confirmPayment',
-        fecha: new Date().toISOString(),
-        transactionId: clientTransactionId,
-        monto: fallbackPx.w * fallbackPx.h,
-        x: fallbackPx.x, y: fallbackPx.y,
-        w: fallbackPx.w, h: fallbackPx.h,
-        tamano: fallbackPx.w * fallbackPx.h,
-        nombre: fallbackPx.nombre,
-        imagenUrl: fallbackPx.imagenUrl,
-        status: 'PENDING_VERIFICATION',
-        payphoneId: id,
-        error: data.error || 'gas_error'
-      });
-      storeRecentPixel(fallbackPx);
-      try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
-      render('approved', clientTransactionId);
-
-    } else if (data.transactionStatus === 'Declined') {
-      render('failed');
     } else {
-      // Estado desconocido — Payphone solo redirige aquí tras interacción real,
-      // así que guardamos como pendiente y mostramos éxito para no bloquear al usuario.
-      saveToSheetsFallback({
-        action: 'confirmPayment',
-        fecha: new Date().toISOString(),
-        transactionId: clientTransactionId,
-        monto: fallbackPx.w * fallbackPx.h,
-        x: fallbackPx.x, y: fallbackPx.y,
-        w: fallbackPx.w, h: fallbackPx.h,
-        tamano: fallbackPx.w * fallbackPx.h,
-        nombre: fallbackPx.nombre,
-        imagenUrl: fallbackPx.imagenUrl,
-        status: 'PENDING_VERIFICATION',
-        payphoneId: id,
-        error: 'unknown_status:' + (data.transactionStatus || '')
-      });
-      storeRecentPixel(fallbackPx);
-      try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
-      render('approved', clientTransactionId);
+      render('failed');
     }
 
   } catch (e) {
-    // Timeout o error de red al llamar al GAS. Misma lógica: mostrar éxito.
-    saveToSheetsFallback({
+    // Payphone no respondió a tiempo (timeout / CORS / red).
+    // Payphone solo redirige aquí cuando el banco cobró, así que mostramos éxito
+    // y guardamos en Sheets con PENDING_VERIFICATION para trazabilidad.
+    saveToSheets({
       action: 'confirmPayment',
       fecha: new Date().toISOString(),
       transactionId: clientTransactionId,
-      monto: fallbackPx.w * fallbackPx.h,
-      x: fallbackPx.x, y: fallbackPx.y,
-      w: fallbackPx.w, h: fallbackPx.h,
-      tamano: fallbackPx.w * fallbackPx.h,
-      nombre: fallbackPx.nombre,
-      imagenUrl: fallbackPx.imagenUrl,
+      monto: monto,
+      x: pending.x || '',
+      y: pending.y || '',
+      tamano: monto,
+      nombre: pending.texto || '',
+      imagenUrl: pending.imagenUrl || '',
       status: 'PENDING_VERIFICATION',
       payphoneId: id,
       error: e.message || 'timeout'
     });
-    storeRecentPixel(fallbackPx);
+
     try { localStorage.removeItem('pending_' + clientTransactionId); } catch(ex) {}
     render('approved', clientTransactionId);
   }
