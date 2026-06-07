@@ -2030,8 +2030,10 @@ async function pagarConTarjeta(){
   }).render('pp-box-inner');
 }
 function closePPBox(){
-  document.getElementById('pp-box-overlay').style.display='none';
-  document.getElementById('pp-box-inner').innerHTML='';
+    document.getElementById('pp-box-overlay').style.display='none';
+    setTimeout(function(){
+        document.getElementById('pp-box-inner').innerHTML='';
+    }, 5000);
 }
 
 document.getElementById('mcl').addEventListener('click',closeModal);
