@@ -45,7 +45,7 @@ if (window.self !== window.top) {
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const clientTransactionId = params.get('clientTxId');
+  const clientTransactionId = params.get('clientTransactionId');
   const card = document.getElementById('card');
 
   function render(type, txId) {
