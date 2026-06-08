@@ -147,9 +147,12 @@ function gasConfirmPayphone(data) {
 
     var result;
     try { result = JSON.parse(body); } catch(e) { result = {}; }
+    Logger.log('confirmPayphone ← resultado Payphone: ' + JSON.stringify(result));
 
     if (code !== 200) {
-      return { transactionStatus: 'Error', httpStatus: code, body: body };
+      var respError = { transactionStatus: 'Error', httpStatus: code, body: body };
+      Logger.log('confirmPayphone → respuesta al browser: ' + JSON.stringify(respError));
+      return respError;
     }
 
     if (result.transactionStatus === 'Approved') {
@@ -178,10 +181,14 @@ function gasConfirmPayphone(data) {
       });
     }
 
-    return { transactionStatus: result.transactionStatus || 'Unknown' };
+    var respFinal = { transactionStatus: result.transactionStatus || 'Unknown' };
+    Logger.log('confirmPayphone → respuesta al browser: ' + JSON.stringify(respFinal));
+    return respFinal;
 
   } catch(err) {
-    return { transactionStatus: 'Error', error: err.toString() };
+    var respException = { transactionStatus: 'Error', error: err.toString() };
+    Logger.log('confirmPayphone → respuesta al browser (excepcion): ' + JSON.stringify(respException));
+    return respException;
   }
 }
 
