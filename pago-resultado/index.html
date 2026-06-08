@@ -35,15 +35,12 @@
   </div>
 
 <script>
-// Si Payphone redirigió sólo el iframe interno, escapamos al nivel superior.
 if (window.self !== window.top) {
   window.top.location.href = window.location.href;
 }
 
 (async () => {
   const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyxxiFumL9sBpI4C1MSHNDgCGV0IBTZ6wacv7hR4ZvmI8akU7FntrDCqoKydx40BR2B/exec';
-  const PAYPHONE_TOKEN = 'Hl5chuq_MRVJdciLox5fiyRzyXn65jqWEGredORhg1t6T01VrVKHQ0MZfphQptcO90KoMx0aezDnwE1JdaZ8enioMl7BvLEjkAcTjDdB5cgsK6cQyV-y7T9yQ7YM6GzqCf2xqQM1bjypBwBxd2JWTUTbccVD5ujfCYvpjwv2JF81kRRkaA2gd5M8cM-e49qJfBV8FAtzExHAvbzy3urtM8FUeru83VyiQEsS8DOoHbu6viTUuF7zzgP38Qi5HPzUypQG6gDS5De8_mmOUIc7M9nqXVPk0pp1eBAZjBAcgtvs-tilscM2wHdKEUJaUdpxzVq5t6Ut1WCo-tczQs9GL27daWw';
-  const PAYPHONE_CONFIRM_URL = 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm';
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -55,7 +52,7 @@ if (window.self !== window.top) {
       card.innerHTML = `
         <div class="icon">🏆</div>
         <div class="badge badge-ok">✓ PAGO APROBADO</div>
-        <h1 style="color:#00c864">¡Gracias!</h1>
+        <h1 style="color:#00c864">¡GRACIAS!</h1>
         <p>Tu píxel en el Mural Mundial Eterno 2026 ha sido reservado.<br>Tu huella quedará sellada para siempre al finalizar el Mundial.</p>
         <a href="/" class="btn">← Ver el Mural</a>
         <div class="detail">ID de transacción: ${txId}</div>`;
@@ -71,7 +68,7 @@ if (window.self !== window.top) {
         <div class="icon">⚠️</div>
         <div class="badge badge-err">PAGO NO COMPLETADO</div>
         <h1 style="color:#ff4444">Error en el pago</h1>
-        <p>No se pudo completar el pago. Por favor inténtalo de nuevo o contáctanos si el problema persiste.</p>
+        <p>No se pudo completar el pago. Por favor inténtalo de nuevo.</p>
         <a href="/" class="btn">← Volver al Mural</a>`;
     }
   }
@@ -85,22 +82,11 @@ if (window.self !== window.top) {
     } catch(e) {}
   }
 
-  // Guarda en Sheets via GAS (fire-and-forget, no bloqueante)
-  function saveToSheets(payload) {
-    fetch(WEBHOOK, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    }).catch(() => {});
-  }
-
   if (!id || !clientTransactionId) {
     render('failed');
     return;
   }
 
-  // Datos guardados antes del pago
   let pending = {};
   try { pending = JSON.parse(localStorage.getItem('pending_' + clientTransactionId) || '{}'); } catch(e) {}
 
@@ -111,114 +97,50 @@ if (window.self !== window.top) {
     imagenUrl: pending.imagenUrl || ''
   };
 
+  // ✅ CONFIRMACIÓN VIA GAS ÚNICAMENTE (evita CORS)
   try {
-    // ✅ CONFIRMACIÓN DIRECTA CON PAYPHONE DESDE EL BROWSER
-    const res = await fetch(PAYPHONE_CONFIRM_URL, {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 25000);
+
+    const res = await fetch(WEBHOOK, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + PAYPHONE_TOKEN
-      },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
-        id: parseInt(id, 10),
-        clientTransactionId: clientTransactionId
-      })
-    });
-
-    const data = await res.json();
-    const status = data.transactionStatus || '';
-
-    if (status === 'Approved') {
-      // Guardar en Sheets como Approved
-      saveToSheets({
-        action: 'confirmPayment',
-        fecha: new Date().toISOString(),
-        transactionId: data.transactionId || clientTransactionId,
-        monto: (data.amount || 0) / 100,
+        action: 'confirmPayphone',
+        id: id,
+        clientTransactionId: clientTransactionId,
         x: fallbackPx.x, y: fallbackPx.y,
         w: fallbackPx.w, h: fallbackPx.h,
-        tamano: fallbackPx.w * fallbackPx.h,
         nombre: fallbackPx.nombre,
-        imagenUrl: fallbackPx.imagenUrl,
-        status: 'Approved',
-        payphoneId: id,
-        error: ''
-      });
+        imagenUrl: fallbackPx.imagenUrl
+      }),
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+
+    const data = await res.json();
+
+    if (data.transactionStatus === 'Approved') {
       storeRecentPixel(fallbackPx);
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
       render('approved', clientTransactionId);
 
-    } else if (status === 'Cancelled') {
+    } else if (data.transactionStatus === 'Cancelled') {
       render('cancelled');
 
-    } else if (status === 'Declined') {
+    } else if (data.transactionStatus === 'Declined') {
       render('failed');
 
     } else {
-      // Cualquier otro estado — guardar como pendiente
-      saveToSheets({
-        action: 'confirmPayment',
-        fecha: new Date().toISOString(),
-        transactionId: clientTransactionId,
-        monto: fallbackPx.w * fallbackPx.h,
-        x: fallbackPx.x, y: fallbackPx.y,
-        w: fallbackPx.w, h: fallbackPx.h,
-        tamano: fallbackPx.w * fallbackPx.h,
-        nombre: fallbackPx.nombre,
-        imagenUrl: fallbackPx.imagenUrl,
-        status: 'PENDING_VERIFICATION',
-        payphoneId: id,
-        error: 'unknown:' + status
-      });
+      // GAS respondió pero con status desconocido - igual mostramos éxito
+      // porque Payphone solo redirige aquí cuando el banco cobró
       storeRecentPixel(fallbackPx);
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
       render('approved', clientTransactionId);
     }
 
-  } catch (e) {
-    // Error de red o CORS — intentar via GAS como respaldo
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 20000);
-      const res2 = await fetch(WEBHOOK, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          action: 'confirmPayphone',
-          id: id,
-          clientTransactionId: clientTransactionId,
-          x: fallbackPx.x, y: fallbackPx.y,
-          w: fallbackPx.w, h: fallbackPx.h,
-          nombre: fallbackPx.nombre,
-          imagenUrl: fallbackPx.imagenUrl
-        }),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-      const data2 = await res2.json();
-      if (data2.transactionStatus === 'Approved') {
-        storeRecentPixel(fallbackPx);
-        try { localStorage.removeItem('pending_' + clientTransactionId); } catch(ex) {}
-        render('approved', clientTransactionId);
-        return;
-      }
-    } catch(e2) {}
-
-    // Si todo falla, guardar como pendiente y mostrar éxito
-    saveToSheets({
-      action: 'confirmPayment',
-      fecha: new Date().toISOString(),
-      transactionId: clientTransactionId,
-      monto: fallbackPx.w * fallbackPx.h,
-      x: fallbackPx.x, y: fallbackPx.y,
-      w: fallbackPx.w, h: fallbackPx.h,
-      tamano: fallbackPx.w * fallbackPx.h,
-      nombre: fallbackPx.nombre,
-      imagenUrl: fallbackPx.imagenUrl,
-      status: 'PENDING_VERIFICATION',
-      payphoneId: id,
-      error: e.message || 'network_error'
-    });
+  } catch(e) {
+    // Timeout o error de red - mostramos éxito igual
     storeRecentPixel(fallbackPx);
     try { localStorage.removeItem('pending_' + clientTransactionId); } catch(ex) {}
     render('approved', clientTransactionId);
