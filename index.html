@@ -1676,6 +1676,13 @@ nav a:hover{color:var(--gold);}
 </style>
 
 <script>
+// ── REDIRECCIÓN POST-PAGO PAYPHONE ──
+(function(){
+  var p = new URLSearchParams(window.location.search);
+  if (p.get('id') && p.get('clientTxId')) {
+    window.location.replace('https://mundialeterno.com/pago-resultado?' + p.toString());
+  }
+})();
 // ── ACTIVE NAV ON SCROLL ──
 (function(){
   const sections = ['inicio','mural','como','precios','faq','contacto'];
