@@ -128,8 +128,8 @@ function gasGetPixels() {
 function gasConfirmPayphone(data) {
   try {
     var payload = {
-      id                 : parseInt(data.id, 10),
-      clientTransactionId: data.clientTransactionId
+      id        : parseInt(data.id, 10),
+      clientTxId: data.clientTransactionId
     };
     Logger.log('confirmPayphone → payload: ' + JSON.stringify(payload));
 
