@@ -11,7 +11,7 @@ var FOLDER_ID  = '1XX8xw94p8_h8A5Ub8mnON59-j-XxPo0K';
 
 var PAYPHONE_TOKEN    = 'eLg7ZOaSKrgqkghpcf1p_Jk-Bu8uEGBleiDS4NHY3IyTXAsKNpiOJgFyLu-Cjq33q1Gz_ecaTSHEQK57QRtYLNCHRAlVQRsxLEk6sYQ-FvvvnAeXAFj8QQJ-742TSdY3l5DHQFeS7rjre6ElzFPhwZs0FfVYgksgZ_nLcEjm3Zw74mgG6Yn3kzFRD5gt2HU5Hyv2diWfkXbDWgSIVoSl1V3GItNaTF5dbheyB2hy-q3xWm_1Djn0nnlKkdeMaY9_wK3Va-GiUadg3MYmeDDResZIq5OQTh5mO_ygS4wXERRiEbk8MR0X-CyT1l6DGkXCNYh0K8nd66MOr_jrWxui4MUCPno';
 var PAYPHONE_STORE_ID = '0d38c7cf-abd6-46d7-b6ae-ba497c02ce79';
-var PAYPHONE_URL      = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
+var PAYPHONE_URL      = 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm';
 
 // Columnas del spreadsheet (deben coincidir con los encabezados de la fila 1)
 var COLS = ['fecha','transactionId','monto','x','y','w','h','tamano','nombre','imagenUrl','status','payphoneId','error'];
