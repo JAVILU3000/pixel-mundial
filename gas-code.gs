@@ -6,7 +6,7 @@
 var SHEET_NAME = 'Ventas';
 var FOLDER_ID  = '1XX8xw94p8_h8A5Ub8mnON59-j-XxPo0K';
 
-var PAYPHONE_TOKEN    = 'S1nNKNnG30omOeN_XrCYpNUg4IkxO49etn-n5vnO5NeZw-XM4l1VOL5kEvIvE3ySnZPyiYi1snsKbtcKELJOzk2rw5hRH-WAvgwi4f5VXA48SSv83ZyubOJ_0YNcKVWaOEpo3mLPTpmLHzvOvaOF6rXKNXcjQowbRiBJgXTwILC07IT5ryG1MXO0zFId_eEU0boD8MlF6UnXWcMPVDC8qlu9pZnyQTERfaanhuBuFfbNpUxX7FC_enMZtlnaw4WBo-LPReRZNmqU1r_AmzBoK14ZKiPOPxd3rt521K0x2n5F-rImEZAlxFgVuyHqJ3WKdszknL5yMPc6Cmq7z8ucBAQBbsI';
+var PAYPHONE_TOKEN    = 'UhVj1XFoBjyzu0UWaoaWQZzZM1jOmsfVLYvz1DNG9uTzNLCx-x_MQh0qN3Gr7pHmYPGT9I8-glVCDQi7QMLAk7rewPg91ZbHRwfSQmi7cyQLxCqUnuJYbAJEdKqryTmA9LI6M9Y5LYyQLvcakR_OiRsmUQvrbtO_lXatX1qh-zYWQsBifyPuXk4Oj7_oYioHRNEFsshhtta_FEuH9zLaubw7DDdJcPETOVwbARQZpYQodDaGnJMmvMBsM5u6_RXoxAsbm4yrVW83iRjTUfX15h5LQePnhtTPjIlT3b2L1GnrlrK0uyb8ySs0w6WVXsnj9VDSjRU3D1CiJvZPhw7gHyhMcu8';
 var PAYPHONE_STORE_ID = '0d38c7cf-abd6-46d7-b6ae-ba497c02ce79';
 var PAYPHONE_URL      = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
 
