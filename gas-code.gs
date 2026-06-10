@@ -1,22 +1,17 @@
 // ═══════════════════════════════════════════════════════════════════
 //  MUNDIAL ETERNO 2026 — Google Apps Script
-//  Pega TODO este código reemplazando lo que tengas actualmente.
+//  VERSION 08 JUNIO 2026 — LA QUE FUNCIONABA
 // ═══════════════════════════════════════════════════════════════════
 
-// ── CONFIGURA ESTOS DOS VALORES ────────────────────────────────────
-var SHEET_NAME = 'Ventas';   // nombre exacto de la pestaña en Sheets
+var SHEET_NAME = 'Ventas';
 var FOLDER_ID  = '1XX8xw94p8_h8A5Ub8mnON59-j-XxPo0K';
-// El ID está en la URL de la carpeta: drive.google.com/drive/folders/ESTE_ES_EL_ID
-// ──────────────────────────────────────────────────────────────────
 
 var PAYPHONE_TOKEN    = 'eLg7ZOaSKrgqkghpcf1p_Jk-Bu8uEGBleiDS4NHY3IyTXAsKNpiOJgFyLu-Cjq33q1Gz_ecaTSHEQK57QRtYLNCHRAlVQRsxLEk6sYQ-FvvvnAeXAFj8QQJ-742TSdY3l5DHQFeS7rjre6ElzFPhwZs0FfVYgksgZ_nLcEjm3Zw74mgG6Yn3kzFRD5gt2HU5Hyv2diWfkXbDWgSIVoSl1V3GItNaTF5dbheyB2hy-q3xWm_1Djn0nnlKkdeMaY9_wK3Va-GiUadg3MYmeDDResZIq5OQTh5mO_ygS4wXERRiEbk8MR0X-CyT1l6DGkXCNYh0K8nd66MOr_jrWxui4MUCPno';
 var PAYPHONE_STORE_ID = '0d38c7cf-abd6-46d7-b6ae-ba497c02ce79';
-var PAYPHONE_URL      = 'https://pay.payphonetodoesposible.com/api/button/V2/Confirm';
+var PAYPHONE_URL      = 'https://paymentbox.payphonetodoesposible.com/api/confirm';
 
-// Columnas del spreadsheet (deben coincidir con los encabezados de la fila 1)
 var COLS = ['fecha','transactionId','monto','x','y','w','h','tamano','nombre','imagenUrl','status','payphoneId','error'];
 
-// ── ROUTER GET ─────────────────────────────────────────────────────
 function doGet(e) {
   var action = (e && e.parameter) ? e.parameter.action : '';
   var out = (action === 'getPixels') ? gasGetPixels() : { error: 'unknown action' };
@@ -25,7 +20,6 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ── ROUTER POST ────────────────────────────────────────────────────
 function doPost(e) {
   var data;
   try { data = JSON.parse(e.postData.contents); }
@@ -39,7 +33,6 @@ function doPost(e) {
   }
 }
 
-// ── HELPERS ────────────────────────────────────────────────────────
 function jsonOut(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
@@ -58,7 +51,6 @@ function getSheet() {
   return sheet;
 }
 
-// Lee los encabezados de fila 1 y devuelve { nombreColumna: posición1Indexed }
 function colIndex(sheet) {
   var headers = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
   var idx = {};
@@ -66,7 +58,6 @@ function colIndex(sheet) {
   return idx;
 }
 
-// Añade una fila mapeando por nombre de columna; crea columnas faltantes
 function appendRow(sheet, data) {
   var idx = colIndex(sheet);
   COLS.forEach(function(col) {
@@ -83,7 +74,6 @@ function appendRow(sheet, data) {
   sheet.appendRow(row);
 }
 
-// ── GET: todos los píxeles vendidos ───────────────────────────────
 function gasGetPixels() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -109,7 +99,6 @@ function gasGetPixels() {
         var w = parseInt(g('w'), 10);
         var h = parseInt(g('h'), 10);
 
-        // Solo píxeles con dimensiones válidas y estado aprobado/pendiente
         if (isNaN(x) || isNaN(y) || !w || !h) return;
         if (status !== 'Approved' && status !== 'PENDING_VERIFICATION') return;
 
@@ -124,7 +113,6 @@ function gasGetPixels() {
   }
 }
 
-// ── POST: confirmar pago con Payphone desde el servidor ───────────
 function gasConfirmPayphone(data) {
   try {
     var payload = {
@@ -147,12 +135,9 @@ function gasConfirmPayphone(data) {
 
     var result;
     try { result = JSON.parse(body); } catch(e) { result = {}; }
-    Logger.log('confirmPayphone ← resultado Payphone: ' + JSON.stringify(result));
 
     if (code !== 200) {
-      var respError = { transactionStatus: 'Error', httpStatus: code, body: body };
-      Logger.log('confirmPayphone → respuesta al browser: ' + JSON.stringify(respError));
-      return respError;
+      return { transactionStatus: 'Error', httpStatus: code, body: body };
     }
 
     if (result.transactionStatus === 'Approved') {
@@ -181,18 +166,13 @@ function gasConfirmPayphone(data) {
       });
     }
 
-    var respFinal = { transactionStatus: result.transactionStatus || 'Unknown' };
-    Logger.log('confirmPayphone → respuesta al browser: ' + JSON.stringify(respFinal));
-    return respFinal;
+    return { transactionStatus: result.transactionStatus || 'Unknown' };
 
   } catch(err) {
-    var respException = { transactionStatus: 'Error', error: err.toString() };
-    Logger.log('confirmPayphone → respuesta al browser (excepcion): ' + JSON.stringify(respException));
-    return respException;
+    return { transactionStatus: 'Error', error: err.toString() };
   }
 }
 
-// ── POST: guardar pago en Sheets directamente ─────────────────────
 function gasSavePayment(data) {
   try {
     var sheet = getSheet();
@@ -217,28 +197,22 @@ function gasSavePayment(data) {
   }
 }
 
-// ── POST: subir imagen a Google Drive ─────────────────────────────
 function gasUploadImage(data) {
   try {
     var folder;
     try {
       folder = DriveApp.getFolderById(FOLDER_ID);
     } catch(e) {
-      // FOLDER_ID inválido o sin acceso → buscar por nombre o crear
-      Logger.log('gasUploadImage: getFolderById falló (' + e + '). Buscando por nombre...');
       var iter = DriveApp.getFoldersByName('MundialEterno-Imagenes');
       folder = iter.hasNext() ? iter.next() : DriveApp.createFolder('MundialEterno-Imagenes');
     }
-    Logger.log('gasUploadImage: folder=' + folder.getName() + ' id=' + folder.getId());
     var bytes = Utilities.base64Decode(data.imageBase64);
     var blob  = Utilities.newBlob(bytes, 'image/jpeg', data.filename || 'pixel.jpg');
     var file  = folder.createFile(blob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     var url = 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w800';
-    Logger.log('gasUploadImage: ok → ' + url);
     return { status: 'ok', url: url };
   } catch(err) {
-    Logger.log('gasUploadImage ERROR: ' + err);
     return { status: 'error', message: err.toString() };
   }
 }
