@@ -783,7 +783,7 @@ nav a:hover{color:var(--gold);}
     <div class="mu-stat-div"></div>
     <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-buyers">0</div><div class="mu-stat-label" data-lang="mu-stat-buyers-lbl">Compradores</div></div>
     <div class="mu-stat-div"></div>
-    <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-days">15</div><div class="mu-stat-label" data-lang="mu-stat-days-lbl">Días para el Mundial</div></div>
+    <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-days">15</div><div class="mu-stat-label" data-lang="mu-stat-days-lbl">PÍXELES DISPONIBLES</div></div>
     <div class="mu-stat-div"></div>
     <div class="mu-stat"><div class="mu-stat-num">117,500</div><div class="mu-stat-label" data-lang="mu-stat-total-lbl">Píxeles Totales</div></div>
   </div>
@@ -2076,7 +2076,7 @@ const TRANS = {
     'mu-secure-txt':'segura y permanente',
     'mu-leg-avail':'Disponible','mu-leg-sel':'Seleccionado','mu-leg-sold':'Vendido','mu-leg-lines':'Líneas',
     'mu-stat-sold-lbl':'Píxeles Vendidos','mu-stat-buyers-lbl':'Compradores',
-    'mu-stat-days-lbl':'Días para el Mundial','mu-stat-total-lbl':'Píxeles Totales',
+    'mu-stat-days-lbl':'PÍXELES DISPONIBLES','mu-stat-total-lbl':'Píxeles Totales',
     // COMO FUNCIONA
     'cf-label':'Guía paso a paso','cf-title-1':'CÓMO ','cf-title-gold':'FUNCIONA',
     'cf-sub':'En 3 simples pasos, tu huella quedará en la historia para siempre.',
@@ -2276,7 +2276,7 @@ const TRANS = {
     'mu-secure-txt':'secure and permanent',
     'mu-leg-avail':'Available','mu-leg-sel':'Selected','mu-leg-sold':'Sold','mu-leg-lines':'Field lines',
     'mu-stat-sold-lbl':'Pixels Sold','mu-stat-buyers-lbl':'Buyers',
-    'mu-stat-days-lbl':'Days to World Cup','mu-stat-total-lbl':'Total Pixels',
+    'mu-stat-days-lbl':'AVAILABLE PIXELS','mu-stat-total-lbl':'Total Pixels',
     // HOW IT WORKS
     'cf-label':'Step by step guide','cf-title-1':'HOW IT ','cf-title-gold':'WORKS',
     'cf-sub':'In 3 simple steps, your mark will remain in history forever.',
@@ -2625,8 +2625,10 @@ function filterFaq(cat, btn){
       });
       const soldEl=document.getElementById('mu-stat-sold');
       const buyersEl=document.getElementById('mu-stat-buyers');
+      const availEl=document.getElementById('mu-stat-days');
       if(soldEl) soldEl.textContent=totalSoldPx.toLocaleString();
       if(buyersEl) buyersEl.textContent=totalBuyers.toLocaleString();
+      if(availEl) availEl.textContent=(117500-totalSoldPx).toLocaleString();
       const pct=(totalSoldPx/117500*100).toFixed(2);
       if(progFill) progFill.style.width=pct+'%';
       if(soldTxt){
@@ -2998,9 +3000,7 @@ function filterFaq(cat, btn){
   if(scrollH) scrollH.addEventListener('input',()=>{ vx=parseFloat(scrollH.value)/10; draw(); drawMini(); });
   if(scrollV) scrollV.addEventListener('input',()=>{ vy=parseFloat(scrollV.value)/10; draw(); drawMini(); });
 
-  // Stats
-  const dEl=document.getElementById('mu-stat-days');
-  if(dEl){const now=new Date(),target=new Date('2026-06-11');dEl.textContent=Math.max(0,Math.ceil((target-now)/(1000*60*60*24)));}
+  // Stats (mu-stat-days se actualiza en el bloque de datos del mural)
 
   // Init with ResizeObserver
   window.addEventListener('resize',init);
