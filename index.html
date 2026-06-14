@@ -772,18 +772,24 @@ nav a:hover{color:var(--gold);}
       <div class="mu-secure" style="display:none;"><span data-lang="secure-payment-txt">Pago 100% seguro 🔒 Visa · Mastercard · Payphone</span></div>
 
       <!-- TUTORIAL COMPUTADOR -->
-      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
-        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:0.6rem;">Tutorial de compra en el computador</div>
-        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:5px;">
-          <iframe src="https://www.youtube.com/embed/LGgdlTNMigw" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy" title="Tutorial de compra en el computador"></iframe>
+      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Tutorial de compra en el computador</div>
+        <div onclick="ytPlay(this,'LGgdlTNMigw')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000 url('https://img.youtube.com/vi/LGgdlTNMigw/maxresdefault.jpg') center/cover no-repeat;">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
+              <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- TUTORIAL MÓVIL -->
-      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
-        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:0.6rem;">Tutorial de compra en dispositivo móvil</div>
-        <!-- VIDEO MÓVIL: reemplaza XXXXXXXXXX con el ID del video de YouTube (la parte después de ?v= en el enlace) -->
-        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:5px;background:#111;border:1px dashed rgba(255,215,0,0.2);">
+      <!-- VIDEO MÓVIL: cuando tengas el video, reemplaza XXXXXXXXXX por el ID de YouTube (?v=XXXXXXXXXX)
+           y cambia también la URL del thumbnail (img.youtube.com/vi/XXXXXXXXXX/maxresdefault.jpg)
+           luego cambia el div interior a: onclick="ytPlay(this,'XXXXXXXXXX')" con el thumbnail como background -->
+      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Tutorial de compra en dispositivo móvil</div>
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#111;border-top:1px dashed rgba(255,215,0,0.15);">
           <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#555;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;">Video próximamente</div>
         </div>
       </div>
@@ -3505,6 +3511,12 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
   setTimeout(restoreMobileHeader, 800);
   setTimeout(restoreMobileHeader, 1600);
 })();
+
+// ── YOUTUBE FACADE ──
+function ytPlay(el, id){
+  el.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen allow="autoplay;encrypted-media"></iframe>';
+  el.onclick=null;el.style.cursor='default';
+}
 </script>
 <!-- MODAL DE CONFIRMACIÓN -->
 <div id="mu-confirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;z-index:3000;backdrop-filter:blur(12px);font-family:'Montserrat',sans-serif;">
