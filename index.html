@@ -1875,10 +1875,9 @@ const _startDays = calcDays('2026-06-11');
 const _startEl   = document.getElementById('cd-start');
 const _startDias = document.getElementById('cd-start-dias');
 if (_startDays <= 0) {
-  _startEl.textContent  = '¡EN CURSO!';
-  _startEl.style.fontSize   = '1.4rem';
-  _startEl.style.lineHeight = '1.3';
-  _startDias.style.display  = 'none';
+  _startEl.textContent       = '¡EN CURSO!';
+  _startEl.style.animation   = 'blink 2s infinite';
+  _startDias.style.display   = 'none';
 } else {
   _startEl.textContent = _startDays;
 }
