@@ -606,7 +606,7 @@ nav a:hover{color:var(--gold);}
     <div class="cd-box green">
       <div class="cd-label" data-lang="cd-start-label">Faltan para<br>el inicio del Mundial</div>
       <div class="cd-num" id="cd-start">165</div>
-      <div class="cd-label" data-lang="cd-dias">DÍAS</div>
+      <div class="cd-label" id="cd-start-dias" data-lang="cd-dias">DÍAS</div>
       <div class="cd-date" data-lang="cd-date-start">11 JUNIO 2026</div>
     </div>
     <div class="cd-box gold">
@@ -1871,7 +1871,17 @@ function calcDays(targetDate){
   const diff = new Date(targetDate) - now;
   return Math.max(0, Math.ceil(diff/(1000*60*60*24)));
 }
-document.getElementById('cd-start').textContent = calcDays('2026-06-11');
+const _startDays = calcDays('2026-06-11');
+const _startEl   = document.getElementById('cd-start');
+const _startDias = document.getElementById('cd-start-dias');
+if (_startDays <= 0) {
+  _startEl.textContent  = '¡EN CURSO!';
+  _startEl.style.fontSize   = '1.4rem';
+  _startEl.style.lineHeight = '1.3';
+  _startDias.style.display  = 'none';
+} else {
+  _startEl.textContent = _startDays;
+}
 document.getElementById('cd-end').textContent   = calcDays('2026-07-19');
 
 // ── IMAGE MURAL ──
