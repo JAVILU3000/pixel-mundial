@@ -3050,7 +3050,7 @@ function filterFaq(cat, btn){
   init();
   setTimeout(init,200);
 
-  // ── TOUR DE VENTAS EN BUCLE ──
+  // ── CÁMARA CINEMATOGRÁFICA EN BUCLE ──
   let _tRaf=null, _tTimeout=null, _tActive=false, _tCancelled=false;
 
   function _tEase(t){ return t<0.5 ? 2*t*t : -2*t*t+4*t-1; }
@@ -3080,10 +3080,12 @@ function filterFaq(cat, btn){
     _tActive=false; _tCancelled=true;
     if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
     if(_tTimeout){clearTimeout(_tTimeout);_tTimeout=null;}
+    // Volver suavemente al centro sc=2 en 1s
     const s0=sc,x0=vx,y0=vy,t0=performance.now();
+    const s1=2,x1=_tVx(2,250),y1=_tVy(2,118);
     function step(now){
-      const p=Math.min(1,(now-t0)/800),e=_tEase(p);
-      sc=s0+(1-s0)*e; vx=x0*(1-e); vy=y0*(1-e);
+      const p=Math.min(1,(now-t0)/1000),e=_tEase(p);
+      sc=s0+(s1-s0)*e; vx=x0+(x1-x0)*e; vy=y0+(y1-y0)*e;
       updateScrollbars();draw();drawMini();
       if(p<1)requestAnimationFrame(step);
     }
@@ -3092,15 +3094,20 @@ function filterFaq(cat, btn){
 
   function _tRun(){
     if(!_tActive)return;
-    sc=1;vx=0;vy=0;updateScrollbars();draw();drawMini();
-    _tPause(1500,()=>                                         // 1. vista completa, pausa 1.5s
-      _tAnim(3,250,150,3000,()=>                             // 2. zoom in sc=3 (250,150), 3s
-        _tPause(2500,()=>                                     // 3. pausa 2.5s viendo imágenes
-          _tAnim(2.5,60,40,2500,()=>                         // 4. esquina sup-izq, 2.5s
-            _tAnim(2.5,440,40,3000,()=>                      // 5. esquina sup-der, 3s
-              _tAnim(2.5,440,190,2500,()=>                   // 6. esquina inf-der, 2.5s
-                _tAnim(2.5,60,190,2500,()=>                  // 7. esquina inf-izq, 2.5s
-                  _tAnim(1,MC/2,MR/2,3000,()=>_tRun())       // 8. zoom out sc=1, 3s → repite
+    // Posición inicial: centro sc=2
+    sc=2; vx=_tVx(2,250); vy=_tVy(2,118); updateScrollbars();draw();drawMini();
+    _tPause(3000,()=>                              // 1. centro sc=2, pausa 3s
+      _tAnim(3.5,250,150,6000,()=>               // 2. zoom in sc=3.5 (250,150), 6s
+        _tPause(4000,()=>                          // 3. pausa 4s viendo imágenes
+          _tAnim(2.5,80,118,6000,()=>             // 4. lateral izq sc=2.5, 6s
+            _tPause(3000,()=>                      // 5. pausa 3s
+              _tAnim(2.5,420,118,8000,()=>        // 6. lateral der sc=2.5, 8s
+                _tPause(3000,()=>                  // 7. pausa 3s
+                  _tAnim(2.5,250,50,6000,()=>     // 8. zona superior sc=2.5, 6s
+                    _tPause(3000,()=>              // 9. pausa 3s
+                      _tAnim(2,250,118,6000,()=>_tRun()) // 10. vuelta al centro sc=2, 6s → repite
+                    )
+                  )
                 )
               )
             )
