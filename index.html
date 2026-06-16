@@ -3050,28 +3050,74 @@ function filterFaq(cat, btn){
   init();
   setTimeout(init,200);
 
-  // Auto-zoom 2x centrado en (250,150) al entrar por primera vez a #mural
-  let _muralAutoZoomed = false;
-  const _muralSection = document.getElementById('mural');
+  // ── TOUR DE VENTAS EN BUCLE ──
+  let _tRaf=null, _tTimeout=null, _tActive=false, _tCancelled=false;
+
+  function _tEase(t){ return t<0.5 ? 2*t*t : -2*t*t+4*t-1; }
+  function _tVx(s,wx){ return Math.max(0,Math.min(MC-canvas.width/s, wx-canvas.width/(2*s))); }
+  function _tVy(s,wy){ return Math.max(0,Math.min(MR-canvas.height/s,wy-canvas.height/(2*s))); }
+
+  function _tAnim(s1,wx,wy,dur,cb){
+    if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
+    const s0=sc,x0=vx,y0=vy,x1=_tVx(s1,wx),y1=_tVy(s1,wy),t0=performance.now();
+    function step(now){
+      if(!_tActive)return;
+      const p=Math.min(1,(now-t0)/dur),e=_tEase(p);
+      sc=s0+(s1-s0)*e; vx=x0+(x1-x0)*e; vy=y0+(y1-y0)*e;
+      updateScrollbars();draw();drawMini();
+      if(p<1){_tRaf=requestAnimationFrame(step);}else{_tRaf=null;cb&&cb();}
+    }
+    _tRaf=requestAnimationFrame(step);
+  }
+
+  function _tPause(ms,cb){
+    if(!_tActive)return;
+    _tTimeout=setTimeout(()=>{if(_tActive)cb&&cb();},ms);
+  }
+
+  function _tCancel(){
+    if(!_tActive&&!_tRaf)return;
+    _tActive=false; _tCancelled=true;
+    if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
+    if(_tTimeout){clearTimeout(_tTimeout);_tTimeout=null;}
+    const s0=sc,x0=vx,y0=vy,t0=performance.now();
+    function step(now){
+      const p=Math.min(1,(now-t0)/800),e=_tEase(p);
+      sc=s0+(1-s0)*e; vx=x0*(1-e); vy=y0*(1-e);
+      updateScrollbars();draw();drawMini();
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function _tRun(){
+    if(!_tActive)return;
+    sc=1;vx=0;vy=0;updateScrollbars();draw();drawMini();
+    _tPause(1500,()=>                                         // 1. vista completa, pausa 1.5s
+      _tAnim(3,250,150,3000,()=>                             // 2. zoom in sc=3 (250,150), 3s
+        _tPause(2500,()=>                                     // 3. pausa 2.5s viendo imágenes
+          _tAnim(2.5,60,40,2500,()=>                         // 4. esquina sup-izq, 2.5s
+            _tAnim(2.5,440,40,3000,()=>                      // 5. esquina sup-der, 3s
+              _tAnim(2.5,440,190,2500,()=>                   // 6. esquina inf-der, 2.5s
+                _tAnim(2.5,60,190,2500,()=>                  // 7. esquina inf-izq, 2.5s
+                  _tAnim(1,MC/2,MR/2,3000,()=>_tRun())       // 8. zoom out sc=1, 3s → repite
+                )
+              )
+            )
+          )
+        )
+      )
+    );
+  }
+
+  ['mousedown','wheel','touchstart'].forEach(ev=>
+    canvas.addEventListener(ev,_tCancel,{passive:true})
+  );
+
+  const _muralSection=document.getElementById('mural');
   if(_muralSection){
     new IntersectionObserver(function(entries){
-      if(_muralAutoZoomed || !entries[0].isIntersecting) return;
-      _muralAutoZoomed = true;
-      const targetSc = 2;
-      const targetVx = Math.max(0, Math.min(MC - canvas.width/targetSc, 250 - canvas.width/(2*targetSc)));
-      const targetVy = Math.max(0, Math.min(MR - canvas.height/targetSc, 150 - canvas.height/(2*targetSc)));
-      const startSc = sc, startVx = vx, startVy = vy;
-      const t0 = performance.now();
-      function ease(t){ return t<0.5 ? 2*t*t : -2*t*t+4*t-1; }
-      (function step(now){
-        const p = Math.min(1,(now-t0)/1000);
-        const e = ease(p);
-        sc = startSc + (targetSc-startSc)*e;
-        vx = startVx + (targetVx-startVx)*e;
-        vy = startVy + (targetVy-startVy)*e;
-        updateScrollbars(); draw(); drawMini();
-        if(p<1) requestAnimationFrame(step);
-      })(t0);
+      if(entries[0].isIntersecting&&!_tActive&&!_tCancelled){_tActive=true;_tRun();}
     },{threshold:0.4}).observe(_muralSection);
   }
 
