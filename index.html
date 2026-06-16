@@ -3059,11 +3059,16 @@ function filterFaq(cat, btn){
 
   function _tAnim(s1,wx,wy,dur,cb){
     if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
-    const s0=sc,x0=vx,y0=vy,x1=_tVx(s1,wx),y1=_tVy(s1,wy),t0=performance.now();
+    const s0=sc;
+    // Interpolar coordenadas mundo del centro de cámara, no vx/vy directamente
+    const wx0=vx+canvas.width/(2*s0), wy0=vy+canvas.height/(2*s0);
+    const t0=performance.now();
     function step(now){
       if(!_tActive)return;
       const p=Math.min(1,(now-t0)/dur),e=_tEase(p);
-      sc=s0+(s1-s0)*e; vx=x0+(x1-x0)*e; vy=y0+(y1-y0)*e;
+      sc=s0+(s1-s0)*e;
+      vx=_tVx(sc, wx0+(wx-wx0)*e);
+      vy=_tVy(sc, wy0+(wy-wy0)*e);
       updateScrollbars();draw();drawMini();
       if(p<1){_tRaf=requestAnimationFrame(step);}else{_tRaf=null;cb&&cb();}
     }
@@ -3081,11 +3086,12 @@ function filterFaq(cat, btn){
     if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
     if(_tTimeout){clearTimeout(_tTimeout);_tTimeout=null;}
     // Volver suavemente al centro sc=2 en 1s
-    const s0=sc,x0=vx,y0=vy,t0=performance.now();
-    const s1=2,x1=_tVx(2,250),y1=_tVy(2,118);
+    const s0=sc, wx0=vx+canvas.width/(2*s0), wy0=vy+canvas.height/(2*s0), t0=performance.now();
     function step(now){
       const p=Math.min(1,(now-t0)/1000),e=_tEase(p);
-      sc=s0+(s1-s0)*e; vx=x0+(x1-x0)*e; vy=y0+(y1-y0)*e;
+      sc=s0+(2-s0)*e;
+      vx=_tVx(sc, wx0+(250-wx0)*e);
+      vy=_tVy(sc, wy0+(118-wy0)*e);
       updateScrollbars();draw();drawMini();
       if(p<1)requestAnimationFrame(step);
     }
