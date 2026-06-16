@@ -3054,13 +3054,14 @@ function filterFaq(cat, btn){
   let _tRaf=null, _tTimeout=null, _tActive=false, _tCancelled=false;
 
   function _tEase(t){ return t<0.5 ? 2*t*t : -2*t*t+4*t-1; }
+  // sc mínimo para que la cancha llene el canvas completamente (sin fondo negro)
+  function _tMinSc(){ return Math.max(canvas.width/MC, canvas.height/MR); }
   function _tVx(s,wx){ return Math.max(0,Math.min(MC-canvas.width/s, wx-canvas.width/(2*s))); }
   function _tVy(s,wy){ return Math.max(0,Math.min(MR-canvas.height/s,wy-canvas.height/(2*s))); }
 
   function _tAnim(s1,wx,wy,dur,cb){
     if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
     const s0=sc;
-    // Interpolar coordenadas mundo del centro de cámara, no vx/vy directamente
     const wx0=vx+canvas.width/(2*s0), wy0=vy+canvas.height/(2*s0);
     const t0=performance.now();
     function step(now){
@@ -3085,11 +3086,11 @@ function filterFaq(cat, btn){
     _tActive=false; _tCancelled=true;
     if(_tRaf){cancelAnimationFrame(_tRaf);_tRaf=null;}
     if(_tTimeout){clearTimeout(_tTimeout);_tTimeout=null;}
-    // Volver suavemente al centro sc=2 en 1s
+    const sTarget=_tMinSc();
     const s0=sc, wx0=vx+canvas.width/(2*s0), wy0=vy+canvas.height/(2*s0), t0=performance.now();
     function step(now){
       const p=Math.min(1,(now-t0)/1000),e=_tEase(p);
-      sc=s0+(2-s0)*e;
+      sc=s0+(sTarget-s0)*e;
       vx=_tVx(sc, wx0+(250-wx0)*e);
       vy=_tVy(sc, wy0+(118-wy0)*e);
       updateScrollbars();draw();drawMini();
@@ -3100,18 +3101,19 @@ function filterFaq(cat, btn){
 
   function _tRun(){
     if(!_tActive)return;
-    // Posición inicial: centro sc=2
-    sc=2; vx=_tVx(2,250); vy=_tVy(2,118); updateScrollbars();draw();drawMini();
-    _tPause(3000,()=>                              // 1. centro sc=2, pausa 3s
-      _tAnim(3.5,250,150,6000,()=>               // 2. zoom in sc=3.5 (250,150), 6s
-        _tPause(4000,()=>                          // 3. pausa 4s viendo imágenes
-          _tAnim(2.5,80,118,6000,()=>             // 4. lateral izq sc=2.5, 6s
-            _tPause(3000,()=>                      // 5. pausa 3s
-              _tAnim(2.5,420,118,8000,()=>        // 6. lateral der sc=2.5, 8s
-                _tPause(3000,()=>                  // 7. pausa 3s
-                  _tAnim(2.5,250,50,6000,()=>     // 8. zona superior sc=2.5, 6s
-                    _tPause(3000,()=>              // 9. pausa 3s
-                      _tAnim(2,250,118,6000,()=>_tRun()) // 10. vuelta al centro sc=2, 6s → repite
+    const sBase=_tMinSc();          // sc mínimo que llena el canvas (nunca fondo negro)
+    const sWide=Math.max(2.5,sBase); // sc para pasos laterales/superiores
+    sc=sBase; vx=_tVx(sBase,250); vy=_tVy(sBase,118); updateScrollbars();draw();drawMini();
+    _tPause(3000,()=>                                  // 1. centro sBase, pausa 3s
+      _tAnim(3.5,250,150,6000,()=>                    // 2. zoom in sc=3.5 (250,150), 6s
+        _tPause(4000,()=>                               // 3. pausa 4s viendo imágenes
+          _tAnim(sWide,80,118,6000,()=>               // 4. lateral izq, 6s
+            _tPause(3000,()=>                           // 5. pausa 3s
+              _tAnim(sWide,420,118,8000,()=>           // 6. lateral der, 8s
+                _tPause(3000,()=>                       // 7. pausa 3s
+                  _tAnim(sWide,250,50,6000,()=>        // 8. zona superior, 6s
+                    _tPause(3000,()=>                   // 9. pausa 3s
+                      _tAnim(sBase,250,118,6000,()=>_tRun()) // 10. vuelta al centro, 6s → repite
                     )
                   )
                 )
