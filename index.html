@@ -3101,19 +3101,19 @@ function filterFaq(cat, btn){
 
   function _tRun(){
     if(!_tActive)return;
-    const sBase=_tMinSc();          // sc mínimo que llena el canvas (nunca fondo negro)
-    const sWide=Math.max(2.5,sBase); // sc para pasos laterales/superiores
+    const sBase=Math.max(2.5,_tMinSc()); // sc mínimo del tour (nunca fondo negro)
+    const sWide=Math.max(3,_tMinSc());   // sc para pasos laterales/superiores
     sc=sBase; vx=_tVx(sBase,250); vy=_tVy(sBase,118); updateScrollbars();draw();drawMini();
-    _tPause(3000,()=>                                  // 1. centro sBase, pausa 3s
-      _tAnim(3.5,250,150,6000,()=>                    // 2. zoom in sc=3.5 (250,150), 6s
-        _tPause(4000,()=>                               // 3. pausa 4s viendo imágenes
-          _tAnim(sWide,80,118,6000,()=>               // 4. lateral izq, 6s
-            _tPause(3000,()=>                           // 5. pausa 3s
-              _tAnim(sWide,420,118,8000,()=>           // 6. lateral der, 8s
-                _tPause(3000,()=>                       // 7. pausa 3s
-                  _tAnim(sWide,250,50,6000,()=>        // 8. zona superior, 6s
-                    _tPause(3000,()=>                   // 9. pausa 3s
-                      _tAnim(sBase,250,118,6000,()=>_tRun()) // 10. vuelta al centro, 6s → repite
+    _tPause(1500,()=>                                  // 1. centro sBase, pausa 1.5s
+      _tAnim(4.5,250,150,4000,()=>                    // 2. zoom in sc=4.5 (250,150), 4s
+        _tPause(2000,()=>                               // 3. pausa 2s viendo imágenes
+          _tAnim(sWide,80,118,4000,()=>               // 4. lateral izq, 4s
+            _tPause(1500,()=>                           // 5. pausa 1.5s
+              _tAnim(sWide,420,118,5000,()=>           // 6. lateral der, 5s
+                _tPause(1500,()=>                       // 7. pausa 1.5s
+                  _tAnim(sWide,250,50,4000,()=>        // 8. zona superior, 4s
+                    _tPause(1500,()=>                   // 9. pausa 1.5s
+                      _tAnim(sBase,250,118,4000,()=>_tRun()) // 10. vuelta al centro, 4s → repite
                     )
                   )
                 )
