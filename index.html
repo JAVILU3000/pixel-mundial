@@ -3049,6 +3049,32 @@ function filterFaq(cat, btn){
   }
   init();
   setTimeout(init,200);
+
+  // Auto-zoom 2x centrado en (250,150) al entrar por primera vez a #mural
+  let _muralAutoZoomed = false;
+  const _muralSection = document.getElementById('mural');
+  if(_muralSection){
+    new IntersectionObserver(function(entries){
+      if(_muralAutoZoomed || !entries[0].isIntersecting) return;
+      _muralAutoZoomed = true;
+      const targetSc = 2;
+      const targetVx = Math.max(0, Math.min(MC - canvas.width/targetSc, 250 - canvas.width/(2*targetSc)));
+      const targetVy = Math.max(0, Math.min(MR - canvas.height/targetSc, 150 - canvas.height/(2*targetSc)));
+      const startSc = sc, startVx = vx, startVy = vy;
+      const t0 = performance.now();
+      function ease(t){ return t<0.5 ? 2*t*t : -2*t*t+4*t-1; }
+      (function step(now){
+        const p = Math.min(1,(now-t0)/1000);
+        const e = ease(p);
+        sc = startSc + (targetSc-startSc)*e;
+        vx = startVx + (targetVx-startVx)*e;
+        vy = startVy + (targetVy-startVy)*e;
+        updateScrollbars(); draw(); drawMini();
+        if(p<1) requestAnimationFrame(step);
+      })(t0);
+    },{threshold:0.4}).observe(_muralSection);
+  }
+
   // ── DEMO BLOCK: visual quality test (no payment) ──
   setTimeout(function(){
     window.registerSoldBlock(
