@@ -3105,7 +3105,7 @@ function filterFaq(cat, btn){
     const sWide=Math.max(3,_tMinSc());   // sc para pasos laterales/superiores
     sc=sBase; vx=_tVx(sBase,250); vy=_tVy(sBase,118); updateScrollbars();draw();drawMini();
     _tPause(1500,()=>                                  // 1. centro sBase, pausa 1.5s
-      _tAnim(4.5,250,150,4000,()=>                    // 2. zoom in sc=4.5 (250,150), 4s
+      _tAnim(5,250,118,4000,()=>                      // 2. zoom in sc=5 (250,118), 4s
         _tPause(2000,()=>                               // 3. pausa 2s viendo imágenes
           _tAnim(sWide,80,118,4000,()=>               // 4. lateral izq, 4s
             _tPause(1500,()=>                           // 5. pausa 1.5s
