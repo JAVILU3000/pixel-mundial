@@ -2864,7 +2864,7 @@ function filterFaq(cat, btn){
         const d=sold.get(p.x+','+p.y);
         const tipText = d&&d.text ? d.text : (window._lang==='en'?'SOLD':'VENDIDO');
         if(canvasTip){
-          canvasTip.textContent = '🏆 ' + tipText;
+          canvasTip.innerHTML = '🏆 ' + tipText + '<br><span style="font-size:0.72em;color:#aaa;font-family:monospace;">📍 x = ' + p.x + ' · y = ' + p.y + '</span>';
           canvasTip.style.display='block';
           canvasTip.style.left=(e.clientX+16)+'px';
           canvasTip.style.top=(e.clientY-42)+'px';
