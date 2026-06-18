@@ -159,6 +159,27 @@ nav a:hover{color:var(--gold);}
 }
 .hero-sub strong{color:var(--gold);}
 
+/* ── HERO TWO-COLUMN ── */
+.hero-layout{display:flex;align-items:center;position:relative;z-index:3;max-width:1100px;margin:0 auto;gap:2rem;padding:0 1rem;}
+.hero-col-left{flex:1;text-align:left;}
+.hero-col-left h1{font-size:clamp(2rem,3.6vw,3.2rem);}
+.hero-col-left .hero-sub{margin-left:0;max-width:460px;color:#fff;}
+.hero-bullets{list-style:none;margin:1.2rem 0;display:flex;flex-direction:column;gap:0.65rem;}
+.hero-bullets li{font-size:0.82rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);}
+.hero-cta{display:inline-block;margin-top:0.6rem;padding:0.95rem 2.4rem;background:var(--gold);color:#000;font-weight:900;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;border-radius:10px;text-decoration:none;transition:opacity .2s;box-shadow:0 0 28px rgba(255,215,0,0.4);}
+.hero-cta:hover{opacity:0.88;}
+.hero-secure{font-size:0.72rem;color:#888;margin-top:0.6rem;letter-spacing:0.04em;}
+.hero-col-right{flex:1;display:flex;align-items:center;justify-content:center;}
+.hero-mural-preview{width:100%;max-width:480px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,215,0,0.2);box-shadow:0 0 40px rgba(0,0,0,0.6);}
+.hero-mural-preview img{width:100%;height:auto;display:block;}
+@media(max-width:768px){
+  .hero-layout{flex-direction:column;gap:1rem;}
+  .hero-col-left{text-align:center;}
+  .hero-col-left h1{font-size:clamp(2rem,8vw,3rem);}
+  .hero-col-left .hero-sub{margin:0.5rem auto 0;}
+  .hero-col-right{display:none;}
+}
+
 /* COUNTDOWN BOXES */
 .countdown-row{
   display:flex;justify-content:center;gap:1rem;margin:1rem auto 0;
@@ -598,8 +619,24 @@ nav a:hover{color:var(--gold);}
     <div class="crowd"></div>
   </div>
   <div class="confetti-wrap" id="confetti"></div>
-  <h1><span data-lang="hero-h1-1">DEJA TU HUELLA ETERNA</span><br><span data-lang="hero-h1-2">EN LA</span> <em data-lang="hero-h1-gold">HISTORIA DEL FÚTBOL</em></h1>
-  <p class="hero-sub" data-lang="hero-sub">El mural digital colaborativo más grande del Mundial 2026.<br>Cada píxel es un pedazo de historia. El mural se sellará para siempre<br><strong>al finalizar el Mundial 2026.</strong></p>
+  <div class="hero-layout">
+    <div class="hero-col-left">
+      <h1><span data-lang="hero-h1-1">APARECE EN EL MURAL DEL</span><br><em data-lang="hero-h1-gold">MUNDIAL 2026</em></h1>
+      <p class="hero-sub" data-lang="hero-sub">Tu foto para siempre en la historia más grande del fútbol.</p>
+      <ul class="hero-bullets">
+        <li data-lang="hero-bullet-1">📸 SUBE TU FOTO</li>
+        <li data-lang="hero-bullet-2">⊞ ELIGE TU ESPACIO EN LA CANCHA</li>
+        <li data-lang="hero-bullet-3">🏆 QUEDA PARA SIEMPRE</li>
+      </ul>
+      <a href="#mural" class="hero-cta" data-lang="hero-cta">ELEGIR MI ESPACIO →</a>
+      <p class="hero-secure" data-lang="hero-secure">🔒 Pago seguro desde $1 USD</p>
+    </div>
+    <div class="hero-col-right">
+      <div class="hero-mural-preview">
+        <img src="mural-preview.png" alt="Mural Mundial 2026">
+      </div>
+    </div>
+  </div>
 
   <!-- COUNTDOWN -->
   <div class="countdown-row">
@@ -2093,10 +2130,15 @@ const TRANS = {
     'nav-precios':'Precios','nav-faq':'Preguntas','nav-contacto':'Contacto',
     'btn-buy':'⊞ DEJA TU HUELLA',
     // HERO
-    'hero-h1-1':'DEJA TU HUELLA ETERNA',
+    'hero-h1-1':'APARECE EN EL MURAL DEL',
     'hero-h1-2':'EN LA',
-    'hero-h1-gold':'HISTORIA DEL FÚTBOL',
-    'hero-sub':'El mural digital colaborativo más grande del Mundial 2026.<br>Cada píxel es un pedazo de historia. El mural se sellará para siempre<br><strong>al finalizar el Mundial 2026.</strong>',
+    'hero-h1-gold':'MUNDIAL 2026',
+    'hero-sub':'Tu foto para siempre en la historia más grande del fútbol.',
+    'hero-bullet-1':'📸 SUBE TU FOTO',
+    'hero-bullet-2':'⊞ ELIGE TU ESPACIO EN LA CANCHA',
+    'hero-bullet-3':'🏆 QUEDA PARA SIEMPRE',
+    'hero-cta':'ELEGIR MI ESPACIO →',
+    'hero-secure':'🔒 Pago seguro desde $1 USD',
     'cd-start-label':'Faltan para<br>el inicio del Mundial',
     'cd-end-label':'Faltan para<br>el final del Mundial',
     'cd-dias':'DÍAS',
@@ -2293,10 +2335,15 @@ const TRANS = {
     'nav-precios':'Pricing','nav-faq':'FAQ','nav-contacto':'Contact',
     'btn-buy':'⊞ LEAVE YOUR MARK',
     // HERO
-    'hero-h1-1':'LEAVE YOUR ETERNAL MARK',
+    'hero-h1-1':'APPEAR ON THE MURAL OF THE',
     'hero-h1-2':'IN THE',
-    'hero-h1-gold':'HISTORY OF FOOTBALL',
-    'hero-sub':'The largest collaborative digital mural of the 2026 World Cup.<br>Every pixel is a piece of history. The mural will be sealed forever<br><strong>at the end of the 2026 World Cup.</strong>',
+    'hero-h1-gold':'WORLD CUP 2026',
+    'hero-sub':'Your photo forever in the greatest story in football history.',
+    'hero-bullet-1':'📸 UPLOAD YOUR PHOTO',
+    'hero-bullet-2':'⊞ CHOOSE YOUR SPACE ON THE PITCH',
+    'hero-bullet-3':'🏆 STAY FOREVER',
+    'hero-cta':'CHOOSE MY SPACE →',
+    'hero-secure':'🔒 Secure payment from $1 USD',
     'cd-start-label':'Days until<br>World Cup starts',
     'cd-end-label':'Days until<br>World Cup ends',
     'cd-dias':'DAYS',
