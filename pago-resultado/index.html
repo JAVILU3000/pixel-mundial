@@ -143,8 +143,6 @@ if (window.self !== window.top) {
       render('cancelled');
 
     } else if (data.transactionStatus === 'Error' || data.error) {
-      // El GAS no pudo alcanzar a Payphone — mostramos éxito igual porque
-      // Payphone solo redirige aquí cuando el banco cobró.
       saveToSheetsFallback({
         action: 'confirmPayment',
         fecha: new Date().toISOString(),
@@ -159,15 +157,12 @@ if (window.self !== window.top) {
         payphoneId: id,
         error: data.error || 'gas_error'
       });
-      storeRecentPixel(fallbackPx);
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
-      render('approved', clientTransactionId);
+      render('failed');
 
     } else if (data.transactionStatus === 'Declined') {
       render('failed');
     } else {
-      // Estado desconocido — Payphone solo redirige aquí tras interacción real,
-      // así que guardamos como pendiente y mostramos éxito para no bloquear al usuario.
       saveToSheetsFallback({
         action: 'confirmPayment',
         fecha: new Date().toISOString(),
@@ -182,13 +177,11 @@ if (window.self !== window.top) {
         payphoneId: id,
         error: 'unknown_status:' + (data.transactionStatus || '')
       });
-      storeRecentPixel(fallbackPx);
       try { localStorage.removeItem('pending_' + clientTransactionId); } catch(e) {}
-      render('approved', clientTransactionId);
+      render('failed');
     }
 
   } catch (e) {
-    // Timeout o error de red al llamar al GAS. Misma lógica: mostrar éxito.
     saveToSheetsFallback({
       action: 'confirmPayment',
       fecha: new Date().toISOString(),
@@ -203,9 +196,8 @@ if (window.self !== window.top) {
       payphoneId: id,
       error: e.message || 'timeout'
     });
-    storeRecentPixel(fallbackPx);
     try { localStorage.removeItem('pending_' + clientTransactionId); } catch(ex) {}
-    render('approved', clientTransactionId);
+    render('failed');
   }
 })();
 </script>
