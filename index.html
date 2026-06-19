@@ -682,6 +682,41 @@ nav a:hover{color:var(--gold);}
   </div>
 </section>
 
+<!-- MURAL + PANEL -->
+<div class="mural-area" id="mural-inicio">
+  <div class="mural-wrap">
+    <div class="mural-topbar">
+      <div style="display:flex;align-items:center;">
+        <span class="live-dot"></span>
+        <span style="color:var(--muted);font-weight:bold;animation:blink 2s infinite;" id="sold-bar" data-lang="inicio-sold-bar">🔒 IMAGEN REFERENCIAL — ASÍ SE VERÁ AL COMPLETARSE EL MURAL — 117,500 / 117,500 PÍXELES (100%)</span>
+      </div>
+      <span style="color:var(--gold);font-weight:800;font-size:0.62rem;letter-spacing:0.08em;" data-lang="mural-bar-title">MURAL MUNDIAL ETERNO 2026</span>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="pfill" style="width:100%"></div></div>
+    <img id="mural-img" src="mural-preview.png" style="width:100%;display:block;cursor:crosshair;" alt="Mural Mundial Eterno 2026">
+  </div>
+
+  <!-- PANEL -->
+  <div class="buy-panel">
+    <div class="panel-title" data-lang="inicio-panel-title">Compra Tu Píxel</div>
+    <div class="panel-sub" data-lang="mu-panel-sub">Selecciona en el mural<br>el píxel que deseas comprar</div>
+    <div class="mini-grid-wrap"><div id="mini-grid"></div></div>
+    <div class="price-block">
+      <div class="pl" data-lang="inicio-price-label">1 Píxel</div>
+      <div class="pa"><sup>$</sup>1<span>.00 USD</span></div>
+      <div class="pn" data-lang="inicio-price-note">Pago único · Para siempre</div>
+    </div>
+    <button class="btn-card" data-lang="mu-card" onclick="openModal(selX,selY)" style="border-color:rgba(255,215,0,0.4);">
+      💳 PAGAR CON TARJETA
+      <span style="display:flex;gap:3px;align-items:center;margin-left:2px;">
+        <span style="background:#1a1f71;color:#fff;font-size:0.55rem;font-weight:900;font-style:italic;padding:2px 4px;border-radius:2px;letter-spacing:0.03em;">VISA</span>
+        <span style="background:#2557d6;color:#fff;font-size:0.5rem;font-weight:900;padding:2px 4px;border-radius:2px;letter-spacing:0.02em;">AMEX</span>
+      </span>
+    </button>
+    <div class="secure-txt"><span data-lang="secure-payment-txt">Pago 100% seguro 🔒 Visa · Mastercard · Payphone</span></div>
+  </div>
+</div>
+
 <!-- FEATURES BAR -->
 <div class="features-bar">
   <div class="feat-item">
