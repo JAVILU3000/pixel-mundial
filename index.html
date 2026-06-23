@@ -772,7 +772,7 @@ nav a:hover{color:var(--gold);}
   <div class="mu-topbar">
     <div class="mu-topbar-left">
       <span class="mu-live-dot"></span>
-      <span id="mu-sold-txt" data-lang="mu-sold-bar">PÍXELES VENDIDOS: 0 / 117,500 (0.00%)</span>
+      <span id="mu-sold-txt" data-lang="mu-sold-bar">ESPACIOS VENDIDOS: 0 / 117,500 (0.00%)</span>
     </div>
     <div class="mu-topbar-prog"><div class="mu-topbar-fill" id="mu-prog"></div></div>
     <div class="mu-topbar-right">EN VIVO</div>
@@ -2242,7 +2242,7 @@ const TRANS = {
     'inicio-panel-title':'COMPRA TU PÍXEL',
     'inicio-price-label':'1 PÍXEL','inicio-price-note':'Pago único · Para siempre',
     'inicio-secure':'segura y permanente',
-    'mu-sold-bar':'PÍXELES VENDIDOS: 0 / 117,500 (0.00%)',
+    'mu-sold-bar':'ESPACIOS VENDIDOS: 0 / 117,500 (0.00%)',
     'mu-sel-none':'Ningún píxel seleccionado',
     'pr-sub':'Un píxel, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
     'pr-rule-title':'La regla es simple',
@@ -2724,7 +2724,7 @@ function filterFaq(cat, btn){
       if(soldTxt){
         soldTxt.textContent=window._lang==='en'
           ?`PIXELS SOLD: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`
-          :`PÍXELES VENDIDOS: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`;
+          :`ESPACIOS VENDIDOS: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`;
       }
       draw(); drawMini();
     }
