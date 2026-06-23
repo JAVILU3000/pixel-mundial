@@ -981,7 +981,7 @@ nav a:hover{color:var(--gold);}
     <div class="cf-cta-trophy">🏆</div>
     <h3 class="cf-cta-title"><span data-lang="cf-cta-title-q">¿LISTO PARA DEJAR TU </span><em data-lang="cf-cta-gold">HUELLA ETERNA</em>?</h3>
     <p class="cf-cta-sub" data-lang="cf-cta-sub">El mural se sellará para siempre al finalizar el Mundial 2026. No esperes más.</p>
-    <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ ELEGIR MI ESPACIO → — $1.00 USD</button>
+    <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ ELEGIR MI ESPACIO →</button>
     <div class="cf-cta-note" data-lang="pr-secure-note">🔒 Pago seguro · Permanente · Instantáneo</div>
   </div>
 
@@ -1260,7 +1260,7 @@ nav a:hover{color:var(--gold);}
           <span class="pr-soc-name">Facebook</span>
         </a>
       </div>
-      <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" style="display:none;">⊞ ELEGIR MI ESPACIO → — $1.00 USD</button>
+      <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" style="display:none;">⊞ ELEGIR MI ESPACIO →</button>
       <div class="pr-secure" data-lang="pr-secure-note" style="display:none;">🛡️ Pago seguro · Permanente · Instantáneo</div>
     </div>
   </div>
@@ -1269,7 +1269,7 @@ nav a:hover{color:var(--gold);}
     <div class="pr-cta-trophy">🏆</div>
     <h3 class="pr-cta-title"><span data-lang="pr-cta-title-q">¿LISTO PARA DEJAR TU </span><em data-lang="pr-cta-gold">HUELLA ETERNA</em>?</h3>
     <p class="pr-cta-sub" data-lang="pr-cta-sub">El mural se sellará para siempre al finalizar el Mundial 2026.</p>
-    <button class="pr-cta-btn" data-lang="pr-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ ELEGIR MI ESPACIO → — $1.00 USD</button>
+    <button class="pr-cta-btn" data-lang="pr-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ ELEGIR MI ESPACIO →</button>
     <div class="pr-cta-note" data-lang="pr-secure-note">🔒 Pago seguro · Permanente · Instantáneo</div>
   </div>
 
@@ -1459,7 +1459,7 @@ nav a:hover{color:var(--gold);}
     <div class="fq-cta-trophy">🏆</div>
     <h3 class="fq-cta-title"><span data-lang="fq-cta-title-q">¿YA TIENES TODO CLARO? DEJA TU </span><em data-lang="fq-cta-gold">HUELLA</em></h3>
     <p class="fq-cta-sub" data-lang="fq-cta-sub">El mural se sellará eternamente al finalizar el Mundial 2026.</p>
-    <button class="fq-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" data-lang="fq-cta-btn">⊞ COMPRAR MI PÍXEL — $1.00 USD</button>
+    <button class="fq-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" data-lang="fq-cta-btn">⊞ ELEGIR MI ESPACIO →</button>
     <div class="fq-cta-note" data-lang="fq-secure-note">🔒 Pago seguro · Permanente · Instantáneo</div>
   </div>
 
@@ -2178,7 +2178,7 @@ const TRANS = {
     'pr-sub':'Un píxel, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
     'pr-main-name':'1 Píxel = $1.00 USD',
     'pr-main-desc':'Compra desde 1 píxel. Sube tu nombre, foto, logo o link. Queda para siempre en el mural del Mundial 2026.',
-    'pr-buy-btn':'🔒 COMPRAR MI PÍXEL',
+    'pr-buy-btn':'🔒 ELEGIR MI ESPACIO →',
     // FAQ
     'fq-label':'Todo lo que necesitas saber','fq-title-1':'PREGUNTAS ','fq-title-gold':'FRECUENTES',
     'fq-sub':'Resolvemos todas tus dudas antes de que dejes tu huella eterna.',
@@ -2211,7 +2211,7 @@ const TRANS = {
     'fq-contact-desc':'Respondemos en menos de 24 horas. También puedes encontrarnos en nuestras redes sociales.',
     'fq-contact-btn':'CONTACTAR',
     'fq-cta-sub':'El mural se sellará eternamente al finalizar el Mundial 2026.',
-    'fq-cta-btn':'⊞ COMPRAR MI PÍXEL — $1.00 USD',
+    'fq-cta-btn':'⊞ ELEGIR MI ESPACIO →',
     'fq-not-found':'¿No encontraste tu respuesta?',
     // PRICING
     'pr-min-desc':'$1 USD — cualquier persona puede participar desde cualquier país del mundo.',
@@ -2220,7 +2220,7 @@ const TRANS = {
     'pr-global-desc':'Compradores de todo el mundo ya son parte del mural histórico.',
     'pr-lim-min':'Mínimo','pr-lim-max':'Máximo','pr-lim-once':'Pago único','pr-lim-global':'Global',
     'pr-cta-sub':'El mural se sellará para siempre al finalizar el Mundial 2026.',
-    'pr-cta-btn':'⊞ ELEGIR MI ESPACIO → — $1.00 USD',
+    'pr-cta-btn':'⊞ ELEGIR MI ESPACIO →',
     // CONTACT
     'ct-email-desc':'Escríbenos a cualquier hora del día.',
     'ct-response-desc':'Respondemos en menos de 24 horas en días hábiles. Soporte disponible en español e inglés.',
@@ -3296,9 +3296,7 @@ function filterFaq(cat, btn){
       : tot.toLocaleString()+' píxeles · bloque '+w+'×'+h;
     prDesc.textContent = getDesc(tot);
     prSizeLabel.textContent = w+'×'+h+(en?' pixels':' píxeles');
-    if(prBuyBtn) prBuyBtn.textContent = en
-      ? '🔒 BUY MY PIXEL — '+price
-      : '🔒 COMPRAR MI PÍXEL — '+price;
+    if(prBuyBtn) prBuyBtn.textContent = '🔒 ELEGIR MI ESPACIO →';
     drawPreview(w,h);
   }
 
