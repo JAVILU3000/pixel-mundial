@@ -520,6 +520,15 @@ nav a:hover{color:var(--gold);}
 .mu-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1;}
 .mu-stat-label{font-size:0.62rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
 @media(max-width:900px){.mu-main{flex-direction:column;}.mu-panel{width:100%;border-left:none;border-top:1px solid rgba(255,215,0,0.12);}.mu-stats{flex-wrap:wrap;}.mu-stat{flex:1 1 45%;}.mu-stat-div{display:none;}}
+.features-cards-section{background:#000;padding:3rem 2rem;}
+.features-cards-wrap{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;max-width:1200px;margin:0 auto;}
+.feat-card{background:#0a0a0a;border:1.5px solid var(--gold);border-radius:16px;padding:2rem 1.5rem;flex:1;min-width:220px;max-width:280px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1rem;}
+.feat-card-icon{font-size:3.5rem;}
+.feat-card-title{font-size:1.3rem;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.2;}
+.feat-card-gold{color:var(--gold);}
+.feat-card-desc{font-size:0.9rem;color:#ccc;line-height:1.5;}
+.feat-card-tags{display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;}
+.feat-card-tags span{background:#1a1a1a;border:1px solid #333;border-radius:20px;padding:0.3rem 0.7rem;font-size:0.75rem;color:#fff;}
 </style>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -728,43 +737,31 @@ nav a:hover{color:var(--gold);}
 </div>
 
 <!-- FEATURES BAR -->
-<div class="features-bar">
-  <div class="feat-item" style="display:none">
-    <div class="feat-icon">🛡️</div>
-    <div class="feat-text">
-      <strong data-lang="feat-title-1">Seguro y Permanente</strong>
-      <span data-lang="feat-desc-1">Tu píxel quedará guardado para siempre.</span>
+<section class="features-cards-section">
+  <div class="features-cards-wrap">
+    <div class="feat-card">
+      <div class="feat-card-icon">🖼️</div>
+      <div class="feat-card-title">SUBE TU <span class="feat-card-gold">CONTENIDO</span></div>
+      <div class="feat-card-desc">Personaliza tu espacio con lo que más te represente.</div>
+      <div class="feat-card-tags"><span>😊 SELFIE</span><span>🚩 BANDERA</span><span>🏢 LOGO DE EMPRESA</span></div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-icon">🌍</div>
+      <div class="feat-card-title">COMUNIDAD <span class="feat-card-gold">GLOBAL</span></div>
+      <div class="feat-card-desc">Únete a aficionados de todo el mundo en un solo mural.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-icon">🏆</div>
+      <div class="feat-card-title">TU LUGAR <span class="feat-card-gold">EN LA HISTORIA</span></div>
+      <div class="feat-card-desc">Tu espacio formará parte de un recuerdo permanente del Mundial 2026.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-card-icon">🔒</div>
+      <div class="feat-card-title">SELLADO <span class="feat-card-gold">ETERNO</span></div>
+      <div class="feat-card-desc">Al finalizar el Mundial 2026, el mural se cerrará para siempre.</div>
     </div>
   </div>
-  <div class="feat-item">
-    <div class="feat-icon">🌐</div>
-    <div class="feat-text">
-      <strong data-lang="feat-title-2">Comunidad Global</strong>
-      <span data-lang="feat-desc-2">Forma parte del mural con personas de todo el mundo.</span>
-    </div>
-  </div>
-  <div class="feat-item" style="display:none">
-    <div class="feat-icon">❤️</div>
-    <div class="feat-text">
-      <strong data-lang="feat-title-3">Captura Tu Momento</strong>
-      <span data-lang="feat-desc-3">Sé parte de la historia del Mundial 2026.</span>
-    </div>
-  </div>
-  <div class="feat-item">
-    <div class="feat-icon">🔒</div>
-    <div class="feat-text">
-      <strong data-lang="feat-title-4">Sellado Eterno</strong>
-      <span data-lang="feat-desc-4">Al finalizar el Mundial, el mural se sellará para siempre.</span>
-    </div>
-  </div>
-  <div class="feat-item">
-    <div class="feat-icon">🏆</div>
-    <div class="feat-text">
-      <strong data-lang="feat-title-5">Un Recuerdo Para Siempre</strong>
-      <span data-lang="feat-desc-5">117,500 espacios disponibles.</span>
-    </div>
-  </div>
-</div>
+</section>
 
 <!-- ══════════════════════════════════════════
      SECCIÓN: MURAL — LA CANCHA DE PÍXELES
