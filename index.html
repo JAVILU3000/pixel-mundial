@@ -1190,7 +1190,7 @@ nav a:hover{color:var(--gold);}
   </div>
 
   <div class="pr-calc-wrap">
-    <div class="pr-section-title" data-lang="pr-calc-title">Calculadora de píxeles</div>
+    <div class="pr-section-title" data-lang="pr-calc-title">Calculadora de espacios</div>
     <div class="pr-calc-box">
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-width-label">Ancho</div>
@@ -1205,12 +1205,12 @@ nav a:hover{color:var(--gold);}
       <div class="pr-calc-result">
         <div class="pr-result-left">
           <canvas id="pr-canvas" width="90" height="90"></canvas>
-          <div class="pr-canvas-label" id="pr-size-label">10×10 píxeles</div>
+          <div class="pr-canvas-label" id="pr-size-label">10×10 espacios</div>
         </div>
         <div class="pr-result-right">
           <div class="pr-result-sublabel">Total a pagar</div>
           <div class="pr-result-total" id="pr-total">$100 USD</div>
-          <div class="pr-result-pixels" id="pr-pixels">100 píxeles · bloque 10×10</div>
+          <div class="pr-result-pixels" id="pr-pixels">100 espacios · bloque 10×10</div>
           <div class="pr-result-desc" id="pr-desc">Visible — perfecto para una imagen pequeña o tu nombre.</div>
         </div>
       </div>
@@ -2250,7 +2250,7 @@ const TRANS = {
     'mu-sel-none':'Ningún píxel seleccionado',
     'pr-sub':'Un espacio, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
     'pr-rule-title':'La regla es simple',
-    'pr-calc-title':'Calculadora de píxeles',
+    'pr-calc-title':'Calculadora de espacios',
     'pr-form-title':'¿Qué irá en tu píxel?',
     'pr-width-label':'Ancho','pr-height-label':'Alto',
     'pr-total-label':'TOTAL A PAGAR',
@@ -2455,7 +2455,7 @@ const TRANS = {
     'mu-sel-none':'No pixel selected',
     'pr-sub':'One space, one dollar. That simple.<br>Anyone in the world can participate.',
     'pr-rule-title':'The rule is simple',
-    'pr-calc-title':'Pixel calculator',
+    'pr-calc-title':'Space calculator',
     'pr-form-title':'What will go on your pixel?',
     'pr-width-label':'Width','pr-height-label':'Height',
     'pr-total-label':'TOTAL TO PAY',
@@ -3296,10 +3296,10 @@ function filterFaq(cat, btn){
     prHV.textContent = h+' px';
     prTotal.textContent = price;
     prPixels.textContent = en
-      ? tot.toLocaleString()+' pixels · block '+w+'×'+h
-      : tot.toLocaleString()+' píxeles · bloque '+w+'×'+h;
+      ? tot.toLocaleString()+' spaces · block '+w+'×'+h
+      : tot.toLocaleString()+' espacios · bloque '+w+'×'+h;
     prDesc.textContent = getDesc(tot);
-    prSizeLabel.textContent = w+'×'+h+(en?' pixels':' píxeles');
+    prSizeLabel.textContent = w+'×'+h+(en?' spaces':' espacios');
     if(prBuyBtn) prBuyBtn.textContent = '🔒 ELEGIR MI ESPACIO →';
     drawPreview(w,h);
   }
