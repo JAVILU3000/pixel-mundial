@@ -548,7 +548,7 @@ nav a:hover{color:var(--gold);}
   <div class="modal-box" style="text-align:center;max-width:360px;">
     <div style="font-size:2.5rem;margin-bottom:0.5rem;">⚠️</div>
     <h3 data-lang="modal-max-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);margin-bottom:0.5rem;">LÍMITE MÁXIMO</h3>
-    <p id="modal-max-warn-msg" style="color:#ccc;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.</p>
+    <p id="modal-max-warn-msg" style="color:#ccc;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">¡Superaste el límite máximo de <strong style="color:var(--gold);">10×10 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.</p>
     <button id="modal-max-warn-btn" data-lang="modal-max-warn-btn" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;padding:0.75rem 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;font-weight:700;">✅ GRACIAS</button>
   </div>
 </div>
@@ -574,8 +574,15 @@ nav a:hover{color:var(--gold);}
       </div>
     </div>
     <p style="font-size:0.82rem;color:#ccc;line-height:1.6;margin-bottom:1.2rem;text-align:center;" data-lang="modal-old-body">Estás a punto de comprar <strong style="color:var(--gold)" id="modal-px-count">1 píxel</strong> — cada píxel vale <strong style="color:var(--gold);white-space:nowrap;">$1.00 USD</strong>.<br><span style="color:#aaa;">Tu huella quedará sellada para siempre al finalizar el Mundial 2026.</span></p>
+    <div style="background:linear-gradient(135deg,rgba(0,100,0,0.25),rgba(0,80,0,0.15));border:1.5px solid #FFD700;border-radius:10px;padding:12px 16px;margin-bottom:0.8rem;text-align:center;">
+      <div id="promo-ecuador-es" style="color:#FFD700;font-weight:800;font-size:0.9rem;line-height:1.5;">🇪🇨 ¡HOY GRATIS! Por la victoria de Ecuador en el Mundial.<br><span style="font-weight:500;font-size:0.8rem;color:#ccc;">Válido hasta el 27 de junio a las 12:00 del mediodía.</span></div>
+      <div id="promo-ecuador-en" style="display:none;color:#FFD700;font-weight:800;font-size:0.9rem;line-height:1.5;">🇪🇨 FREE TODAY! Celebrating Ecuador's World Cup victory.<br><span style="font-weight:500;font-size:0.8rem;color:#ccc;">Valid until June 27 at 12:00 PM.</span></div>
+    </div>
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button onclick="pagarConTarjeta()" style="background:var(--gold);color:#000;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
+      <button onclick="reclamarEspacioGratis()" style="background:linear-gradient(135deg,#155f2a,#0e4a1f);color:#FFD700;border:2px solid #FFD700;border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
+        <span id="modal-btn-free-txt">✅ RECLAMAR MI ESPACIO GRATIS</span>
+      </button>
+      <button onclick="pagarConTarjeta()" style="background:var(--gold);color:#000;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:none;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
         <span id="modal-btn-card-txt">💳 PAGAR CON TARJETA</span>
         <span style="display:flex;gap:4px;align-items:center;margin-left:4px;">
           <span style="background:#1a1f71;color:#fff;font-size:0.6rem;font-weight:900;font-style:italic;padding:2px 5px;border-radius:3px;letter-spacing:0.05em;">VISA</span>
@@ -1194,12 +1201,12 @@ nav a:hover{color:var(--gold);}
     <div class="pr-calc-box">
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-width-label">Ancho</div>
-        <input type="range" class="pr-slider" id="pr-w" min="1" max="40" value="10" step="1">
+        <input type="range" class="pr-slider" id="pr-w" min="1" max="10" value="10" step="1">
         <div class="pr-calc-val" id="pr-w-val">10 px</div>
       </div>
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-height-label">Alto</div>
-        <input type="range" class="pr-slider" id="pr-h" min="1" max="40" value="10" step="1">
+        <input type="range" class="pr-slider" id="pr-h" min="1" max="10" value="10" step="1">
         <div class="pr-calc-val" id="pr-h-val">10 px</div>
       </div>
       <div class="pr-calc-result">
@@ -2052,14 +2059,20 @@ function openModal(x,y){
   if(btnPaypal) btnPaypal.textContent=en?'PAY WITH PAYPAL':'PAGAR CON PAYPAL';
   if(btnCard) btnCard.innerHTML=en?'💳 PAY BY CARD':'💳 PAGAR CON TARJETA';
   if(sealNote) sealNote.textContent=en?'🏆 The mural will be sealed forever on 06/11/2026':'🏆 El mural se sellará para siempre el 11/06/2026';
+  const btnFree=document.getElementById('modal-btn-free-txt');
+  if(btnFree) btnFree.textContent=en?'✅ CLAIM MY FREE SPACE':'✅ RECLAMAR MI ESPACIO GRATIS';
+  const promoEs=document.getElementById('promo-ecuador-es');
+  const promoEn=document.getElementById('promo-ecuador-en');
+  if(promoEs) promoEs.style.display=en?'none':'block';
+  if(promoEn) promoEn.style.display=en?'block':'none';
   document.getElementById('modal').classList.add('open');
 }
 function showMaxWarn(){
   const en=window._lang==='en';
   const msg=document.getElementById('modal-max-warn-msg');
   if(msg) msg.innerHTML=en
-    ?'You exceeded the maximum limit of <strong style="color:var(--gold);">40×40 pixels</strong>!<br>Please go back to the mural and choose your block carefully.'
-    :'¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.';
+    ?'You exceeded the maximum limit of <strong style="color:var(--gold);">10×10 pixels</strong>!<br>Please go back to the mural and choose your block carefully.'
+    :'¡Superaste el límite máximo de <strong style="color:var(--gold);">10×10 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.';
   const btn=document.getElementById('modal-max-warn-btn');
   if(btn) btn.textContent=en?'✅ THANKS':'✅ GRACIAS';
   if(btn) btn.onclick=function(){
@@ -2119,6 +2132,44 @@ async function pagarConTarjeta(){
     responseUrl:'https://mundialeterno.com/pago-resultado',
     cancellationUrl:'https://mundialeterno.com/'
   }).render('pp-box-inner');
+}
+async function reclamarEspacioGratis(){
+  const sel=window._muSel||{w:1,h:1};
+  const en=window._lang==='en';
+  closeModal();
+  const overlay=document.getElementById('pp-box-overlay');
+  overlay.style.display='flex';
+  document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2rem;margin-bottom:1rem;">⏳</div><div style="font-weight:700;letter-spacing:0.08em;">'+(en?'Saving your space...':'Guardando tu espacio...')+'</div></div>';
+  let ip='';
+  try{const r=await fetch('https://api.ipify.org?format=json');const d=await r.json();ip=d.ip||'';}catch(e){}
+  const clientTransactionId='free-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
+  const nombre=document.getElementById('uw-pixel-text')?.value?.trim()||'';
+  let imagenUrl='';
+  if(window.muUploadedImageData){
+    try{
+      const base64=window.muUploadedImageData.split(',')[1];
+      const res=await fetch(GAS_WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'uploadImage',filename:clientTransactionId+'.jpg',imageBase64:base64})});
+      const json=await res.json();
+      if(json.status==='ok') imagenUrl=json.url;
+    }catch(e){}
+  }
+  try{
+    const res=await fetch(GAS_WEBHOOK,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({action:'claimFreeSpace',ip,clientTransactionId,x:selX,y:selY,w:sel.w,h:sel.h,nombre,imagenUrl})
+    });
+    const json=await res.json();
+    if(json.status==='already_claimed'){
+      document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2.5rem;margin-bottom:1rem;">⚠️</div><div style="font-weight:700;letter-spacing:0.08em;margin-bottom:0.5rem;">'+(en?'Already claimed today!':'¡Ya reclamaste hoy!')+'</div><div style="font-size:0.85rem;color:#ccc;">'+(en?'Only one free space per connection per day.':'Solo un espacio gratis por conexión por día.')+'</div><button onclick="closePPBox()" style="margin-top:1.5rem;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px 24px;font-weight:900;cursor:pointer;font-family:Montserrat,sans-serif;">OK</button></div>';
+    }else if(json.status==='ok'){
+      document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2.5rem;margin-bottom:1rem;">🎉</div><div style="font-weight:700;letter-spacing:0.08em;margin-bottom:0.5rem;">'+(en?'Space claimed!':'¡Espacio reclamado!')+'</div><div style="font-size:0.85rem;color:#ccc;">'+(en?'Your space will appear on the mural shortly.':'Tu espacio aparecerá en el mural en breve.')+'</div><button onclick="closePPBox()" style="margin-top:1.5rem;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px 24px;font-weight:900;cursor:pointer;font-family:Montserrat,sans-serif;">✅ OK</button></div>';
+    }else{
+      throw new Error(json.message||'Error');
+    }
+  }catch(err){
+    document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2.5rem;margin-bottom:1rem;">❌</div><div style="font-weight:700;">'+(en?'Error claiming space':'Error al reclamar el espacio')+'</div><button onclick="closePPBox()" style="margin-top:1.5rem;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px 24px;font-weight:900;cursor:pointer;font-family:Montserrat,sans-serif;">OK</button></div>';
+  }
 }
 function closePPBox(){
     document.getElementById('pp-box-overlay').style.display='none';
@@ -2958,7 +3009,7 @@ function filterFaq(cat, btn){
       selecting=false;
       const s=getSel();
       if(s){
-        const MAX_SEL=40;
+        const MAX_SEL=10;
         const w=s.x2-s.x1+1, h=s.y2-s.y1+1;
         if(w>MAX_SEL || h>MAX_SEL){
           // Solo aviso — NO abre confirmación — el usuario vuelve a elegir
@@ -3052,7 +3103,7 @@ function filterFaq(cat, btn){
       const s=getSel();
       if(s){
         const w=s.x2-s.x1+1, h=s.y2-s.y1+1;
-        if(w>40||h>40){ selS=null;selE=null;draw();drawMini();showMaxWarn();selecting=false;return; }
+        if(w>10||h>10){ selS=null;selE=null;draw();drawMini();showMaxWarn();selecting=false;return; }
         window.muSelX=s.x1; window.muSelY=s.y1;
         window._muSel={x1:s.x1,y1:s.y1,w,h};
         showConfirmModal(s);
@@ -3286,7 +3337,7 @@ function filterFaq(cat, btn){
 
   function updateCalc(){
     if(!prW || !prH) return;
-    const MAX=40; const en=window._lang==='en';
+    const MAX=10; const en=window._lang==='en';
     if(parseInt(prW.value)>MAX){ prW.value=MAX; showMaxWarn(null); }
     if(parseInt(prH.value)>MAX){ prH.value=MAX; showMaxWarn(null); }
     const w = parseInt(prW.value), h = parseInt(prH.value);

@@ -29,6 +29,7 @@ function doPost(e) {
     case 'uploadImage':     return jsonOut(gasUploadImage(data));
     case 'confirmPayment':  return jsonOut(gasSavePayment(data));
     case 'confirmPayphone': return jsonOut(gasConfirmPayphone(data));
+    case 'claimFreeSpace':  return jsonOut(gasClaimFreeSpace(data));
     default:                return jsonOut({ status: 'error', message: 'unknown action' });
   }
 }
@@ -190,6 +191,50 @@ function gasSavePayment(data) {
       status       : data.status        || '',
       payphoneId   : data.payphoneId    || '',
       error        : data.error         || ''
+    });
+    return { status: 'ok' };
+  } catch(err) {
+    return { status: 'error', message: err.toString() };
+  }
+}
+
+function gasClaimFreeSpace(data) {
+  try {
+    var ip    = data.ip || '';
+    var today = new Date().toISOString().slice(0, 10);
+    var sheet = getSheet();
+
+    if (ip) {
+      var lastRow = sheet.getLastRow();
+      if (lastRow >= 2) {
+        var idx     = colIndex(sheet);
+        var numCols = sheet.getLastColumn();
+        var rows    = sheet.getRange(2, 1, lastRow - 1, numCols).getValues();
+        for (var i = 0; i < rows.length; i++) {
+          var rowFecha = idx['fecha']      ? String(rows[i][idx['fecha']-1]).slice(0,10) : '';
+          var rowPPId  = idx['payphoneId'] ? String(rows[i][idx['payphoneId']-1])        : '';
+          var rowErr   = idx['error']      ? String(rows[i][idx['error']-1])             : '';
+          if (rowFecha === today && rowPPId === 'PROMO-ECUADOR' && rowErr === 'ip:'+ip) {
+            return { status: 'already_claimed' };
+          }
+        }
+      }
+    }
+
+    appendRow(sheet, {
+      fecha        : new Date().toISOString(),
+      transactionId: data.clientTransactionId || ('free-' + Date.now()),
+      monto        : 0,
+      x            : data.x,
+      y            : data.y,
+      w            : data.w,
+      h            : data.h,
+      tamano       : (parseInt(data.w) || 1) * (parseInt(data.h) || 1),
+      nombre       : data.nombre    || '',
+      imagenUrl    : data.imagenUrl || '',
+      status       : 'Approved',
+      payphoneId   : 'PROMO-ECUADOR',
+      error        : ip ? 'ip:' + ip : ''
     });
     return { status: 'ok' };
   } catch(err) {
