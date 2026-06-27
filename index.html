@@ -19,6 +19,7 @@
   --border: rgba(255,215,0,0.18);
   --text: #f0f0f0;
   --muted: #777;
+  --bar-h: 40px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -102,9 +103,12 @@ body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;
   100%{transform:translateY(420px) rotate(720deg);opacity:0;}
 }
 
+/* ── ANNOUNCE BAR ── */
+#announce-bar{position:fixed;top:0;left:0;right:0;z-index:1001;background:#FFD700;color:#000;text-align:center;padding:10px 1rem;font-weight:800;font-size:0.82rem;letter-spacing:0.04em;line-height:1.3;}
+
 /* ── HEADER ── */
 header{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
+  position:fixed;top:var(--bar-h);left:0;right:0;z-index:1000;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 1.5rem;height:64px;
   background:rgba(5,5,5,0.95);
@@ -139,7 +143,7 @@ nav a:hover{color:var(--gold);}
 /* ── HERO ── */
 .hero{
   position:relative;text-align:center;
-  padding:70px 1rem 0;
+  padding:calc(var(--bar-h) + 70px) 1rem 0;
   min-height:280px;
 }
 .hero h1{
@@ -603,6 +607,9 @@ nav a:hover{color:var(--gold);}
   </div>
 </div>
 
+<!-- ANNOUNCE BAR -->
+<div id="announce-bar" data-lang="announce-bar">🌎 Más de 2.300 espacios ya reservados. Tu huella puede quedar para siempre.</div>
+
 <!-- HEADER -->
 <header>
   <a href="#" class="logo">
@@ -648,14 +655,14 @@ nav a:hover{color:var(--gold);}
   <div class="confetti-wrap" id="confetti"></div>
   <div class="hero-layout">
     <div class="hero-col-left">
-      <h1><span data-lang="hero-h1-1">DEJA TU HUELLA ETERNA EN EL</span><br><em data-lang="hero-h1-gold">MUNDIAL 2026</em></h1>
-      <p class="hero-sub" data-lang="hero-sub">Tu foto para siempre en la historia más grande del fútbol.</p>
+      <h1><span data-lang="hero-h1-1">APARECE EN EL MURAL DEL</span><br><em data-lang="hero-h1-gold">MUNDIAL 2026</em></h1>
+      <p class="hero-sub" data-lang="hero-sub">Tu selfie, bandera o empresa pueden formar parte de la historia del Mundial.</p>
       <ul class="hero-bullets">
         <li data-lang="hero-bullet-1">📸 SUBE TU FOTO</li>
         <li data-lang="hero-bullet-2">⊞ ELIGE TU ESPACIO EN LA CANCHA</li>
         <li data-lang="hero-bullet-3">🏆 QUEDA PARA SIEMPRE</li>
       </ul>
-      <a href="#mural" class="hero-cta" data-lang="hero-cta">ELEGIR MI ESPACIO →</a>
+      <a href="#mural" class="hero-cta" data-lang="hero-cta">QUIERO MI ESPACIO →</a>
       <p class="hero-secure" data-lang="hero-secure">🔒 Pago seguro desde $1 USD</p>
     </div>
     <div class="hero-col-right">
@@ -2190,15 +2197,16 @@ const TRANS = {
     'nav-precios':'Precios','nav-faq':'Preguntas','nav-contacto':'Contacto',
     'btn-buy':'⊞ DEJA TU HUELLA',
     // HERO
-    'hero-h1-1':'DEJA TU HUELLA ETERNA EN EL',
+    'hero-h1-1':'APARECE EN EL MURAL DEL',
     'hero-h1-2':'EN LA',
     'hero-h1-gold':'MUNDIAL 2026',
-    'hero-sub':'Tu foto para siempre en la historia más grande del fútbol.',
+    'hero-sub':'Tu selfie, bandera o empresa pueden formar parte de la historia del Mundial.',
     'hero-bullet-1':'📸 SUBE TU FOTO',
     'hero-bullet-2':'⊞ ELIGE TU ESPACIO EN LA CANCHA',
     'hero-bullet-3':'🏆 QUEDA PARA SIEMPRE',
-    'hero-cta':'ELEGIR MI ESPACIO →',
+    'hero-cta':'QUIERO MI ESPACIO →',
     'hero-secure':'🔒 Pago seguro desde $1 USD',
+    'announce-bar':'🌎 Más de 2.300 espacios ya reservados. Tu huella puede quedar para siempre.',
     'cd-start-label':'Faltan para<br>el inicio del Mundial',
     'cd-end-label':'Faltan para<br>el final del Mundial',
     'cd-dias':'DÍAS',
@@ -2398,12 +2406,13 @@ const TRANS = {
     'hero-h1-1':'APPEAR ON THE MURAL OF THE',
     'hero-h1-2':'IN THE',
     'hero-h1-gold':'WORLD CUP 2026',
-    'hero-sub':'Your photo forever in the greatest story in football history.',
+    'hero-sub':'Your selfie, flag or company can be part of the story of the World Cup.',
     'hero-bullet-1':'📸 UPLOAD YOUR PHOTO',
     'hero-bullet-2':'⊞ CHOOSE YOUR SPACE ON THE PITCH',
     'hero-bullet-3':'🏆 STAY FOREVER',
-    'hero-cta':'CHOOSE MY SPACE →',
+    'hero-cta':'I WANT MY SPACE →',
     'hero-secure':'🔒 Secure payment from $1 USD',
+    'announce-bar':'🌎 More than 2,300 spaces already reserved. Your mark can stay forever.',
     'cd-start-label':'Days until<br>World Cup starts',
     'cd-end-label':'Days until<br>World Cup ends',
     'cd-dias':'DAYS',
@@ -2620,7 +2629,12 @@ function closeMobileMenu(){
   document.body.classList.remove('menu-open');
 }
 // Close menu when a link is clicked
+function syncBarHeight(){var b=document.getElementById('announce-bar');if(b)document.documentElement.style.setProperty('--bar-h',b.offsetHeight+'px');}
+window.addEventListener('resize',syncBarHeight);
+syncBarHeight();
+
 document.addEventListener('DOMContentLoaded',()=>{
+  syncBarHeight();
   document.querySelectorAll('#main-nav a').forEach(a=>{
     a.addEventListener('click', closeMobileMenu);
   });
