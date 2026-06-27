@@ -1961,7 +1961,8 @@ const _startDays = calcDays('2026-06-11');
 const _startEl   = document.getElementById('cd-start');
 const _startDias = document.getElementById('cd-start-dias');
 if (_startDays <= 0) {
-  _startEl.textContent        = '¡EN CURSO!';
+  _startEl.setAttribute('data-lang','cd-en-curso');
+  _startEl.textContent        = (TRANS[window._lang]||TRANS.es)['cd-en-curso']||'¡EN CURSO!';
   _startEl.style.animation    = 'blink 2s infinite';
   _startEl.style.position     = 'relative';
   _startEl.style.top          = '0.455rem';
@@ -2209,6 +2210,7 @@ const TRANS = {
     'cd-start-label':'Faltan para<br>el inicio del Mundial',
     'cd-end-label':'Faltan para<br>el final del Mundial',
     'cd-dias':'DÍAS',
+    'cd-en-curso':'¡EN CURSO!',
     'sbar-people-title':'Millones de personas','sbar-people-sub':'serán parte',
     'sbar-pixels-title':'117,500','sbar-pixels-sub':'píxeles disponibles',
     'sbar-seal-title':'El mural se sellará','sbar-seal-sub':'eternamente',
@@ -2412,9 +2414,10 @@ const TRANS = {
     'hero-cta':'I WANT MY SPACE →',
     'hero-secure':'🔒 Secure payment from $1 USD',
     'announce-bar':'🌎 More than 2,300 spaces already reserved. Your mark can stay forever.',
-    'cd-start-label':'Days until<br>World Cup starts',
-    'cd-end-label':'Days until<br>World Cup ends',
+    'cd-start-label':'DAYS UNTIL WORLD CUP STARTS',
+    'cd-end-label':'DAYS UNTIL WORLD CUP ENDS',
     'cd-dias':'DAYS',
+    'cd-en-curso':'IN PROGRESS!',
     'sbar-people-title':'Millions of people','sbar-people-sub':'will be part',
     'sbar-pixels-title':'117,500','sbar-pixels-sub':'pixels available',
     'sbar-seal-title':'The mural will be sealed','sbar-seal-sub':'eternally',
