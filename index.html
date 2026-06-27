@@ -754,24 +754,24 @@ nav a:hover{color:var(--gold);}
     </div>
     <div class="feat-card">
       <div class="feat-card-icon">🖼️</div>
-      <div class="feat-card-title">SUBE TU <span class="feat-card-gold">CONTENIDO</span></div>
-      <div class="feat-card-desc">Personaliza tu espacio con lo que más te represente.</div>
-      <div class="feat-card-tags"><span>😊 SELFIE</span><span>🚩 BANDERA</span><span>🏢 LOGO DE EMPRESA</span></div>
+      <div class="feat-card-title" data-lang="hfc-title-1">SUBE TU <span class="feat-card-gold">CONTENIDO</span></div>
+      <div class="feat-card-desc" data-lang="hfc-desc-1">Personaliza tu espacio con lo que más te represente.</div>
+      <div class="feat-card-tags" data-lang="hfc-tags-1"><span>😊 SELFIE</span><span>🚩 BANDERA</span><span>🏢 LOGO DE EMPRESA</span></div>
     </div>
     <div class="feat-card">
       <div class="feat-card-icon">🌍</div>
-      <div class="feat-card-title">COMUNIDAD <span class="feat-card-gold">GLOBAL</span></div>
-      <div class="feat-card-desc">Únete a aficionados de todo el mundo en un solo mural.</div>
+      <div class="feat-card-title" data-lang="hfc-title-2">COMUNIDAD <span class="feat-card-gold">GLOBAL</span></div>
+      <div class="feat-card-desc" data-lang="hfc-desc-2">Únete a aficionados de todo el mundo en un solo mural.</div>
     </div>
     <div class="feat-card">
       <div class="feat-card-icon">🏆</div>
-      <div class="feat-card-title">TU LUGAR <span class="feat-card-gold">EN LA HISTORIA</span></div>
-      <div class="feat-card-desc">Tu espacio formará parte de un recuerdo permanente del Mundial 2026.</div>
+      <div class="feat-card-title" data-lang="hfc-title-3">TU LUGAR <span class="feat-card-gold">EN LA HISTORIA</span></div>
+      <div class="feat-card-desc" data-lang="hfc-desc-3">Tu espacio formará parte de un recuerdo permanente del Mundial 2026.</div>
     </div>
     <div class="feat-card">
       <div class="feat-card-icon">🔒</div>
-      <div class="feat-card-title">SELLADO <span class="feat-card-gold">ETERNO</span></div>
-      <div class="feat-card-desc">Al finalizar el Mundial 2026, el mural se cerrará para siempre.</div>
+      <div class="feat-card-title" data-lang="hfc-title-4">SELLADO <span class="feat-card-gold">ETERNO</span></div>
+      <div class="feat-card-desc" data-lang="hfc-desc-4">Al finalizar el Mundial 2026, el mural se cerrará para siempre.</div>
     </div>
   </div>
 </section>
@@ -1961,6 +1961,7 @@ const _startDays = calcDays('2026-06-11');
 const _startEl   = document.getElementById('cd-start');
 const _startDias = document.getElementById('cd-start-dias');
 if (_startDays <= 0) {
+  _startEl.setAttribute('data-lang','cd-en-curso');
   _startEl.textContent        = '¡EN CURSO!';
   _startEl.style.animation    = 'blink 2s infinite';
   _startEl.style.position     = 'relative';
@@ -2209,6 +2210,16 @@ const TRANS = {
     'cd-start-label':'Faltan para<br>el inicio del Mundial',
     'cd-end-label':'Faltan para<br>el final del Mundial',
     'cd-dias':'DÍAS',
+    'cd-en-curso':'¡EN CURSO!',
+    'hfc-title-1':'SUBE TU <span class="feat-card-gold">CONTENIDO</span>',
+    'hfc-desc-1':'Personaliza tu espacio con lo que más te represente.',
+    'hfc-tags-1':'<span>😊 SELFIE</span><span>🚩 BANDERA</span><span>🏢 LOGO DE EMPRESA</span>',
+    'hfc-title-2':'COMUNIDAD <span class="feat-card-gold">GLOBAL</span>',
+    'hfc-desc-2':'Únete a aficionados de todo el mundo en un solo mural.',
+    'hfc-title-3':'TU LUGAR <span class="feat-card-gold">EN LA HISTORIA</span>',
+    'hfc-desc-3':'Tu espacio formará parte de un recuerdo permanente del Mundial 2026.',
+    'hfc-title-4':'SELLADO <span class="feat-card-gold">ETERNO</span>',
+    'hfc-desc-4':'Al finalizar el Mundial 2026, el mural se cerrará para siempre.',
     'sbar-people-title':'Millones de personas','sbar-people-sub':'serán parte',
     'sbar-pixels-title':'117,500','sbar-pixels-sub':'píxeles disponibles',
     'sbar-seal-title':'El mural se sellará','sbar-seal-sub':'eternamente',
@@ -2415,6 +2426,16 @@ const TRANS = {
     'cd-start-label':'Days until<br>World Cup starts',
     'cd-end-label':'Days until<br>World Cup ends',
     'cd-dias':'DAYS',
+    'cd-en-curso':'IN PROGRESS!',
+    'hfc-title-1':'UPLOAD YOUR <span class="feat-card-gold">CONTENT</span>',
+    'hfc-desc-1':'Personalize your space with what represents you most.',
+    'hfc-tags-1':'<span>😊 SELFIE</span><span>🚩 FLAG</span><span>🏢 COMPANY LOGO</span>',
+    'hfc-title-2':'GLOBAL <span class="feat-card-gold">COMMUNITY</span>',
+    'hfc-desc-2':'Join fans from around the world in one single mural.',
+    'hfc-title-3':'YOUR PLACE <span class="feat-card-gold">IN HISTORY</span>',
+    'hfc-desc-3':'Your space will be part of a permanent memory of the 2026 World Cup.',
+    'hfc-title-4':'ETERNAL <span class="feat-card-gold">SEAL</span>',
+    'hfc-desc-4':'When the 2026 World Cup ends, the mural will close forever.',
     'sbar-people-title':'Millions of people','sbar-people-sub':'will be part',
     'sbar-pixels-title':'117,500','sbar-pixels-sub':'pixels available',
     'sbar-seal-title':'The mural will be sealed','sbar-seal-sub':'eternally',
