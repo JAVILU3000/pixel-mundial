@@ -485,6 +485,14 @@ nav a:hover{color:var(--gold);}
 .mu-topbar-prog{flex:1;height:4px;background:#1a1a1a;border-radius:2px;}
 .mu-topbar-fill{height:100%;background:linear-gradient(90deg,var(--gold3),var(--gold));border-radius:2px;width:0%;transition:width 1s ease;}
 .mu-topbar-right{font-size:0.65rem;font-weight:800;color:var(--green);letter-spacing:0.1em;white-space:nowrap;}
+.how-to-banner{background:#000;border:2px solid var(--gold);border-radius:12px;margin:0.75rem 1rem;padding:0.9rem 2.8rem 0.9rem 1.2rem;position:relative;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.how-to-banner[hidden]{display:none!important;}
+.how-to-close{position:absolute;top:0.5rem;right:0.7rem;background:none;border:none;color:#777;font-size:1rem;cursor:pointer;line-height:1;transition:color .2s;}
+.how-to-close:hover{color:var(--gold);}
+.how-to-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold);letter-spacing:0.08em;white-space:nowrap;flex-shrink:0;}
+.how-to-steps{list-style:none;display:flex;gap:1rem;flex-wrap:wrap;margin:0;padding:0;counter-reset:step;}
+.how-to-steps li{display:flex;align-items:center;gap:0.45rem;font-size:0.78rem;color:#ccc;letter-spacing:0.02em;}
+.how-to-steps li::before{counter-increment:step;content:counter(step);background:var(--gold);color:#000;font-weight:900;font-size:0.68rem;width:1.15rem;height:1.15rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .mu-main{display:flex;align-items:stretch;gap:0;}
 .mu-canvas-wrap{flex:1;padding:10px;background:#060606;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .mu-canvas-container{position:relative;width:100%;display:flex;flex-direction:row;}
@@ -793,6 +801,16 @@ nav a:hover{color:var(--gold);}
     </div>
     <div class="mu-topbar-prog"><div class="mu-topbar-fill" id="mu-prog"></div></div>
     <div class="mu-topbar-right">EN VIVO</div>
+  </div>
+  <div id="how-to-banner" class="how-to-banner">
+    <button class="how-to-close" onclick="closeHowTo()" aria-label="Cerrar">✕</button>
+    <div class="how-to-title" data-lang="how-title">¿CÓMO PARTICIPAR?</div>
+    <ol class="how-to-steps">
+      <li data-lang="how-step-1">Haz clic en un espacio verde.</li>
+      <li data-lang="how-step-2">Elige el tamaño.</li>
+      <li data-lang="how-step-3">Sube tu selfie, bandera o logotipo.</li>
+      <li data-lang="how-step-4">Tu imagen quedará para siempre en el mural.</li>
+    </ol>
   </div>
   <div class="mu-main">
     <div class="mu-canvas-wrap">
@@ -2332,6 +2350,11 @@ const TRANS = {
     'inicio-price-label':'1 ESPACIO','inicio-price-note':'Pago único · Para siempre',
     'inicio-secure':'segura y permanente',
     'mu-sold-bar':'ESPACIOS VENDIDOS: 2.354 / 117,500 (2.00%)',
+    'how-title':'¿CÓMO PARTICIPAR?',
+    'how-step-1':'Haz clic en un espacio verde.',
+    'how-step-2':'Elige el tamaño.',
+    'how-step-3':'Sube tu selfie, bandera o logotipo.',
+    'how-step-4':'Tu imagen quedará para siempre en el mural.',
     'mu-sel-none':'Ningún píxel seleccionado',
     'pr-sub':'Un espacio, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
     'pr-rule-title':'La regla es simple',
@@ -2552,6 +2575,11 @@ const TRANS = {
     'inicio-price-label':'1 SPACE','inicio-price-note':'One-time payment · Forever',
     'inicio-secure':'secure and permanent',
     'mu-sold-bar':'SPACES SOLD: 2,354 / 117,500 (2.00%)',
+    'how-title':'HOW TO PARTICIPATE?',
+    'how-step-1':'Click on a green space.',
+    'how-step-2':'Choose the size.',
+    'how-step-3':'Upload your selfie, flag or logo.',
+    'how-step-4':'Your image will stay forever in the mural.',
     'mu-sel-none':'No pixel selected',
     'pr-sub':'One space, one dollar. That simple.<br>Anyone in the world can participate.',
     'pr-rule-title':'The rule is simple',
@@ -2675,6 +2703,9 @@ function closeMobileMenu(){
 function syncBarHeight(){var b=document.getElementById('announce-bar');if(b)document.documentElement.style.setProperty('--bar-h',b.offsetHeight+'px');}
 window.addEventListener('resize',syncBarHeight);
 syncBarHeight();
+
+function closeHowTo(){var b=document.getElementById('how-to-banner');if(b)b.hidden=true;try{localStorage.setItem('how-to-closed','1');}catch(e){}}
+(function(){try{if(localStorage.getItem('how-to-closed')==='1'){var b=document.getElementById('how-to-banner');if(b)b.hidden=true;}}catch(e){}})();
 
 document.addEventListener('DOMContentLoaded',()=>{
   syncBarHeight();
