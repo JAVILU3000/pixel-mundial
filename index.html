@@ -1848,7 +1848,7 @@ nav a:hover{color:var(--gold);}
   }
 })();
 // ── ACTIVE NAV ON SCROLL ──
-(function(){
+document.addEventListener('DOMContentLoaded', function(){
   const sections = ['inicio','mural','como','precios','faq','contacto'];
   // Desktop nav links
   const navLinks = {};
@@ -1856,7 +1856,7 @@ nav a:hover{color:var(--gold);}
     const el = document.getElementById('nav-'+id);
     if(el) navLinks[id] = el;
   });
-  // Bottom nav items (mobile)
+  // Bottom nav items (mobile) — se buscan aquí para que el DOM esté completo
   const mbnIds = ['inicio','mural','precios','faq','contacto'];
   const mbnItems = {};
   mbnIds.forEach(id=>{
@@ -1864,13 +1864,13 @@ nav a:hover{color:var(--gold);}
     if(el) mbnItems[id] = el;
   });
   // Map sections not in bottom nav to closest item
-  const mbnMap = {como:'inicio'};
+  const mbnMap = {como:'mural'};
 
   function updateActive(){
     let current = 'inicio';
     sections.forEach(id=>{
       const sec = document.getElementById(id);
-      if(sec && sec.getBoundingClientRect().top <= 90) current = id;
+      if(sec && sec.getBoundingClientRect().top <= window.innerHeight * 0.5) current = id;
     });
     // Desktop nav
     Object.entries(navLinks).forEach(([id,el])=>{
@@ -1884,7 +1884,7 @@ nav a:hover{color:var(--gold);}
   }
   window.addEventListener('scroll', updateActive, {passive:true});
   updateActive();
-})();
+});
 
 // ── CONTACTO: CONTADOR DE CARACTERES ──
 function updateCounter(){
