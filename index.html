@@ -509,6 +509,10 @@ nav a:hover{color:var(--gold);}
 .mu-panel{width:230px;flex-shrink:0;background:var(--bg2);border-left:1px solid rgba(255,215,0,0.12);padding:1.2rem;display:flex;flex-direction:column;gap:0.7rem;}
 .mu-panel-title{font-size:0.82rem;font-weight:900;letter-spacing:0.14em;color:var(--gold);text-transform:uppercase;text-align:center;}
 .mu-panel-sub{font-size:0.65rem;color:var(--muted);text-align:center;line-height:1.5;margin-top:-4px;}
+.mu-upload-types{border-top:1px solid rgba(255,215,0,0.12);padding-top:0.6rem;}
+.mu-upload-title{font-size:0.65rem;font-weight:900;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem;}
+.mu-upload-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.25rem;}
+.mu-upload-list li{font-size:0.68rem;color:#bbb;letter-spacing:0.03em;}
 .mu-mini-wrap{background:#0a0a0a;border:1px solid rgba(255,215,0,0.15);border-radius:6px;padding:5px;}
 #mu-mini{display:block;width:100%;border-radius:3px;background:#0d200d;}
 .mu-price-box{background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:0.9rem;text-align:center;}
@@ -832,6 +836,14 @@ nav a:hover{color:var(--gold);}
       <div class="mu-panel-sub" data-lang="mu-panel-sub">Elige un espacio libre y deja tu huella para siempre.</div>
       <div class="mu-mini-wrap">
         <canvas id="mu-mini" width="170" height="80"></canvas>
+      </div>
+      <div class="mu-upload-types">
+        <div class="mu-upload-title" data-lang="mu-upload-types-title">¿QUÉ PUEDES SUBIR?</div>
+        <ul class="mu-upload-list">
+          <li data-lang="mu-upload-item-1">📸 Selfie</li>
+          <li data-lang="mu-upload-item-2">🚩 Bandera</li>
+          <li data-lang="mu-upload-item-3">🏢 Logotipo de empresa</li>
+        </ul>
       </div>
       <div class="mu-price-box">
         <div class="mu-price-label" data-lang="inicio-price-label">1 Píxel</div>
@@ -2263,6 +2275,10 @@ const TRANS = {
     'mu-sub':'Haz clic en la cancha y elige dónde quieres dejar tu huella.',
     'mu-panel-title':'ELEGIR MI ESPACIO',
     'mu-panel-sub':'Elige un espacio libre y deja tu huella para siempre.',
+    'mu-upload-types-title':'¿QUÉ PUEDES SUBIR?',
+    'mu-upload-item-1':'📸 Selfie',
+    'mu-upload-item-2':'🚩 Bandera',
+    'mu-upload-item-3':'🏢 Logotipo de empresa',
     'mu-hint':'Mantén presionado para seleccionar · 1 dedo para mover',
     'mu-wallet':'🔒 CONECTAR WALLET','mu-or':'o paga con tarjeta','mu-card':'💳 PAGAR CON TARJETA',
     'mu-secure-txt':'segura y permanente',
@@ -2488,6 +2504,10 @@ const TRANS = {
     'mu-sub':'Click on the pitch to choose your pixel. Each space is worth $1.00 USD and is yours forever.',
     'mu-panel-title':'Buy Your Pixel',
     'mu-panel-sub':'Select on the pitch the pixel you want to buy',
+    'mu-upload-types-title':'WHAT CAN YOU UPLOAD?',
+    'mu-upload-item-1':'📸 Selfie',
+    'mu-upload-item-2':'🚩 Flag',
+    'mu-upload-item-3':'🏢 Company logo',
     'mu-hint':'Hold to select · 1 finger to pan · pinch to zoom',
     'mu-wallet':'🔒 CONNECT WALLET','mu-or':'or pay by card','mu-card':'💳 PAY BY CARD',
     'mu-secure-txt':'secure and permanent',
