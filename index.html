@@ -195,6 +195,16 @@ nav a:hover{color:var(--gold);}
   .feat-card-title{font-size:0.75rem;}
   .feat-card-desc{font-size:0.67rem;}
   .mu-mini-wrap{display:none !important;}
+  /* Mural: forzar orden cancha → panel → estadísticas en móvil */
+  .mu-section{display:flex !important;flex-direction:column !important;}
+  .mu-hero{order:1;}
+  .mu-topbar{order:2;}
+  #how-to-banner{order:3;}
+  .mu-main{order:4 !important;display:flex !important;flex-direction:column !important;}
+  .mu-canvas-wrap{order:1 !important;}
+  .mu-panel{order:2 !important;width:100% !important;border-left:none !important;border-top:1px solid rgba(255,215,0,0.12) !important;}
+  .mu-legend{order:5 !important;}
+  .mu-stats{order:6 !important;}
 }
 
 /* COUNTDOWN BOXES */
