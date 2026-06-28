@@ -195,6 +195,13 @@ nav a:hover{color:var(--gold);}
   .feat-card-title{font-size:0.75rem;}
   .feat-card-desc{font-size:0.67rem;}
   .mu-mini-wrap{display:none !important;}
+  /* Reducir padding-top de heroes de sección (120px→80px) para eliminar espacio negro entre secciones */
+  .mu-hero,.cf-hero,.pr-hero,.fq-hero,.ct-hero{padding-top:calc(var(--bar-h) + 40px) !important;}
+  /* Final CTA: reducir padding y ajustar box para móvil */
+  .final-cta{padding:1.5rem 1rem !important;}
+  .final-cta-box{padding:1.5rem 1rem !important;}
+  /* Footer: reducir padding en móvil */
+  .ct-footer{padding:1.5rem 1rem !important;}
   /* Mural: forzar orden cancha → panel → estadísticas en móvil */
   .mu-section{display:flex !important;flex-direction:column !important;}
   .mu-hero{order:1;}
