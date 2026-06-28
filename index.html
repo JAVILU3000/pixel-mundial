@@ -4020,14 +4020,14 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 
 
 <!-- ── PREVIEW CONFIRM MODAL ── -->
-<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:flex-start;justify-content:center;overflow-y:auto;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;padding:1rem 0;">
+<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:flex-start;justify-content:center;overflow-y:scroll !important;-webkit-overflow-scrolling:touch;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;padding:1rem 0;">
 <style>
 .upc{background:#0f0f0f;border:1px solid rgba(255,215,0,0.3);border-radius:18px;padding:1.8rem;max-width:400px;width:92%;position:relative;text-align:center;max-height:none;margin:auto;}
 .upc-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#555;font-size:1.3rem;cursor:pointer;}
 .upc-emoji{font-size:2.2rem;margin-bottom:0.5rem;}
 .upc-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#FFD700;letter-spacing:0.04em;margin-bottom:0.3rem;}
 .upc-sub{font-size:0.82rem;color:#888;margin-bottom:1.2rem;line-height:1.5;}
-.upc-img-wrap{width:100%;border-radius:12px;overflow:hidden;border:2px solid rgba(255,215,0,0.3);background:#0a200a;margin-bottom:1rem;position:relative;}
+.upc-img-wrap{width:100%;border-radius:12px;overflow:clip;border:2px solid rgba(255,215,0,0.3);background:#0a200a;margin-bottom:1rem;position:relative;}
 .upc-img-wrap img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;}
 .upc-info{font-size:0.8rem;color:#888;margin-bottom:1.4rem;}
 .upc-btn-yes{width:100%;padding:14px;border-radius:10px;font-size:0.85rem;font-weight:900;letter-spacing:0.07em;text-transform:uppercase;border:none;cursor:pointer;background:linear-gradient(135deg,#FFD700,#FFC200);color:#000;font-family:'Montserrat',sans-serif;box-shadow:0 0 25px rgba(255,215,0,0.4);transition:all .2s;margin-bottom:10px;}
@@ -4036,7 +4036,8 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 .upc-btn-back:hover{border-color:rgba(255,215,0,0.4);color:#aaa;}
 .upc-secure{font-size:0.75rem;color:#aaa;margin-top:0.8rem;letter-spacing:0.04em;}
 @media(max-width:768px){
-  .upc{width:96%;padding:1.2rem;border-radius:14px;}
+  .upc{width:96%;padding:1.2rem;border-radius:14px;overflow:visible !important;}
+  .upc-img-wrap{overflow:clip !important;}
   .upc-img-wrap img{max-height:220px;}
 }
 </style>
