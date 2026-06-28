@@ -4018,9 +4018,9 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 
 
 <!-- ── PREVIEW CONFIRM MODAL ── -->
-<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:center;justify-content:center;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;">
+<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:flex-start;justify-content:center;overflow-y:auto;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;padding:1rem 0;">
 <style>
-.upc{background:#0f0f0f;border:1px solid rgba(255,215,0,0.3);border-radius:18px;padding:1.8rem;max-width:400px;width:92%;position:relative;text-align:center;}
+.upc{background:#0f0f0f;border:1px solid rgba(255,215,0,0.3);border-radius:18px;padding:1.8rem;max-width:400px;width:92%;position:relative;text-align:center;max-height:none;margin:auto;}
 .upc-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#555;font-size:1.3rem;cursor:pointer;}
 .upc-emoji{font-size:2.2rem;margin-bottom:0.5rem;}
 .upc-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#FFD700;letter-spacing:0.04em;margin-bottom:0.3rem;}
@@ -4033,6 +4033,10 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 .upc-btn-back{width:100%;padding:11px;border-radius:10px;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid rgba(255,215,0,0.2);background:transparent;color:#777;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
 .upc-btn-back:hover{border-color:rgba(255,215,0,0.4);color:#aaa;}
 .upc-secure{font-size:0.75rem;color:#aaa;margin-top:0.8rem;letter-spacing:0.04em;}
+@media(max-width:768px){
+  .upc{width:96%;padding:1.2rem;border-radius:14px;}
+  .upc-img-wrap img{max-height:220px;}
+}
 </style>
   <div class="upc">
     <button class="upc-close" onclick="document.getElementById('mu-previewconfirm-modal').style.display='none';document.getElementById('mu-upload-modal').style.display='flex';">✕</button>
