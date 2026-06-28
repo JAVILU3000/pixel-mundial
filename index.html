@@ -3822,7 +3822,9 @@ function uwProceed(){
   const backBtn=document.getElementById('mu-previewconfirm-back');
   if(backBtn) backBtn.textContent=en?'✏️ EDIT IMAGE':'✏️ EDITAR IMAGEN';
   document.getElementById('mu-upload-modal').style.display='none';
-  document.getElementById('mu-previewconfirm-modal').style.display='flex';
+  const _pcm=document.getElementById('mu-previewconfirm-modal');
+  _pcm.style.display='flex';
+  _pcm.scrollTop=0;
   reapplyLang('mu-previewconfirm-modal');
 }
 
