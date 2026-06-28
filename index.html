@@ -211,7 +211,8 @@ nav a:hover{color:var(--gold);}
   .mu-canvas-wrap{order:1 !important;}
   .mu-panel{order:2 !important;width:100% !important;border-left:none !important;border-top:1px solid rgba(255,215,0,0.12) !important;}
   .mu-legend{order:5 !important;}
-  .mu-stats{order:6 !important;}
+  .mu-stats{order:3 !important;}
+  .mu-videos-wrap{order:4 !important;}
 }
 
 /* COUNTDOWN BOXES */
@@ -889,28 +890,29 @@ nav a:hover{color:var(--gold);}
       </button>
       <div class="mu-secure" style="display:none;"><span data-lang="secure-payment-txt">Pago 100% seguro 🔒 Visa · Mastercard · Payphone</span></div>
 
-      <!-- TUTORIAL COMPUTADOR -->
-      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Video: Cómo comprar desde el computador</div>
-        <div onclick="window.open('https://www.youtube.com/watch?v=LGgdlTNMigw','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000;">
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-            <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
-              <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
+      <div class="mu-videos-wrap" style="display:flex;flex-direction:column;gap:0.7rem;">
+        <!-- TUTORIAL COMPUTADOR -->
+        <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Video: Cómo comprar desde el computador</div>
+          <div onclick="window.open('https://www.youtube.com/watch?v=LGgdlTNMigw','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000;">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
+                <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- TUTORIAL MÓVIL -->
-      <!-- VIDEO MÓVIL: cuando tengas el video, reemplaza XXXXXXXXXX por el ID de YouTube (?v=XXXXXXXXXX)
-           actualiza también la URL del thumbnail (img.youtube.com/vi/XXXXXXXXXX/maxresdefault.jpg)
-           y el onclick del div: onclick="window.open('https://www.youtube.com/watch?v=XXXXXXXXXX','_blank')" -->
-      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Video: Cómo comprar desde el móvil</div>
-        <div onclick="window.open('https://www.youtube.com/shorts/ebGknWqfrc0','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000;">
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-            <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
-              <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
+        <!-- TUTORIAL MÓVIL -->
+        <!-- VIDEO MÓVIL: cuando tengas el video, reemplaza XXXXXXXXXX por el ID de YouTube (?v=XXXXXXXXXX)
+             actualiza también la URL del thumbnail (img.youtube.com/vi/XXXXXXXXXX/maxresdefault.jpg)
+             y el onclick del div: onclick="window.open('https://www.youtube.com/watch?v=XXXXXXXXXX','_blank')" -->
+        <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Video: Cómo comprar desde el móvil</div>
+          <div onclick="window.open('https://www.youtube.com/shorts/ebGknWqfrc0','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000;">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
+                <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
+              </div>
             </div>
           </div>
         </div>
