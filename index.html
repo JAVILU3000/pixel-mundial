@@ -19,7 +19,6 @@
   --border: rgba(255,215,0,0.18);
   --text: #f0f0f0;
   --muted: #777;
-  --bar-h: 40px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -103,12 +102,9 @@ body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;
   100%{transform:translateY(420px) rotate(720deg);opacity:0;}
 }
 
-/* ── ANNOUNCE BAR ── */
-#announce-bar{position:fixed;top:0;left:0;right:0;z-index:1001;background:#FFD700;color:#000;text-align:center;padding:10px 1rem;font-weight:800;font-size:0.82rem;letter-spacing:0.04em;line-height:1.3;}
-
 /* ── HEADER ── */
 header{
-  position:fixed;top:var(--bar-h);left:0;right:0;z-index:1000;
+  position:fixed;top:0;left:0;right:0;z-index:1000;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 1.5rem;height:64px;
   background:rgba(5,5,5,0.95);
@@ -143,12 +139,12 @@ nav a:hover{color:var(--gold);}
 /* ── HERO ── */
 .hero{
   position:relative;text-align:center;
-  padding:calc(var(--bar-h) + 70px) 1rem 0;
+  padding:90px 1rem 0;
   min-height:280px;
 }
 .hero h1{
   font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(2.8rem,5.5vw,4.8rem);
+  font-size:clamp(3.2rem,7.5vw,6.2rem);
   line-height:1.0;letter-spacing:0.03em;
   color:#fff;
   text-shadow:0 2px 40px rgba(0,0,0,0.8);
@@ -162,60 +158,6 @@ nav a:hover{color:var(--gold);}
   position:relative;z-index:3;
 }
 .hero-sub strong{color:var(--gold);}
-
-/* ── HERO TWO-COLUMN ── */
-.hero-layout{display:flex;align-items:center;position:relative;z-index:3;max-width:100%;margin:0;gap:0;padding:0 0 0 4rem;}
-.hero-col-left{flex:1;text-align:left;display:flex;flex-direction:column;justify-content:center;min-height:480px;}
-.hero-col-left h1{font-size:clamp(3rem,6vw,5.5rem);}
-.hero-col-left .hero-sub{margin-left:0;max-width:460px;color:#fff;}
-.hero-bullets{list-style:none;margin:1.2rem 0;display:flex;flex-direction:column;gap:0.65rem;}
-.hero-bullets li{font-size:0.82rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);}
-.hero-cta{display:inline-block;margin-top:0.6rem;padding:0.95rem 2.4rem;background:var(--gold);color:#000;font-weight:900;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;border-radius:10px;text-decoration:none;transition:opacity .2s;box-shadow:0 0 28px rgba(255,215,0,0.4);width:fit-content;align-self:flex-start;}
-.hero-cta:hover{opacity:0.88;}
-.hero-secure{font-size:0.72rem;color:#888;margin-top:0.6rem;letter-spacing:0.04em;}
-.hero-col-right{flex:1.6;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;overflow:hidden;margin-top:-70px;}
-.hero-mural-preview{width:100%;overflow:visible;position:relative;}
-.hero-mural-preview img{width:100%;max-height:100%;width:100%;height:480px;;object-fit:cover;display:block;-webkit-mask-image:radial-gradient(ellipse 88% 82% at 50% 48%, black 58%, transparent 88%);mask-image:radial-gradient(ellipse 88% 82% at 50% 48%, black 58%, transparent 88%);}
-.hero-mural-preview::after{display:none;}
-.hero-mural-caption{width:100%;font-size:0.82rem;color:#bbb;text-align:center;margin-top:0.6rem;letter-spacing:0.03em;}
-@media(max-width:768px){
-  .hero-layout{flex-direction:column;gap:1rem;padding:0;}
-  .hero-col-left{text-align:center;width:100%;padding:1.5rem;}
-  .hero-col-left h1{font-size:clamp(2rem,8vw,3rem);}
-  .hero-col-left .hero-sub{margin:0.5rem auto 0;}
-  .hero-col-right{display:flex;width:100vw;margin-top:-5px;margin-left:0;margin-right:0;padding:0;order:-1;}
-  .hero-col-right img{width:100%;height:auto;margin-top:0;}
-  .hero{min-height:85vh;display:flex;flex-direction:column;justify-content:center;padding-left:0;padding-right:0;overflow:hidden;}
-  .features-cards-section{padding:1rem 0.75rem;}
-  .features-cards-wrap{display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:0.6rem !important;flex-wrap:unset !important;}
-  .features-cards-wrap .cd-box{min-width:0 !important;flex:none !important;padding:0.7rem 0.5rem !important;width:auto !important;}
-  .feat-card{flex:none !important;min-width:0 !important;padding:0.85rem 0.6rem !important;width:auto !important;}
-  .cd-num{font-size:2.2rem;}
-  .cd-label{font-size:0.6rem;}
-  .feat-card-title{font-size:0.75rem;}
-  .feat-card-desc{font-size:0.67rem;}
-  .mu-mini-wrap{display:none !important;}
-  /* Reducir padding-top de heroes de sección (120px→80px) para eliminar espacio negro entre secciones */
-  .mu-hero,.cf-hero,.pr-hero,.fq-hero,.ct-hero{padding-top:calc(var(--bar-h) + 40px) !important;}
-  /* Mural: padding-top mayor para que el título no quede bajo el navbar fijo (40px bar + 64px header = 104px) */
-  .mu-hero{padding-top:calc(var(--bar-h) + 75px) !important;}
-  /* Final CTA: reducir padding y ajustar box para móvil */
-  .final-cta{padding:1.5rem 1rem !important;}
-  .final-cta-box{padding:1.5rem 1rem !important;}
-  /* Footer: reducir padding en móvil */
-  .ct-footer{padding:1.5rem 1rem !important;}
-  /* Mural: forzar orden cancha → panel → estadísticas en móvil */
-  .mu-section{display:flex !important;flex-direction:column !important;}
-  .mu-hero{order:1;}
-  .mu-topbar{order:2;}
-  #how-to-banner{order:3;}
-  .mu-main{order:4 !important;display:flex !important;flex-direction:column !important;}
-  .mu-canvas-wrap{order:1 !important;}
-  .mu-panel{order:2 !important;width:100% !important;border-left:none !important;border-top:1px solid rgba(255,215,0,0.12) !important;}
-  .mu-legend{order:5 !important;}
-  .mu-stats{order:3 !important;}
-  .mu-videos-wrap{order:4 !important;}
-}
 
 /* COUNTDOWN BOXES */
 .countdown-row{
@@ -371,10 +313,9 @@ nav a:hover{color:var(--gold);}
   .mural-area{flex-direction:column;}
   .buy-panel{width:100%;position:static;max-height:none;}
   nav#main-nav{display:none;}
+  .countdown-row{flex-direction:column;max-width:260px;}
   .features-bar{flex-wrap:wrap;}
   .feat-item{flex:1 1 45%;border-bottom:1px solid var(--border);}
-  .features-cards-wrap{flex-wrap:wrap;}
-  .features-cards-wrap .cd-box,.feat-card{flex:1 1 140px;}
 }
 /* ── HAMBURGER BUTTON (mobile-first: visible by default, hidden on desktop) ── */
 .ham-btn{
@@ -464,9 +405,6 @@ nav a:hover{color:var(--gold);}
   .logo-text .l1{font-size:0.75rem;}
   .lang-sw span{padding:3px 7px;font-size:0.62rem;}
   .ham-btn{width:36px;height:36px;}
-  .features-cards-wrap{grid-template-columns:1fr !important;}
-  .features-cards-wrap .cd-box{padding:0.7rem 1rem !important;}
-  .feat-card{padding:0.85rem 1rem !important;}
 }
 @media(max-width:600px){
   .hero h1{font-size:2.6rem;}
@@ -505,7 +443,7 @@ nav a:hover{color:var(--gold);}
 
 /* ════ MURAL ════ */
 .mu-section{background:var(--bg);border-top:2px solid rgba(255,215,0,0.15);}
-.mu-hero{text-align:center;padding:calc(var(--bar-h) + 80px) 1.5rem 1.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
+.mu-hero{text-align:center;padding:3rem 1.5rem 1.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
 .mu-hero-lights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 20% 40% at 5% 0%,rgba(255,215,0,0.1) 0%,transparent 60%),radial-gradient(ellipse 20% 40% at 95% 0%,rgba(255,215,0,0.1) 0%,transparent 60%);}
 .mu-label{font-size:0.65rem;font-weight:800;color:var(--gold);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.5rem;position:relative;z-index:1;}
 .mu-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1;letter-spacing:0.03em;margin-bottom:0.4rem;position:relative;z-index:1;}
@@ -517,14 +455,6 @@ nav a:hover{color:var(--gold);}
 .mu-topbar-prog{flex:1;height:4px;background:#1a1a1a;border-radius:2px;}
 .mu-topbar-fill{height:100%;background:linear-gradient(90deg,var(--gold3),var(--gold));border-radius:2px;width:0%;transition:width 1s ease;}
 .mu-topbar-right{font-size:0.65rem;font-weight:800;color:var(--green);letter-spacing:0.1em;white-space:nowrap;}
-.how-to-banner{background:#000;border:2px solid var(--gold);border-radius:12px;margin:0.75rem 1rem;padding:0.9rem 2.8rem 0.9rem 1.2rem;position:relative;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
-.how-to-banner[hidden]{display:none!important;}
-.how-to-close{position:absolute;top:0.5rem;right:0.7rem;background:none;border:none;color:#777;font-size:1rem;cursor:pointer;line-height:1;transition:color .2s;}
-.how-to-close:hover{color:var(--gold);}
-.how-to-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold);letter-spacing:0.08em;white-space:nowrap;flex-shrink:0;}
-.how-to-steps{list-style:none;display:flex;gap:1rem;flex-wrap:wrap;margin:0;padding:0;counter-reset:step;}
-.how-to-steps li{display:flex;align-items:center;gap:0.45rem;font-size:0.78rem;color:#ccc;letter-spacing:0.02em;}
-.how-to-steps li::before{counter-increment:step;content:counter(step);background:var(--gold);color:#000;font-weight:900;font-size:0.68rem;width:1.15rem;height:1.15rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .mu-main{display:flex;align-items:stretch;gap:0;}
 .mu-canvas-wrap{flex:1;padding:10px;background:#060606;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .mu-canvas-container{position:relative;width:100%;display:flex;flex-direction:row;}
@@ -541,10 +471,6 @@ nav a:hover{color:var(--gold);}
 .mu-panel{width:230px;flex-shrink:0;background:var(--bg2);border-left:1px solid rgba(255,215,0,0.12);padding:1.2rem;display:flex;flex-direction:column;gap:0.7rem;}
 .mu-panel-title{font-size:0.82rem;font-weight:900;letter-spacing:0.14em;color:var(--gold);text-transform:uppercase;text-align:center;}
 .mu-panel-sub{font-size:0.65rem;color:var(--muted);text-align:center;line-height:1.5;margin-top:-4px;}
-.mu-upload-types{border-top:1px solid rgba(255,215,0,0.12);padding-top:0.6rem;}
-.mu-upload-title{font-size:0.65rem;font-weight:900;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem;}
-.mu-upload-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.25rem;}
-.mu-upload-list li{font-size:0.68rem;color:#bbb;letter-spacing:0.03em;}
 .mu-mini-wrap{background:#0a0a0a;border:1px solid rgba(255,215,0,0.15);border-radius:6px;padding:5px;}
 #mu-mini{display:block;width:100%;border-radius:3px;background:#0d200d;}
 .mu-price-box{background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:0.9rem;text-align:center;}
@@ -569,24 +495,7 @@ nav a:hover{color:var(--gold);}
 .mu-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);line-height:1;}
 .mu-stat-label{font-size:0.62rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
 @media(max-width:900px){.mu-main{flex-direction:column;}.mu-panel{width:100%;border-left:none;border-top:1px solid rgba(255,215,0,0.12);}.mu-stats{flex-wrap:wrap;}.mu-stat{flex:1 1 45%;}.mu-stat-div{display:none;}}
-.features-cards-section{background:#000;padding:1.5rem 1.5rem;}
-.features-cards-wrap{display:flex;gap:0.75rem;justify-content:center;flex-wrap:nowrap;max-width:1400px;margin:0 auto;align-items:stretch;}
-.features-cards-wrap .cd-box{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.feat-card{background:#0a0a0a;border:1.5px solid var(--gold);border-radius:12px;padding:1rem 0.75rem;flex:1;min-width:0;max-width:none;display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.5rem;}
-.feat-card-icon{font-size:1.8rem;}
-.feat-card-title{font-size:0.8rem;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.2;}
-.feat-card-gold{color:var(--gold);}
-.feat-card-desc{font-size:0.7rem;color:#ccc;line-height:1.4;}
-.feat-card-tags{display:flex;gap:0.25rem;flex-wrap:wrap;justify-content:center;}
-.feat-card-tags span{background:#1a1a1a;border:1px solid #333;border-radius:20px;padding:0.2rem 0.4rem;font-size:0.62rem;color:#fff;}
 </style>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xbv9321af0");
-</script>
 </head>
 <body>
 <div id="page-wrap">
@@ -598,7 +507,7 @@ nav a:hover{color:var(--gold);}
   <div class="modal-box" style="text-align:center;max-width:360px;">
     <div style="font-size:2.5rem;margin-bottom:0.5rem;">⚠️</div>
     <h3 data-lang="modal-max-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);margin-bottom:0.5rem;">LÍMITE MÁXIMO</h3>
-    <p id="modal-max-warn-msg" style="color:#ccc;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">¡Superaste el límite máximo de <strong style="color:var(--gold);">10×10 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.</p>
+    <p id="modal-max-warn-msg" style="color:#ccc;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.</p>
     <button id="modal-max-warn-btn" data-lang="modal-max-warn-btn" style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;border-radius:10px;padding:0.75rem 2.5rem;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;width:100%;font-weight:700;">✅ GRACIAS</button>
   </div>
 </div>
@@ -607,7 +516,7 @@ nav a:hover{color:var(--gold);}
 <div class="modal-ov" id="modal">
   <div class="modal-box">
     <button class="modal-close" id="mcl">✕</button>
-    <h3 data-lang="modal-confirm-title-old">🏆 Tu Espacio</h3>
+    <h3 data-lang="modal-confirm-title-old">🏆 Tu Píxel</h3>
     <div class="mcoord" id="mcoord" style="text-align:center;">📍 Coordenadas en el mural: X=0, Y=0</div>
     <div id="modal-block-info" style="display:flex;gap:0.6rem;margin-bottom:1rem;justify-content:center;">
       <div style="background:#111;border:2px solid rgba(255,215,0,0.5);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
@@ -615,7 +524,7 @@ nav a:hover{color:var(--gold);}
         <div id="modal-block-size" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">1×1</div>
       </div>
       <div style="background:#111;border:2px solid rgba(255,215,0,0.5);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
-        <div id="modal-lbl-pixels-el" style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Espacios</div>
+        <div id="modal-lbl-pixels-el" style="font-size:0.65rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:800;">Píxeles</div>
         <div id="modal-block-px" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">1</div>
       </div>
       <div style="background:#111;border:2px solid rgba(255,215,0,0.9);border-radius:8px;padding:10px 14px;text-align:center;flex:1;">
@@ -623,16 +532,9 @@ nav a:hover{color:var(--gold);}
         <div id="modal-block-price" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#FFD700;">$1 USD</div>
       </div>
     </div>
-    <p style="font-size:0.82rem;color:#ccc;line-height:1.6;margin-bottom:1.2rem;text-align:center;" data-lang="modal-old-body">Estás a punto de comprar <strong style="color:var(--gold)" id="modal-px-count">1 espacio</strong> — cada espacio vale <strong style="color:var(--gold);white-space:nowrap;">$1.00 USD</strong>.<br><span style="color:#aaa;">Tu huella quedará sellada para siempre al finalizar el Mundial 2026.</span></p>
-    <div style="background:linear-gradient(135deg,rgba(0,100,0,0.25),rgba(0,80,0,0.15));border:1.5px solid #FFD700;border-radius:10px;padding:12px 16px;margin-bottom:0.8rem;text-align:center;">
-      <div id="promo-ecuador-es" style="color:#FFD700;font-weight:800;font-size:0.9rem;line-height:1.5;">¡Esta vez es GRATIS! Deja tu huella en el mural del Mundial 2026.<br><span style="font-weight:500;font-size:0.8rem;color:#ccc;">Válido hasta el 30 de junio a las 12:00 del mediodía.</span></div>
-      <div id="promo-ecuador-en" style="display:none;color:#FFD700;font-weight:800;font-size:0.9rem;line-height:1.5;">FREE! Leave your mark on the 2026 World Cup mural.<br><span style="font-weight:500;font-size:0.8rem;color:#ccc;">Valid until June 30 at 12:00 PM.</span></div>
-    </div>
+    <p style="font-size:0.82rem;color:#ccc;line-height:1.6;margin-bottom:1.2rem;text-align:center;" data-lang="modal-old-body">Estás a punto de comprar <strong style="color:var(--gold)" id="modal-px-count">1 píxel</strong> — cada píxel vale <strong style="color:var(--gold);white-space:nowrap;">$1.00 USD</strong>.<br><span style="color:#aaa;">Tu huella quedará sellada para siempre al finalizar el Mundial 2026.</span></p>
     <div style="display:flex;flex-direction:column;gap:0.6rem;">
-      <button onclick="reclamarEspacioGratis()" style="background:linear-gradient(135deg,#155f2a,#0e4a1f);color:#FFD700;border:2px solid #FFD700;border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
-        <span id="modal-btn-free-txt">✅ RECLAMAR MI ESPACIO GRATIS</span>
-      </button>
-      <button onclick="pagarConTarjeta()" style="background:var(--gold);color:#000;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:none;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
+      <button onclick="pagarConTarjeta()" style="background:var(--gold);color:#000;border:2px solid rgba(255,215,0,0.4);border-radius:10px;padding:15px;font-size:0.95rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.05em;">
         <span id="modal-btn-card-txt">💳 PAGAR CON TARJETA</span>
         <span style="display:flex;gap:4px;align-items:center;margin-left:4px;">
           <span style="background:#1a1f71;color:#fff;font-size:0.6rem;font-weight:900;font-style:italic;padding:2px 5px;border-radius:3px;letter-spacing:0.05em;">VISA</span>
@@ -652,9 +554,6 @@ nav a:hover{color:var(--gold);}
     </div>
   </div>
 </div>
-
-<!-- ANNOUNCE BAR -->
-<div id="announce-bar" data-lang="announce-bar">🌎 Más de 2.300 espacios ya reservados. Tu huella puede quedar para siempre.</div>
 
 <!-- HEADER -->
 <header>
@@ -699,44 +598,42 @@ nav a:hover{color:var(--gold);}
     <div class="crowd"></div>
   </div>
   <div class="confetti-wrap" id="confetti"></div>
-  <div class="hero-layout">
-    <div class="hero-col-left">
-      <h1><span data-lang="hero-h1-1">APARECE EN EL MURAL DEL</span><br><em data-lang="hero-h1-gold">MUNDIAL 2026</em></h1>
-      <p class="hero-sub" data-lang="hero-sub">Tu selfie, bandera o empresa pueden formar parte de la historia del Mundial.</p>
-      <ul class="hero-bullets">
-        <li data-lang="hero-bullet-1">📸 SUBE TU FOTO</li>
-        <li data-lang="hero-bullet-2">⊞ ELIGE TU ESPACIO EN LA CANCHA</li>
-        <li data-lang="hero-bullet-3">🏆 QUEDA PARA SIEMPRE</li>
-      </ul>
-      <a href="#mural" class="hero-cta" data-lang="hero-cta">QUIERO MI ESPACIO →</a>
-      <p class="hero-secure" data-lang="hero-secure">🔒 Pago seguro desde $1 USD</p>
+  <h1><span data-lang="hero-h1-1">DEJA TU HUELLA ETERNA</span><br><span data-lang="hero-h1-2">EN LA</span> <em data-lang="hero-h1-gold">HISTORIA DEL FÚTBOL</em></h1>
+  <p class="hero-sub" data-lang="hero-sub">El mural digital colaborativo más grande del Mundial 2026.<br>Cada píxel es un pedazo de historia. El mural se sellará para siempre<br><strong>al finalizar el Mundial 2026.</strong></p>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-row">
+    <div class="cd-box green">
+      <div class="cd-label" data-lang="cd-start-label">Faltan para<br>el inicio del Mundial</div>
+      <div class="cd-num" id="cd-start">165</div>
+      <div class="cd-label" id="cd-start-dias" data-lang="cd-dias">DÍAS</div>
+      <div class="cd-date" data-lang="cd-date-start">11 JUNIO 2026</div>
     </div>
-    <div class="hero-col-right">
-      <div class="hero-mural-preview">
-        <img src="mural-preview.png" alt="Mural Mundial 2026">
-      </div>
-      <p class="hero-mural-caption"><span class="live-dot"></span><span data-lang="hero-mural-caption" style="animation:blink 2s infinite;">Así lucirá el mural cuando miles de aficionados de todo el mundo dejen su huella.</span></p>
+    <div class="cd-box gold">
+      <div class="cd-label" data-lang="cd-end-label">Faltan para<br>el final del Mundial</div>
+      <div class="cd-num" id="cd-end">226</div>
+      <div class="cd-label" data-lang="cd-dias">DÍAS</div>
+      <div class="cd-date" data-lang="cd-date-end">19 JULIO 2026</div>
     </div>
   </div>
 
-
   <!-- STATS -->
   <div class="stats-bar">
-    <div class="sbar-item" style="display:none">
+    <div class="sbar-item">
       <div class="sbar-icon">👥</div>
       <div class="sbar-text">
         <strong data-lang="sbar-people-title">Millones de personas</strong>
         <span data-lang="sbar-people-sub">serán parte</span>
       </div>
     </div>
-    <div class="sbar-item" style="display:none">
+    <div class="sbar-item">
       <div class="sbar-icon">⊞</div>
       <div class="sbar-text">
         <strong data-lang="sbar-pixels-title">117,500</strong>
         <span data-lang="sbar-pixels-sub">píxeles disponibles</span>
       </div>
     </div>
-    <div class="sbar-item" style="display:none">
+    <div class="sbar-item">
       <div class="sbar-icon">🔒</div>
       <div class="sbar-text">
         <strong data-lang="sbar-seal-title">El mural se sellará</strong>
@@ -747,7 +644,7 @@ nav a:hover{color:var(--gold);}
 </section>
 
 <!-- MURAL + PANEL -->
-<div class="mural-area" id="mural-inicio" style="display:none;">
+<div class="mural-area" id="mural-inicio">
   <div class="mural-wrap">
     <div class="mural-topbar">
       <div style="display:flex;align-items:center;">
@@ -762,7 +659,7 @@ nav a:hover{color:var(--gold);}
 
   <!-- PANEL -->
   <div class="buy-panel">
-    <div class="panel-title" data-lang="inicio-panel-title">ELEGIR MI ESPACIO</div>
+    <div class="panel-title" data-lang="inicio-panel-title">Compra Tu Píxel</div>
     <div class="panel-sub" data-lang="mu-panel-sub">Selecciona en el mural<br>el píxel que deseas comprar</div>
     <div class="mini-grid-wrap"><div id="mini-grid"></div></div>
     <div class="price-block">
@@ -782,43 +679,43 @@ nav a:hover{color:var(--gold);}
 </div>
 
 <!-- FEATURES BAR -->
-<section class="features-cards-section">
-  <div class="features-cards-wrap">
-    <div class="cd-box green">
-      <div class="cd-label" data-lang="cd-start-label">Faltan para<br>el inicio del Mundial</div>
-      <div class="cd-num" id="cd-start">165</div>
-      <div class="cd-label" id="cd-start-dias" data-lang="cd-dias">DÍAS</div>
-      <div class="cd-date" data-lang="cd-date-start">11 JUNIO 2026</div>
-    </div>
-    <div class="cd-box gold">
-      <div class="cd-label" data-lang="cd-end-label">Faltan para<br>el final del Mundial</div>
-      <div class="cd-num" id="cd-end">226</div>
-      <div class="cd-label" data-lang="cd-dias">DÍAS</div>
-      <div class="cd-date" data-lang="cd-date-end">19 JULIO 2026</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-card-icon">🖼️</div>
-      <div class="feat-card-title" data-lang="hfc-title-1">SUBE TU <span class="feat-card-gold">CONTENIDO</span></div>
-      <div class="feat-card-desc" data-lang="hfc-desc-1">Personaliza tu espacio con lo que más te represente.</div>
-      <div class="feat-card-tags" data-lang="hfc-tags-1"><span>😊 SELFIE</span><span>🚩 BANDERA</span><span>🏢 LOGO DE EMPRESA</span></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-card-icon">🌍</div>
-      <div class="feat-card-title" data-lang="hfc-title-2">COMUNIDAD <span class="feat-card-gold">GLOBAL</span></div>
-      <div class="feat-card-desc" data-lang="hfc-desc-2">Únete a aficionados de todo el mundo en un solo mural.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-card-icon">🏆</div>
-      <div class="feat-card-title" data-lang="hfc-title-3">TU LUGAR <span class="feat-card-gold">EN LA HISTORIA</span></div>
-      <div class="feat-card-desc" data-lang="hfc-desc-3">Tu espacio formará parte de un recuerdo permanente del Mundial 2026.</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-card-icon">🔒</div>
-      <div class="feat-card-title" data-lang="hfc-title-4">SELLADO <span class="feat-card-gold">ETERNO</span></div>
-      <div class="feat-card-desc" data-lang="hfc-desc-4">Al finalizar el Mundial 2026, el mural se cerrará para siempre.</div>
+<div class="features-bar">
+  <div class="feat-item">
+    <div class="feat-icon">🛡️</div>
+    <div class="feat-text">
+      <strong data-lang="feat-title-1">Seguro y Permanente</strong>
+      <span data-lang="feat-desc-1">Tu píxel quedará guardado para siempre.</span>
     </div>
   </div>
-</section>
+  <div class="feat-item">
+    <div class="feat-icon">🌐</div>
+    <div class="feat-text">
+      <strong data-lang="feat-title-2">Comunidad Global</strong>
+      <span data-lang="feat-desc-2">Forma parte del mural con personas de todo el mundo.</span>
+    </div>
+  </div>
+  <div class="feat-item">
+    <div class="feat-icon">❤️</div>
+    <div class="feat-text">
+      <strong data-lang="feat-title-3">Captura Tu Momento</strong>
+      <span data-lang="feat-desc-3">Sé parte de la historia del Mundial 2026.</span>
+    </div>
+  </div>
+  <div class="feat-item">
+    <div class="feat-icon">🔒</div>
+    <div class="feat-text">
+      <strong data-lang="feat-title-4">Sellado Eterno</strong>
+      <span data-lang="feat-desc-4">Al finalizar el Mundial, el mural se sellará para siempre.</span>
+    </div>
+  </div>
+  <div class="feat-item">
+    <div class="feat-icon">🏆</div>
+    <div class="feat-text">
+      <strong data-lang="feat-title-5">Un Recuerdo Para Siempre</strong>
+      <span data-lang="feat-desc-5">Un millón de píxeles. Un solo recuerdo.</span>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════
      SECCIÓN: MURAL — LA CANCHA DE PÍXELES
@@ -826,27 +723,17 @@ nav a:hover{color:var(--gold);}
 <section id="mural" class="mu-section">
   <div class="mu-hero">
     <div class="mu-hero-lights"></div>
-    <div class="mu-label" data-lang="mu-label" data-lang="cf-li-3" style="display:none">117,500 píxeles disponibles</div>
+    <div class="mu-label" data-lang="mu-label" data-lang="cf-li-3">117,500 píxeles disponibles</div>
     <h2 class="mu-title"><span data-lang="mu-title-1">EL </span><em data-lang="mu-title-gold">MURAL</em><span data-lang="mu-title-2"> DEL MUNDIAL</span></h2>
-    <p class="mu-sub" data-lang="mu-sub">Haz clic en la cancha y elige dónde quieres dejar tu huella.</p>
+    <p class="mu-sub" data-lang="mu-sub">Haz clic en la cancha para elegir tu píxel. Cada espacio vale $1.00 USD y queda tuyo para siempre.</p>
   </div>
   <div class="mu-topbar">
     <div class="mu-topbar-left">
       <span class="mu-live-dot"></span>
-      <span id="mu-sold-txt" data-lang="mu-sold-bar">ESPACIOS VENDIDOS: 2.354 / 117,500 (2.00%)</span>
+      <span id="mu-sold-txt" data-lang="mu-sold-bar">PÍXELES VENDIDOS: 0 / 117,500 (0.00%)</span>
     </div>
     <div class="mu-topbar-prog"><div class="mu-topbar-fill" id="mu-prog"></div></div>
     <div class="mu-topbar-right">EN VIVO</div>
-  </div>
-  <div id="how-to-banner" class="how-to-banner">
-    <button class="how-to-close" onclick="closeHowTo()" aria-label="Cerrar">✕</button>
-    <div class="how-to-title" data-lang="how-title">¿CÓMO PARTICIPAR?</div>
-    <ol class="how-to-steps">
-      <li data-lang="how-step-1">Haz clic en un espacio verde.</li>
-      <li data-lang="how-step-2">Elige el tamaño.</li>
-      <li data-lang="how-step-3">Sube tu selfie, bandera o logotipo.</li>
-      <li data-lang="how-step-4">Tu imagen quedará para siempre en el mural.</li>
-    </ol>
   </div>
   <div class="mu-main">
     <div class="mu-canvas-wrap">
@@ -864,18 +751,10 @@ nav a:hover{color:var(--gold);}
       </div>
     </div>
     <div class="mu-panel">
-      <div class="mu-panel-title" data-lang="mu-panel-title">ELEGIR MI ESPACIO</div>
-      <div class="mu-panel-sub" data-lang="mu-panel-sub">Elige un espacio libre y deja tu huella para siempre.</div>
+      <div class="mu-panel-title" data-lang="mu-panel-title">Compra Tu Píxel</div>
+      <div class="mu-panel-sub" data-lang="mu-panel-sub">Selecciona en la cancha el píxel que deseas comprar</div>
       <div class="mu-mini-wrap">
         <canvas id="mu-mini" width="170" height="80"></canvas>
-      </div>
-      <div class="mu-upload-types">
-        <div class="mu-upload-title" data-lang="mu-upload-types-title">¿QUÉ PUEDES SUBIR?</div>
-        <ul class="mu-upload-list">
-          <li data-lang="mu-upload-item-1">📸 Selfie</li>
-          <li data-lang="mu-upload-item-2">🚩 Bandera</li>
-          <li data-lang="mu-upload-item-3">🏢 Logotipo de empresa</li>
-        </ul>
       </div>
       <div class="mu-price-box">
         <div class="mu-price-label" data-lang="inicio-price-label">1 Píxel</div>
@@ -892,29 +771,28 @@ nav a:hover{color:var(--gold);}
       </button>
       <div class="mu-secure" style="display:none;"><span data-lang="secure-payment-txt">Pago 100% seguro 🔒 Visa · Mastercard · Payphone</span></div>
 
-      <div class="mu-videos-wrap" style="display:flex;flex-direction:column;gap:0.7rem;">
-        <!-- TUTORIAL COMPUTADOR -->
-        <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-          <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Video: Cómo comprar desde el computador</div>
-          <div onclick="window.open('https://www.youtube.com/watch?v=LGgdlTNMigw','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000;">
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-              <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
-                <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
-              </div>
+      <!-- TUTORIAL COMPUTADOR -->
+      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Tutorial de compra en el computador</div>
+        <div onclick="window.open('https://www.youtube.com/watch?v=LGgdlTNMigw','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000 url('https://img.youtube.com/vi/LGgdlTNMigw/maxresdefault.jpg') center/cover no-repeat;">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
+              <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
             </div>
           </div>
         </div>
-        <!-- TUTORIAL MÓVIL -->
-        <!-- VIDEO MÓVIL: cuando tengas el video, reemplaza XXXXXXXXXX por el ID de YouTube (?v=XXXXXXXXXX)
-             actualiza también la URL del thumbnail (img.youtube.com/vi/XXXXXXXXXX/maxresdefault.jpg)
-             y el onclick del div: onclick="window.open('https://www.youtube.com/watch?v=XXXXXXXXXX','_blank')" -->
-        <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-          <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Video: Cómo comprar desde el móvil</div>
-          <div onclick="window.open('https://www.youtube.com/shorts/ebGknWqfrc0','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000;">
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-              <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
-                <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
-              </div>
+      </div>
+
+      <!-- TUTORIAL MÓVIL -->
+      <!-- VIDEO MÓVIL: cuando tengas el video, reemplaza XXXXXXXXXX por el ID de YouTube (?v=XXXXXXXXXX)
+           actualiza también la URL del thumbnail (img.youtube.com/vi/XXXXXXXXXX/maxresdefault.jpg)
+           y el onclick del div: onclick="window.open('https://www.youtube.com/watch?v=XXXXXXXXXX','_blank')" -->
+      <div style="background:#0a0a0a;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;text-align:center;padding:0.6rem 0.75rem 0.5rem;">Tutorial de compra en dispositivo móvil</div>
+        <div onclick="window.open('https://www.youtube.com/shorts/ebGknWqfrc0','_blank')" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;cursor:pointer;background:#000 url('https://img.youtube.com/vi/ebGknWqfrc0/maxresdefault.jpg') center/cover no-repeat;">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div style="width:44px;height:44px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,0.7);">
+              <div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;"></div>
             </div>
           </div>
         </div>
@@ -928,13 +806,13 @@ nav a:hover{color:var(--gold);}
     <div class="mu-leg"><div class="mu-leg-dot" style="background:rgba(255,255,255,0.8);border-radius:0;"></div><span data-lang="mu-leg-lines">Líneas</span></div>
   </div>
   <div class="mu-stats">
-    <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-sold">0</div><div class="mu-stat-label" data-lang="mu-stat-sold-lbl">Espacios Vendidos</div></div>
+    <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-sold">0</div><div class="mu-stat-label" data-lang="mu-stat-sold-lbl">Píxeles Vendidos</div></div>
     <div class="mu-stat-div"></div>
     <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-buyers">0</div><div class="mu-stat-label" data-lang="mu-stat-buyers-lbl">Compradores</div></div>
     <div class="mu-stat-div"></div>
-    <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-days">15</div><div class="mu-stat-label" data-lang="mu-stat-days-lbl">ESPACIOS DISPONIBLES</div></div>
+    <div class="mu-stat"><div class="mu-stat-num" id="mu-stat-days">15</div><div class="mu-stat-label" data-lang="mu-stat-days-lbl">PÍXELES DISPONIBLES</div></div>
     <div class="mu-stat-div"></div>
-    <div class="mu-stat"><div class="mu-stat-num">117,500</div><div class="mu-stat-label" data-lang="mu-stat-total-lbl">Espacios Totales</div></div>
+    <div class="mu-stat"><div class="mu-stat-num">117,500</div><div class="mu-stat-label" data-lang="mu-stat-total-lbl">Píxeles Totales</div></div>
   </div>
 </section>
 
@@ -959,12 +837,12 @@ nav a:hover{color:var(--gold);}
         <div class="cf-step-badge" data-lang="cf-step1-badge">PASO 01</div>
         <div class="cf-step-num">01</div>
         <div class="cf-step-icon">🗺️</div>
-        <div class="cf-step-title" data-lang="cf-step1-title">Elige tu espacio</div>
+        <div class="cf-step-title" data-lang="cf-step1-title">Elige tu píxel</div>
         <div class="cf-step-desc" data-lang="cf-step1-desc">Explora el mural gigante y haz clic en el espacio exacto donde quieres dejar tu huella eterna.</div>
         <ul class="cf-step-list">
           <li data-lang="cf-li-1">✦ Zoom y navegación libre</li>
           <li data-lang="cf-li-2">✦ Ver coordenadas en tiempo real</li>
-          <li data-lang="cf-li-3">✦ 117,500 espacios disponibles</li>
+          <li data-lang="cf-li-3">✦ 117,500 píxeles disponibles</li>
         </ul>
       </div>
 
@@ -989,11 +867,11 @@ nav a:hover{color:var(--gold);}
         <div class="cf-step-badge" data-lang="cf-step3-badge">PASO 03</div>
         <div class="cf-step-num">03</div>
         <div class="cf-step-icon">🔒</div>
-        <div class="cf-step-title" data-lang="cf-step3-title">Elige y séllalo</div>
-        <div class="cf-step-desc" data-lang="cf-step3-desc">Paga $1 USD por cada espacio de forma segura a través de PayPhone. Tu espacio queda tuyo para siempre en la historia.</div>
+        <div class="cf-step-title" data-lang="cf-step3-title">Compra y séllalo</div>
+        <div class="cf-step-desc" data-lang="cf-step3-desc">Paga $1 USD por píxel con wallet o tarjeta. Tu espacio queda tuyo para siempre en la historia.</div>
         <ul class="cf-step-list">
-          <li data-lang="cf-li-7">✦ $1.00 USD por cada espacio que tú elijas</li>
-          <li data-lang="cf-li-8">✦ Tarjeta de crédito</li>
+          <li data-lang="cf-li-7">✦ $1.00 USD por píxel</li>
+          <li data-lang="cf-li-8">✦ Wallet o tarjeta de crédito</li>
           <li data-lang="cf-li-9">✦ Pago único, permanente</li>
         </ul>
       </div>
@@ -1028,14 +906,14 @@ nav a:hover{color:var(--gold);}
     <div class="cf-faq-title" data-lang="fq-title-cf">PREGUNTAS FRECUENTES</div>
     <div class="cf-faqs">
       <div class="cf-faq-item" onclick="toggleFaq(this)">
-        <div class="cf-faq-q" data-lang="fq-q1">¿Mi espacio realmente queda para siempre?</div>
+        <div class="cf-faq-q" data-lang="fq-q1">¿Mi píxel realmente queda para siempre?</div>
         <div class="cf-faq-icon">+</div>
         <div class="cf-faq-a" data-lang="fq-a1">Sí. Al finalizar el Mundial 2026 el mural se congela y sella permanentemente. Nadie podrá modificarlo ni eliminarlo. Es un recuerdo histórico digital eterno.</div>
       </div>
       <div class="cf-faq-item" onclick="toggleFaq(this)">
-        <div class="cf-faq-q" data-lang="fq-q5">¿Puedo comprar más de un espacio?</div>
+        <div class="cf-faq-q" data-lang="fq-q5">¿Puedo comprar más de un píxel?</div>
         <div class="cf-faq-icon">+</div>
-        <div class="cf-faq-a" data-lang="fq-a5-cf">¡Por supuesto! Puedes comprar tantos espacios como quieras. Más espacios = más área para tu imagen o mensaje. Muchos fans compran bloques de 10x10 o más.</div>
+        <div class="cf-faq-a" data-lang="fq-a5-cf">¡Por supuesto! Puedes comprar tantos píxeles como quieras. Más píxeles = más espacio para tu imagen o mensaje. Muchos fans compran bloques de 10x10 o más.</div>
       </div>
       <div class="cf-faq-item" onclick="toggleFaq(this)">
         <div class="cf-faq-q" data-lang="fq-q4">¿Qué métodos de pago aceptan?</div>
@@ -1061,7 +939,7 @@ nav a:hover{color:var(--gold);}
     <div class="cf-cta-trophy">🏆</div>
     <h3 class="cf-cta-title"><span data-lang="cf-cta-title-q">¿LISTO PARA DEJAR TU </span><em data-lang="cf-cta-gold">HUELLA ETERNA</em>?</h3>
     <p class="cf-cta-sub" data-lang="cf-cta-sub">El mural se sellará para siempre al finalizar el Mundial 2026. No esperes más.</p>
-    <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ ELEGIR MI ESPACIO →</button>
+    <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ COMPRAR MI PÍXEL AHORA — $1.00 USD</button>
     <div class="cf-cta-note" data-lang="pr-secure-note">🔒 Pago seguro · Permanente · Instantáneo</div>
   </div>
 
@@ -1072,7 +950,7 @@ nav a:hover{color:var(--gold);}
 .cf-section{background:var(--bg);border-top:2px solid rgba(255,215,0,0.15);}
 
 .cf-hero{
-  text-align:center;padding:calc(var(--bar-h) + 80px) 1.5rem 2.5rem;position:relative;overflow:hidden;
+  text-align:center;padding:4rem 1.5rem 2.5rem;position:relative;overflow:hidden;
   background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,215,0,0.06) 0%, transparent 70%);
 }
 .cf-hero-lights{
@@ -1221,7 +1099,7 @@ nav a:hover{color:var(--gold);}
     <div class="pr-hero-lights"></div>
     <div class="pr-label" data-lang="pr-label">Tu espacio en la historia</div>
     <h2 class="pr-title"><span data-lang="pr-title-1">PRECIOS </span><em data-lang="pr-title-gold">SIMPLES</em></h2>
-    <p class="pr-sub" data-lang="pr-sub">Un espacio, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.</p>
+    <p class="pr-sub" data-lang="pr-sub">Un píxel, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.</p>
   </div>
 
   <div class="pr-wrap">
@@ -1229,19 +1107,19 @@ nav a:hover{color:var(--gold);}
     <div class="pr-main-card">
       <div class="pr-main-icon">⊞</div>
       <div class="pr-main-body">
-        <div class="pr-main-name" data-lang="pr-main-name">1 Espacio = $1.00 USD</div>
-        <div class="pr-main-desc" data-lang="pr-main-desc">Compra desde 1 espacio. Sube tu nombre, foto, logo o link. Queda para siempre en el mural del Mundial 2026.</div>
+        <div class="pr-main-name" data-lang="pr-main-name">1 Píxel = $1.00 USD</div>
+        <div class="pr-main-desc" data-lang="pr-main-desc">Compra desde 1 píxel. Sube tu nombre, foto, logo o link. Queda para siempre en el mural del Mundial 2026.</div>
       </div>
       <div class="pr-main-price">
         <div class="pr-price-amount">$1</div>
-        <div class="pr-price-unit" data-lang="pr-price-unit">por espacio</div>
+        <div class="pr-price-unit" data-lang="pr-price-unit">por píxel</div>
       </div>
     </div>
     <div class="pr-limits-row">
       <div class="pr-limit-card">
         <span class="pr-limit-icon">⬇️</span>
         <div class="pr-limit-label" data-lang="pr-lim-min">Mínimo</div>
-        <div class="pr-limit-val" data-lang="inicio-price-label">1 ESPACIO</div>
+        <div class="pr-limit-val" data-lang="inicio-price-label">1 PÍXEL</div>
         <div class="pr-limit-desc" data-lang="pr-min-desc">$1 USD — cualquier persona puede participar desde cualquier país del mundo.</div>
       </div>
       <div class="pr-limit-card">
@@ -1254,7 +1132,7 @@ nav a:hover{color:var(--gold);}
         <span class="pr-limit-icon">🔒</span>
         <div class="pr-limit-label" data-lang="pr-lim-once">Pago único</div>
         <div class="pr-limit-val" data-lang="pr-forever-val">PARA SIEMPRE</div>
-        <div class="pr-limit-desc" data-lang="pr-once-desc">No hay suscripción. Pagas una vez y tu espacio queda eterno en el mural.</div>
+        <div class="pr-limit-desc" data-lang="pr-once-desc">No hay suscripción. Pagas una vez y tu píxel queda eterno en el mural.</div>
       </div>
       <div class="pr-limit-card">
         <span class="pr-limit-icon">🌍</span>
@@ -1266,27 +1144,27 @@ nav a:hover{color:var(--gold);}
   </div>
 
   <div class="pr-calc-wrap">
-    <div class="pr-section-title" data-lang="pr-calc-title">Calculadora de espacios</div>
+    <div class="pr-section-title" data-lang="pr-calc-title">Calculadora de píxeles</div>
     <div class="pr-calc-box">
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-width-label">Ancho</div>
-        <input type="range" class="pr-slider" id="pr-w" min="1" max="10" value="10" step="1">
+        <input type="range" class="pr-slider" id="pr-w" min="1" max="40" value="10" step="1">
         <div class="pr-calc-val" id="pr-w-val">10 px</div>
       </div>
       <div class="pr-calc-row">
         <div class="pr-calc-label" data-lang="pr-height-label">Alto</div>
-        <input type="range" class="pr-slider" id="pr-h" min="1" max="10" value="10" step="1">
+        <input type="range" class="pr-slider" id="pr-h" min="1" max="40" value="10" step="1">
         <div class="pr-calc-val" id="pr-h-val">10 px</div>
       </div>
       <div class="pr-calc-result">
         <div class="pr-result-left">
           <canvas id="pr-canvas" width="90" height="90"></canvas>
-          <div class="pr-canvas-label" id="pr-size-label">10×10 espacios</div>
+          <div class="pr-canvas-label" id="pr-size-label">10×10 píxeles</div>
         </div>
         <div class="pr-result-right">
           <div class="pr-result-sublabel">Total a pagar</div>
           <div class="pr-result-total" id="pr-total">$100 USD</div>
-          <div class="pr-result-pixels" id="pr-pixels">100 espacios · bloque 10×10</div>
+          <div class="pr-result-pixels" id="pr-pixels">100 píxeles · bloque 10×10</div>
           <div class="pr-result-desc" id="pr-desc">Visible — perfecto para una imagen pequeña o tu nombre.</div>
         </div>
       </div>
@@ -1294,7 +1172,7 @@ nav a:hover{color:var(--gold);}
   </div>
 
   <div class="pr-form-wrap">
-    <div class="pr-section-title" data-lang="pr-form-title">¿Qué irá en tu espacio?</div>
+    <div class="pr-section-title" data-lang="pr-form-title">¿Qué irá en tu píxel?</div>
     <div class="pr-form-box">
       <div class="pr-form-grid">
         <div class="pr-field">
@@ -1340,7 +1218,7 @@ nav a:hover{color:var(--gold);}
           <span class="pr-soc-name">Facebook</span>
         </a>
       </div>
-      <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" style="display:none;">⊞ ELEGIR MI ESPACIO →</button>
+      <button class="cf-cta-btn" data-lang="cf-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" style="display:none;">⊞ COMPRAR MI PÍXEL AHORA — $1.00 USD</button>
       <div class="pr-secure" data-lang="pr-secure-note" style="display:none;">🛡️ Pago seguro · Permanente · Instantáneo</div>
     </div>
   </div>
@@ -1349,7 +1227,7 @@ nav a:hover{color:var(--gold);}
     <div class="pr-cta-trophy">🏆</div>
     <h3 class="pr-cta-title"><span data-lang="pr-cta-title-q">¿LISTO PARA DEJAR TU </span><em data-lang="pr-cta-gold">HUELLA ETERNA</em>?</h3>
     <p class="pr-cta-sub" data-lang="pr-cta-sub">El mural se sellará para siempre al finalizar el Mundial 2026.</p>
-    <button class="pr-cta-btn" data-lang="pr-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ ELEGIR MI ESPACIO →</button>
+    <button class="pr-cta-btn" data-lang="pr-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})">⊞ COMPRAR MI PÍXEL AHORA — $1.00 USD</button>
     <div class="pr-cta-note" data-lang="pr-secure-note">🔒 Pago seguro · Permanente · Instantáneo</div>
   </div>
 
@@ -1358,7 +1236,7 @@ nav a:hover{color:var(--gold);}
 <style>
 /* ════ PRECIOS ════ */
 .pr-section{background:var(--bg);border-top:2px solid rgba(255,215,0,0.15);}
-.pr-hero{text-align:center;padding:calc(var(--bar-h) + 80px) 1.5rem 2.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
+.pr-hero{text-align:center;padding:4rem 1.5rem 2.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
 .pr-hero-lights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 20% 40% at 5% 0%,rgba(255,215,0,0.12) 0%,transparent 60%),radial-gradient(ellipse 20% 40% at 95% 0%,rgba(255,215,0,0.12) 0%,transparent 60%);}
 .pr-label{font-size:0.65rem;font-weight:800;color:var(--gold);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.6rem;}
 .pr-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);color:#fff;line-height:1;letter-spacing:0.03em;margin-bottom:0.5rem;}
@@ -1451,25 +1329,25 @@ nav a:hover{color:var(--gold);}
     <button class="fq-cat active" data-lang="fq-cat-all" onclick="filterFaq('todas',this)">Todas</button>
     <button class="fq-cat" data-lang="fq-cat-mural" onclick="filterFaq('mural',this)">El Mural</button>
     <button class="fq-cat" data-lang="fq-cat-payments" onclick="filterFaq('pagos',this)">Pagos</button>
-    <button class="fq-cat" data-lang="fq-cat-pixel" onclick="filterFaq('pixel',this)">Mi Espacio</button>
+    <button class="fq-cat" data-lang="fq-cat-pixel" onclick="filterFaq('pixel',this)">Mi Píxel</button>
     <button class="fq-cat" data-lang="fq-cat-tech" onclick="filterFaq('tecnico',this)">Técnico</button>
   </div>
 
   <div class="fq-list" id="fq-list">
 
     <div class="fq-item" data-cat="mural" onclick="toggleFaq(this)">
-      <div class="fq-head"><div class="fq-num">01</div><div class="fq-q" data-lang="fq-q1">¿Mi espacio realmente queda para siempre?</div><div class="fq-icon">+</div></div>
+      <div class="fq-head"><div class="fq-num">01</div><div class="fq-q" data-lang="fq-q1">¿Mi píxel realmente queda para siempre?</div><div class="fq-icon">+</div></div>
       <div class="fq-body" data-lang="fq-a1-full"><span class="fq-tag" data-lang="fq-cat-mural">El Mural</span>Sí. Al finalizar el Mundial 2026 el mural se congela y sella permanentemente. Nadie podrá modificarlo ni eliminarlo. Es un recuerdo histórico digital eterno que quedará en línea para siempre.</div>
     </div>
 
     <div class="fq-item" data-cat="mural" onclick="toggleFaq(this)">
       <div class="fq-head"><div class="fq-num">02</div><div class="fq-q" data-lang="fq-q2">¿Cuándo se sella el mural exactamente?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a2-body"><span class="fq-tag" data-lang="fq-cat-mural">El Mural</span>El mural se sellará el 19 de julio de 2026, al finalizar la final del Mundial. A partir de ese momento nadie podrá comprar más espacios y el mural quedará congelado eternamente.</div>
+      <div class="fq-body" data-lang="fq-a2-body"><span class="fq-tag" data-lang="fq-cat-mural">El Mural</span>El mural se sellará el 19 de julio de 2026, al finalizar la final del Mundial. A partir de ese momento nadie podrá comprar más píxeles y el mural quedará congelado eternamente.</div>
     </div>
 
     <div class="fq-item" data-cat="pagos" onclick="toggleFaq(this)">
-      <div class="fq-head"><div class="fq-num">03</div><div class="fq-q" data-lang="fq-q3">¿Cuánto cuesta un espacio?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a3-body"><span class="fq-tag" data-lang="fq-cat-pagos">Pagos</span>Cada espacio cuesta $1.00 USD. Puedes comprar desde 1 solo espacio hasta un bloque de 40×40 espacios. El precio es fijo — no hay descuentos ni aumentos.</div>
+      <div class="fq-head"><div class="fq-num">03</div><div class="fq-q" data-lang="fq-q3">¿Cuánto cuesta un píxel?</div><div class="fq-icon">+</div></div>
+      <div class="fq-body" data-lang="fq-a3-body"><span class="fq-tag" data-lang="fq-cat-pagos">Pagos</span>Cada píxel cuesta $1.00 USD. Puedes comprar desde 1 solo píxel hasta un bloque de 100×100 píxeles. El precio es fijo — no hay descuentos ni aumentos.</div>
     </div>
 
     <div class="fq-item" data-cat="pagos" onclick="toggleFaq(this)">
@@ -1478,18 +1356,18 @@ nav a:hover{color:var(--gold);}
     </div>
 
     <div class="fq-item" data-cat="pixel" onclick="toggleFaq(this)">
-      <div class="fq-head"><div class="fq-num">05</div><div class="fq-q" data-lang="fq-q5">¿Puedo comprar más de un espacio?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a5-body"><span class="fq-tag" data-lang="fq-cat-pixel">Mi Espacio</span>Sí, puedes comprar tantos como quieras. El máximo por compra es un bloque de 40×40 espacios. Muchos fans compran bloques para mostrar su bandera, logo o mensaje más grande.</div>
+      <div class="fq-head"><div class="fq-num">05</div><div class="fq-q" data-lang="fq-q5">¿Puedo comprar más de un píxel?</div><div class="fq-icon">+</div></div>
+      <div class="fq-body" data-lang="fq-a5-body"><span class="fq-tag" data-lang="fq-cat-pixel">Mi Píxel</span>Sí, puedes comprar tantos como quieras. El máximo por compra es un bloque de 100×100 píxeles. Muchos fans compran bloques para mostrar su bandera, logo o mensaje más grande.</div>
     </div>
 
     <div class="fq-item" data-cat="pixel" onclick="toggleFaq(this)">
-      <div class="fq-head"><div class="fq-num">06</div><div class="fq-q" data-lang="fq-q6">¿Qué puedo poner en mi espacio?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a6-body"><span class="fq-tag" data-lang="fq-cat-pixel">Mi Espacio</span>Puedes subir cualquier imagen: bandera, logo, foto, fan art, texto pixelado o mensaje. También puedes enlazar tu Instagram, TikTok, Facebook, X o cualquier sitio web.</div>
+      <div class="fq-head"><div class="fq-num">06</div><div class="fq-q" data-lang="fq-q6">¿Qué puedo poner en mi píxel?</div><div class="fq-icon">+</div></div>
+      <div class="fq-body" data-lang="fq-a6-body"><span class="fq-tag" data-lang="fq-cat-pixel">Mi Píxel</span>Puedes subir cualquier imagen: bandera, logo, foto, fan art, texto pixelado o mensaje. También puedes enlazar tu Instagram, TikTok, Facebook, X o cualquier sitio web.</div>
     </div>
 
     <div class="fq-item" data-cat="pixel" onclick="toggleFaq(this)">
       <div class="fq-head"><div class="fq-num">07</div><div class="fq-q" data-lang="fq-q7">¿Puedo cambiar mi imagen después de comprar?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a7-body"><span class="fq-tag" data-lang="fq-cat-pixel">Mi Espacio</span>No. La imagen que subas al momento de la compra es definitiva y permanente. Esto garantiza la integridad del mural y le da mayor valor a cada espacio. Elige bien tu imagen antes de comprar.</div>
+      <div class="fq-body" data-lang="fq-a7-body"><span class="fq-tag" data-lang="fq-cat-pixel">Mi Píxel</span>No. La imagen que subas al momento de la compra es definitiva y permanente. Esto garantiza la integridad del mural y le da mayor valor a cada píxel. Elige bien tu imagen antes de comprar.</div>
     </div>
 
     <div class="fq-item" data-cat="tecnico" onclick="toggleFaq(this)">
@@ -1504,7 +1382,7 @@ nav a:hover{color:var(--gold);}
 
     <div class="fq-item" data-cat="pagos" onclick="toggleFaq(this)">
       <div class="fq-head"><div class="fq-num">10</div><div class="fq-q" data-lang="fq-q10">¿Hay reembolsos?</div><div class="fq-icon">+</div></div>
-      <div class="fq-body" data-lang="fq-a10-body"><span class="fq-tag" data-lang="fq-cat-pagos">Pagos</span>Las compras son definitivas. Tu espacio es tuyo para siempre y queda grabado en el mural histórico. No ofrecemos reembolsos una vez confirmado el pago.</div>
+      <div class="fq-body" data-lang="fq-a10-body"><span class="fq-tag" data-lang="fq-cat-pagos">Pagos</span>Las compras son definitivas. Tu píxel es tuyo para siempre y queda grabado en el mural histórico. No ofrecemos reembolsos una vez confirmado el pago.</div>
     </div>
 
   </div>
@@ -1539,7 +1417,7 @@ nav a:hover{color:var(--gold);}
     <div class="fq-cta-trophy">🏆</div>
     <h3 class="fq-cta-title"><span data-lang="fq-cta-title-q">¿YA TIENES TODO CLARO? DEJA TU </span><em data-lang="fq-cta-gold">HUELLA</em></h3>
     <p class="fq-cta-sub" data-lang="fq-cta-sub">El mural se sellará eternamente al finalizar el Mundial 2026.</p>
-    <button class="fq-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" data-lang="fq-cta-btn">⊞ ELEGIR MI ESPACIO →</button>
+    <button class="fq-cta-btn" onclick="document.getElementById('mural').scrollIntoView({behavior:'smooth'})" data-lang="fq-cta-btn">⊞ COMPRAR MI PÍXEL — $1.00 USD</button>
     <div class="fq-cta-note" data-lang="fq-secure-note">🔒 Pago seguro · Permanente · Instantáneo</div>
   </div>
 
@@ -1548,7 +1426,7 @@ nav a:hover{color:var(--gold);}
 <style>
 /* ════ PREGUNTAS FRECUENTES ════ */
 .fq-section{background:var(--bg);border-top:2px solid rgba(255,215,0,0.15);}
-.fq-hero{text-align:center;padding:calc(var(--bar-h) + 80px) 1.5rem 2rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
+.fq-hero{text-align:center;padding:4rem 1.5rem 2rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
 .fq-hero-lights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 20% 40% at 5% 0%,rgba(255,215,0,0.12) 0%,transparent 60%),radial-gradient(ellipse 20% 40% at 95% 0%,rgba(255,215,0,0.12) 0%,transparent 60%);}
 .fq-label{font-size:0.65rem;font-weight:800;color:var(--gold);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.6rem;position:relative;z-index:1;}
 .fq-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);color:#fff;line-height:1;letter-spacing:0.03em;margin-bottom:0.5rem;position:relative;z-index:1;}
@@ -1638,13 +1516,13 @@ nav a:hover{color:var(--gold);}
       <div class="ct-field">
         <label class="ct-label-f" data-lang="ct-subject-label">Asunto</label>
         <div class="ct-chips">
-          <button type="button" class="ct-chip active" onclick="selectChip(this)" data-lang="ct-chip-1" data-lang="ct-chip-1">Compra de espacios</button>
+          <button type="button" class="ct-chip active" onclick="selectChip(this)" data-lang="ct-chip-1" data-lang="ct-chip-1">Compra de píxeles</button>
           <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-2" data-lang="ct-chip-2">Problema técnico</button>
           <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-3" data-lang="ct-alliance-title" data-lang="ct-chip-3">Alianzas y marcas</button>
           <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-4" data-lang="ct-chip-4">Prensa y medios</button>
           <button type="button" class="ct-chip" onclick="selectChip(this)" data-lang="ct-chip-5">Otro</button>
         </div>
-        <input type="hidden" name="subject" id="ct-subject-hidden" value="Compra de espacios">
+        <input type="hidden" name="subject" id="ct-subject-hidden" value="Compra de píxeles">
       </div>
 
       <div class="ct-field">
@@ -1731,15 +1609,6 @@ nav a:hover{color:var(--gold);}
 
 </section>
 
-<!-- BLOQUE CTA FINAL -->
-<section class="final-cta">
-  <div class="final-cta-box">
-    <div class="final-cta-title" data-lang="fcta-title">Tu lugar puede estar aquí.</div>
-    <p class="final-cta-sub" data-lang="fcta-sub">Forma parte del mural digital del Mundial 2026 con tu selfie, bandera o empresa.</p>
-    <a href="#mural" class="final-cta-btn" data-lang="fcta-btn">RESERVAR MI ESPACIO</a>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer class="ct-footer">
   <div class="ct-footer-inner">
@@ -1762,7 +1631,7 @@ nav a:hover{color:var(--gold);}
 <style>
 /* ════ CONTACTO ════ */
 .ct-section{background:var(--bg);border-top:2px solid rgba(255,215,0,0.15);}
-.ct-hero{text-align:center;padding:calc(var(--bar-h) + 80px) 1.5rem 2.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
+.ct-hero{text-align:center;padding:4rem 1.5rem 2.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,0.06) 0%,transparent 70%);}
 .ct-hero-lights{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 20% 40% at 5% 0%,rgba(255,215,0,0.12) 0%,transparent 60%),radial-gradient(ellipse 20% 40% at 95% 0%,rgba(255,215,0,0.12) 0%,transparent 60%);}
 .ct-label{font-size:0.65rem;font-weight:800;color:var(--gold);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.6rem;position:relative;z-index:1;}
 .ct-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);color:#fff;line-height:1;letter-spacing:0.03em;margin-bottom:0.5rem;position:relative;z-index:1;}
@@ -1820,12 +1689,6 @@ nav a:hover{color:var(--gold);}
 .ct-online-text strong{color:#22c55e;}
 
 /* FOOTER */
-.final-cta{background:#000;padding:3rem 1.5rem;text-align:center;}
-.final-cta-box{display:inline-block;border:2px solid var(--gold);border-radius:16px;padding:2.5rem 3rem;max-width:640px;width:100%;}
-.final-cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;letter-spacing:0.04em;margin-bottom:0.6rem;}
-.final-cta-sub{font-size:0.9rem;color:#ccc;line-height:1.6;margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto;}
-.final-cta-btn{display:inline-block;padding:0.9rem 2.6rem;background:var(--gold);color:#000;font-weight:900;font-size:0.95rem;letter-spacing:0.12em;text-transform:uppercase;border-radius:10px;text-decoration:none;transition:opacity .2s;box-shadow:0 0 28px rgba(255,215,0,0.35);}
-.final-cta-btn:hover{opacity:0.88;}
 .ct-footer{background:#050505;border-top:1px solid rgba(255,215,0,0.15);padding:2.5rem 1.5rem;}
 .ct-footer-inner{max-width:1100px;margin:0 auto;text-align:center;}
 .ct-footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fff;margin-bottom:4px;letter-spacing:0.04em;}
@@ -1848,7 +1711,7 @@ nav a:hover{color:var(--gold);}
   }
 })();
 // ── ACTIVE NAV ON SCROLL ──
-document.addEventListener('DOMContentLoaded', function(){
+(function(){
   const sections = ['inicio','mural','como','precios','faq','contacto'];
   // Desktop nav links
   const navLinks = {};
@@ -1856,7 +1719,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const el = document.getElementById('nav-'+id);
     if(el) navLinks[id] = el;
   });
-  // Bottom nav items (mobile) — se buscan aquí para que el DOM esté completo
+  // Bottom nav items (mobile)
   const mbnIds = ['inicio','mural','precios','faq','contacto'];
   const mbnItems = {};
   mbnIds.forEach(id=>{
@@ -1864,13 +1727,13 @@ document.addEventListener('DOMContentLoaded', function(){
     if(el) mbnItems[id] = el;
   });
   // Map sections not in bottom nav to closest item
-  const mbnMap = {como:'mural'};
+  const mbnMap = {como:'inicio'};
 
   function updateActive(){
     let current = 'inicio';
     sections.forEach(id=>{
       const sec = document.getElementById(id);
-      if(sec && sec.getBoundingClientRect().top <= window.innerHeight * 0.5) current = id;
+      if(sec && sec.getBoundingClientRect().top <= 90) current = id;
     });
     // Desktop nav
     Object.entries(navLinks).forEach(([id,el])=>{
@@ -1884,7 +1747,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   window.addEventListener('scroll', updateActive, {passive:true});
   updateActive();
-});
+})();
 
 // ── CONTACTO: CONTADOR DE CARACTERES ──
 function updateCounter(){
@@ -2039,7 +1902,6 @@ const _startDays = calcDays('2026-06-11');
 const _startEl   = document.getElementById('cd-start');
 const _startDias = document.getElementById('cd-start-dias');
 if (_startDays <= 0) {
-  _startEl.setAttribute('data-lang','cd-en-curso');
   _startEl.textContent        = '¡EN CURSO!';
   _startEl.style.animation    = 'blink 2s infinite';
   _startEl.style.position     = 'relative';
@@ -2130,7 +1992,7 @@ function openModal(x,y){
   if(sizeEl) sizeEl.textContent=`${sel.w}×${sel.h}`;
   if(pxEl) pxEl.textContent=total.toLocaleString();
   if(priceEl) priceEl.textContent=`$${total.toLocaleString()} USD`;
-  if(pxCount) pxCount.textContent=en?`${total.toLocaleString()} spaces`:`${total.toLocaleString()} espacios`;
+  if(pxCount) pxCount.textContent=en?`${total.toLocaleString()} pixels`:`${total.toLocaleString()} píxeles`;
   // Translate modal labels
   const lblBlock=document.getElementById('modal-lbl-block-el');
   const lblPixels=document.getElementById('modal-lbl-pixels-el');
@@ -2139,25 +2001,19 @@ function openModal(x,y){
   const btnCard=document.getElementById('modal-btn-card-txt');
   const sealNote=document.getElementById('modal-seal-note');
   if(lblBlock) lblBlock.textContent=en?'Block':'Bloque';
-  if(lblPixels) lblPixels.textContent=en?'Spaces':'Espacios';
+  if(lblPixels) lblPixels.textContent=en?'Pixels':'Píxeles';
   if(lblTotal) lblTotal.textContent=en?'Total':'Total';
   if(btnPaypal) btnPaypal.textContent=en?'PAY WITH PAYPAL':'PAGAR CON PAYPAL';
   if(btnCard) btnCard.innerHTML=en?'💳 PAY BY CARD':'💳 PAGAR CON TARJETA';
   if(sealNote) sealNote.textContent=en?'🏆 The mural will be sealed forever on 06/11/2026':'🏆 El mural se sellará para siempre el 11/06/2026';
-  const btnFree=document.getElementById('modal-btn-free-txt');
-  if(btnFree) btnFree.textContent=en?'✅ CLAIM MY FREE SPACE':'✅ RECLAMAR MI ESPACIO GRATIS';
-  const promoEs=document.getElementById('promo-ecuador-es');
-  const promoEn=document.getElementById('promo-ecuador-en');
-  if(promoEs) promoEs.style.display=en?'none':'block';
-  if(promoEn) promoEn.style.display=en?'block':'none';
   document.getElementById('modal').classList.add('open');
 }
 function showMaxWarn(){
   const en=window._lang==='en';
   const msg=document.getElementById('modal-max-warn-msg');
   if(msg) msg.innerHTML=en
-    ?'You exceeded the maximum limit of <strong style="color:var(--gold);">10×10 pixels</strong>!<br>Please go back to the mural and choose your block carefully.'
-    :'¡Superaste el límite máximo de <strong style="color:var(--gold);">10×10 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.';
+    ?'You exceeded the maximum limit of <strong style="color:var(--gold);">40×40 pixels</strong>!<br>Please go back to the mural and choose your block carefully.'
+    :'¡Superaste el límite máximo de <strong style="color:var(--gold);">40×40 píxeles</strong>!<br>Por favor regresa al mural y elige tu bloque con cuidado.';
   const btn=document.getElementById('modal-max-warn-btn');
   if(btn) btn.textContent=en?'✅ THANKS':'✅ GRACIAS';
   if(btn) btn.onclick=function(){
@@ -2218,44 +2074,6 @@ async function pagarConTarjeta(){
     cancellationUrl:'https://mundialeterno.com/'
   }).render('pp-box-inner');
 }
-async function reclamarEspacioGratis(){
-  const sel=window._muSel||{w:1,h:1};
-  const en=window._lang==='en';
-  closeModal();
-  const overlay=document.getElementById('pp-box-overlay');
-  overlay.style.display='flex';
-  document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2rem;margin-bottom:1rem;">⏳</div><div style="font-weight:700;letter-spacing:0.08em;">'+(en?'Saving your space...':'Guardando tu espacio...')+'</div></div>';
-  let ip='';
-  try{const r=await fetch('https://api.ipify.org?format=json');const d=await r.json();ip=d.ip||'';}catch(e){}
-  const clientTransactionId='free-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
-  const nombre=document.getElementById('uw-pixel-text')?.value?.trim()||'';
-  let imagenUrl='';
-  if(window.muUploadedImageData){
-    try{
-      const base64=window.muUploadedImageData.split(',')[1];
-      const res=await fetch(GAS_WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'uploadImage',filename:clientTransactionId+'.jpg',imageBase64:base64})});
-      const json=await res.json();
-      if(json.status==='ok') imagenUrl=json.url;
-    }catch(e){}
-  }
-  try{
-    const res=await fetch(GAS_WEBHOOK,{
-      method:'POST',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({action:'claimFreeSpace',ip,clientTransactionId,x:selX,y:selY,w:sel.w,h:sel.h,nombre,imagenUrl})
-    });
-    const json=await res.json();
-    if(json.status==='already_claimed'){
-      document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2.5rem;margin-bottom:1rem;">⚠️</div><div style="font-weight:700;letter-spacing:0.08em;margin-bottom:0.5rem;">'+(en?'Already claimed today!':'¡Ya reclamaste hoy!')+'</div><div style="font-size:0.85rem;color:#ccc;">'+(en?'Only one free space per connection per day.':'Solo un espacio gratis por conexión por día.')+'</div><button onclick="closePPBox()" style="margin-top:1.5rem;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px 24px;font-weight:900;cursor:pointer;font-family:Montserrat,sans-serif;">OK</button></div>';
-    }else if(json.status==='ok'){
-      document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2.5rem;margin-bottom:1rem;">🎉</div><div style="font-weight:700;letter-spacing:0.08em;margin-bottom:0.5rem;">'+(en?'Space claimed!':'¡Espacio reclamado!')+'</div><div style="font-size:0.85rem;color:#ccc;">'+(en?'Your space will appear on the mural shortly.':'Tu espacio aparecerá en el mural en breve.')+'</div><button onclick="closePPBox()" style="margin-top:1.5rem;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px 24px;font-weight:900;cursor:pointer;font-family:Montserrat,sans-serif;">✅ OK</button></div>';
-    }else{
-      throw new Error(json.message||'Error');
-    }
-  }catch(err){
-    document.getElementById('pp-box-inner').innerHTML='<div style="color:#FFD700;text-align:center;padding:2.5rem;font-family:Montserrat,sans-serif;"><div style="font-size:2.5rem;margin-bottom:1rem;">❌</div><div style="font-weight:700;">'+(en?'Error claiming space':'Error al reclamar el espacio')+'</div><button onclick="closePPBox()" style="margin-top:1.5rem;background:var(--gold);color:#000;border:none;border-radius:8px;padding:10px 24px;font-weight:900;cursor:pointer;font-family:Montserrat,sans-serif;">OK</button></div>';
-  }
-}
 function closePPBox(){
     document.getElementById('pp-box-overlay').style.display='none';
     setTimeout(function(){
@@ -2275,66 +2093,45 @@ const TRANS = {
     'nav-precios':'Precios','nav-faq':'Preguntas','nav-contacto':'Contacto',
     'btn-buy':'⊞ DEJA TU HUELLA',
     // HERO
-    'hero-h1-1':'APARECE EN EL MURAL DEL',
+    'hero-h1-1':'DEJA TU HUELLA ETERNA',
     'hero-h1-2':'EN LA',
-    'hero-h1-gold':'MUNDIAL 2026',
-    'hero-sub':'Tu selfie, bandera o empresa pueden formar parte de la historia del Mundial.',
-    'hero-bullet-1':'📸 SUBE TU FOTO',
-    'hero-bullet-2':'⊞ ELIGE TU ESPACIO EN LA CANCHA',
-    'hero-bullet-3':'🏆 QUEDA PARA SIEMPRE',
-    'hero-cta':'QUIERO MI ESPACIO →',
-    'hero-secure':'🔒 Pago seguro desde $1 USD',
-    'hero-mural-caption':'Así lucirá el mural cuando miles de aficionados de todo el mundo dejen su huella.',
-    'announce-bar':'🌎 Más de 2.300 espacios ya reservados. Tu huella puede quedar para siempre.',
+    'hero-h1-gold':'HISTORIA DEL FÚTBOL',
+    'hero-sub':'El mural digital colaborativo más grande del Mundial 2026.<br>Cada píxel es un pedazo de historia. El mural se sellará para siempre<br><strong>al finalizar el Mundial 2026.</strong>',
     'cd-start-label':'Faltan para<br>el inicio del Mundial',
     'cd-end-label':'Faltan para<br>el final del Mundial',
     'cd-dias':'DÍAS',
-    'cd-en-curso':'¡EN CURSO!',
-    'hfc-title-1':'SUBE TU <span class="feat-card-gold">CONTENIDO</span>',
-    'hfc-desc-1':'Personaliza tu espacio con lo que más te represente.',
-    'hfc-tags-1':'<span>😊 SELFIE</span><span>🚩 BANDERA</span><span>🏢 LOGO DE EMPRESA</span>',
-    'hfc-title-2':'COMUNIDAD <span class="feat-card-gold">GLOBAL</span>',
-    'hfc-desc-2':'Únete a aficionados de todo el mundo en un solo mural.',
-    'hfc-title-3':'TU LUGAR <span class="feat-card-gold">EN LA HISTORIA</span>',
-    'hfc-desc-3':'Tu espacio formará parte de un recuerdo permanente del Mundial 2026.',
-    'hfc-title-4':'SELLADO <span class="feat-card-gold">ETERNO</span>',
-    'hfc-desc-4':'Al finalizar el Mundial 2026, el mural se cerrará para siempre.',
     'sbar-people-title':'Millones de personas','sbar-people-sub':'serán parte',
     'sbar-pixels-title':'117,500','sbar-pixels-sub':'píxeles disponibles',
     'sbar-seal-title':'El mural se sellará','sbar-seal-sub':'eternamente',
     // MURAL
     'mu-label':'117,500 píxeles disponibles',
     'mu-title-1':'EL ','mu-title-gold':'MURAL','mu-title-2':' DEL MUNDIAL',
-    'mu-sub':'Haz clic en la cancha y elige dónde quieres dejar tu huella.',
-    'mu-panel-title':'ELEGIR MI ESPACIO',
-    'mu-panel-sub':'Elige un espacio libre y deja tu huella para siempre.',
-    'mu-upload-types-title':'¿QUÉ PUEDES SUBIR?',
-    'mu-upload-item-1':'📸 Selfie',
-    'mu-upload-item-2':'🚩 Bandera',
-    'mu-upload-item-3':'🏢 Logotipo de empresa',
+    'mu-sub':'Haz clic en la cancha para elegir tu píxel. Cada espacio vale $1.00 USD y queda tuyo para siempre.',
+    'mu-panel-title':'Compra Tu Píxel',
+    'mu-panel-sub':'Selecciona en la cancha el píxel que deseas comprar',
     'mu-hint':'Mantén presionado para seleccionar · 1 dedo para mover',
     'mu-wallet':'🔒 CONECTAR WALLET','mu-or':'o paga con tarjeta','mu-card':'💳 PAGAR CON TARJETA',
     'mu-secure-txt':'segura y permanente',
     'mu-leg-avail':'Disponible','mu-leg-sel':'Seleccionado','mu-leg-sold':'Vendido','mu-leg-lines':'Líneas',
-    'mu-stat-sold-lbl':'Espacios Vendidos','mu-stat-buyers-lbl':'Compradores',
-    'mu-stat-days-lbl':'ESPACIOS DISPONIBLES','mu-stat-total-lbl':'Espacios Totales',
+    'mu-stat-sold-lbl':'Píxeles Vendidos','mu-stat-buyers-lbl':'Compradores',
+    'mu-stat-days-lbl':'PÍXELES DISPONIBLES','mu-stat-total-lbl':'Píxeles Totales',
     // COMO FUNCIONA
     'cf-label':'Guía paso a paso','cf-title-1':'CÓMO ','cf-title-gold':'FUNCIONA',
     'cf-sub':'En 3 simples pasos, tu huella quedará en la historia para siempre.',
-    'cf-step1-badge':'PASO 01','cf-step1-title':'Elige tu espacio',
+    'cf-step1-badge':'PASO 01','cf-step1-title':'Elige tu píxel',
     'cf-step1-desc':'Explora el mural gigante y haz clic en el espacio exacto donde quieres dejar tu huella eterna.',
     'cf-step2-badge':'PASO 02','cf-step2-title':'Personaliza tu espacio',
     'cf-step2-desc':'Sube la imagen que quieras mostrar al mundo: bandera, logo, frase, fan art o recuerdo.',
-    'cf-step3-badge':'PASO 03','cf-step3-title':'Elige y séllalo',
-    'cf-step3-desc':'Paga $1 USD por cada espacio de forma segura a través de PayPhone. Tu espacio queda tuyo para siempre en la historia.',
+    'cf-step3-badge':'PASO 03','cf-step3-title':'Compra y séllalo',
+    'cf-step3-desc':'Paga $1 USD por píxel de forma segura a través de PayPal. Tu espacio queda tuyo para siempre en la historia.',
     'cf-cta-title':'¿LISTO PARA DEJAR TU ','cf-cta-gold':'HUELLA ETERNA','cf-cta-sub':'El mural se sellará para siempre al finalizar el Mundial 2026.',
-    'cf-cta-btn':'⊞ ELEGIR MI ESPACIO →',
+    'cf-cta-btn':'⊞ COMPRAR MI PÍXEL AHORA',
     // PRECIOS
     'pr-label':'Tu espacio en la historia','pr-title-1':'PRECIOS ','pr-title-gold':'SIMPLES',
-    'pr-sub':'Un espacio, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
-    'pr-main-name':'1 Espacio = $1.00 USD',
-    'pr-main-desc':'Compra desde 1 espacio. Sube tu nombre, foto, logo o link. Queda para siempre en el mural del Mundial 2026.',
-    'pr-buy-btn':'🔒 ELEGIR MI ESPACIO →',
+    'pr-sub':'Un píxel, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
+    'pr-main-name':'1 Píxel = $1.00 USD',
+    'pr-main-desc':'Compra desde 1 píxel. Sube tu nombre, foto, logo o link. Queda para siempre en el mural del Mundial 2026.',
+    'pr-buy-btn':'🔒 COMPRAR MI PÍXEL',
     // FAQ
     'fq-label':'Todo lo que necesitas saber','fq-title-1':'PREGUNTAS ','fq-title-gold':'FRECUENTES',
     'fq-sub':'Resolvemos todas tus dudas antes de que dejes tu huella eterna.',
@@ -2343,17 +2140,17 @@ const TRANS = {
     'ct-sub':'¿Tienes preguntas, sugerencias o quieres ser parte del proyecto? Escríbenos.',
     'ct-send-btn':'✉ ENVIAR MENSAJE',
     // FAQ QUESTIONS
-    'fq-q1':'¿Mi espacio realmente queda para siempre?',
+    'fq-q1':'¿Mi píxel realmente queda para siempre?',
     'fq-a1':'Al finalizar el Mundial 2026 el mural se congela y sella permanentemente. Nadie podrá modificarlo ni eliminarlo. Es un recuerdo histórico digital eterno.',
     'fq-q2':'¿Cuándo se sella el mural exactamente?',
     'fq-a2':'El mural se sellará el 19 de julio de 2026, al finalizar la final del Mundial. A partir de ese momento el mural quedará congelado eternamente.',
-    'fq-q3':'¿Cuánto cuesta un espacio?',
-    'fq-a3':'Cada espacio cuesta $1.00 USD. Puedes comprar desde 1 solo espacio hasta un bloque de 40×40 espacios. El precio es fijo.',
+    'fq-q3':'¿Cuánto cuesta un píxel?',
+    'fq-a3':'Cada píxel cuesta $1.00 USD. Puedes comprar desde 1 solo píxel hasta un bloque de 100×100 píxeles. El precio es fijo.',
     'fq-q4':'¿Qué métodos de pago aceptan?',
     'fq-a4':'Aceptamos pagos seguros a través de PayPal. Puedes pagar con tu cuenta PayPal o con tarjeta de crédito/débito (Visa, Mastercard, Amex).',
-    'fq-q5':'¿Puedo comprar más de un espacio?',
-    'fq-a5':'Sí, puedes comprar tantos como quieras. El máximo es un bloque de 40×40 espacios.',
-    'fq-q6':'¿Qué puedo poner en mi espacio?',
+    'fq-q5':'¿Puedo comprar más de un píxel?',
+    'fq-a5':'Sí, puedes comprar tantos como quieras. El máximo es un bloque de 100×100 píxeles.',
+    'fq-q6':'¿Qué puedo poner en mi píxel?',
     'fq-a6':'Puedes subir cualquier imagen: bandera, logo, foto, fan art o mensaje. También puedes enlazar tus redes sociales.',
     'fq-q7':'¿Puedo cambiar mi imagen después de comprar?',
     'fq-a7':'No. La imagen es definitiva y permanente. Elige bien tu imagen antes de comprar.',
@@ -2367,16 +2164,16 @@ const TRANS = {
     'fq-contact-desc':'Respondemos en menos de 24 horas. También puedes encontrarnos en nuestras redes sociales.',
     'fq-contact-btn':'CONTACTAR',
     'fq-cta-sub':'El mural se sellará eternamente al finalizar el Mundial 2026.',
-    'fq-cta-btn':'⊞ ELEGIR MI ESPACIO →',
+    'fq-cta-btn':'⊞ COMPRAR MI PÍXEL — $1.00 USD',
     'fq-not-found':'¿No encontraste tu respuesta?',
     // PRICING
     'pr-min-desc':'$1 USD — cualquier persona puede participar desde cualquier país del mundo.',
     'pr-max-desc':'El bloque más grande disponible. Ideal para marcas y empresas que quieren máxima visibilidad en el mural.',
-    'pr-once-desc':'No hay suscripción. Pagas una vez y tu espacio queda eterno en el mural.',
+    'pr-once-desc':'No hay suscripción. Pagas una vez y tu píxel queda eterno en el mural.',
     'pr-global-desc':'Compradores de todo el mundo ya son parte del mural histórico.',
     'pr-lim-min':'Mínimo','pr-lim-max':'Máximo','pr-lim-once':'Pago único','pr-lim-global':'Global',
     'pr-cta-sub':'El mural se sellará para siempre al finalizar el Mundial 2026.',
-    'pr-cta-btn':'⊞ ELEGIR MI ESPACIO →',
+    'pr-cta-btn':'⊞ COMPRAR MI PÍXEL AHORA — $1.00 USD',
     // CONTACT
     'ct-email-desc':'Escríbenos a cualquier hora del día.',
     'ct-response-desc':'Respondemos en menos de 24 horas en días hábiles. Soporte disponible en español e inglés.',
@@ -2389,38 +2186,33 @@ const TRANS = {
     'ct-privacy':'Tu información es privada y nunca será compartida con terceros.',
     'ct-send-btn':'✉ ENVIAR MENSAJE',
     // HOW IT WORKS LISTS
-    'cf-li-1':'Zoom y navegación libre','cf-li-2':'Ver coordenadas en tiempo real','cf-li-3':'117,500 espacios disponibles',
+    'cf-li-1':'Zoom y navegación libre','cf-li-2':'Ver coordenadas en tiempo real','cf-li-3':'117,500 píxeles disponibles',
     'cf-li-4':'Imágenes, banderas y logos','cf-li-5':'Textos y mensajes','cf-li-6':'Arte pixelado y fan art',
-    'cf-li-7':'$1.00 USD por cada espacio que tú elijas','cf-li-8':'Tarjeta de crédito','cf-li-9':'Pago único, permanente',
+    'cf-li-7':'$1.00 USD por píxel','cf-li-8':'Wallet o tarjeta de crédito','cf-li-9':'Pago único, permanente',
     'cf-video-title':'VER VIDEO EXPLICATIVO','cf-video-sub':'Mira cómo funciona en menos de 60 segundos · 0:58',
     // EXTRA SPANISH
     'inicio-sold-bar':'🔒 IMAGEN REFERENCIAL — ASÍ SE VERÁ AL COMPLETARSE EL MURAL — 117,500 / 117,500 PÍXELES (100%)',
-    'inicio-panel-title':'ELEGIR MI ESPACIO',
-    'inicio-price-label':'1 ESPACIO','inicio-price-note':'Pago único · Para siempre',
+    'inicio-panel-title':'COMPRA TU PÍXEL',
+    'inicio-price-label':'1 PÍXEL','inicio-price-note':'Pago único · Para siempre',
     'inicio-secure':'segura y permanente',
-    'mu-sold-bar':'ESPACIOS VENDIDOS: 2.354 / 117,500 (2.00%)',
-    'how-title':'¿CÓMO PARTICIPAR?',
-    'how-step-1':'Haz clic en un espacio verde.',
-    'how-step-2':'Elige el tamaño.',
-    'how-step-3':'Sube tu selfie, bandera o logotipo.',
-    'how-step-4':'Tu imagen quedará para siempre en el mural.',
+    'mu-sold-bar':'PÍXELES VENDIDOS: 0 / 117,500 (0.00%)',
     'mu-sel-none':'Ningún píxel seleccionado',
-    'pr-sub':'Un espacio, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
+    'pr-sub':'Un píxel, un dólar. Así de fácil.<br>Cualquier persona del mundo puede participar.',
     'pr-rule-title':'La regla es simple',
-    'pr-calc-title':'Calculadora de espacios',
-    'pr-form-title':'¿Qué irá en tu espacio?',
+    'pr-calc-title':'Calculadora de píxeles',
+    'pr-form-title':'¿Qué irá en tu píxel?',
     'pr-width-label':'Ancho','pr-height-label':'Alto',
     'pr-total-label':'TOTAL A PAGAR',
     'pr-forever-val':'PARA SIEMPRE','pr-countries-val':'50+ PAÍSES',
     'pr-secure-note':'🛡️ Pago seguro · Permanente · Instantáneo',
     'pr-cta-title-q':'¿LISTO PARA DEJAR TU ','pr-cta-gold':'HUELLA ETERNA',
     'cf-cta-title-q':'¿LISTO PARA DEJAR TU ','cf-cta-gold':'HUELLA ETERNA',
-    'fq-cat-all':'Todas','fq-cat-mural':'El Mural','fq-cat-payments':'Pagos','fq-cat-pixel':'Mi Espacio','fq-cat-tech':'Técnico',
+    'fq-cat-all':'Todas','fq-cat-mural':'El Mural','fq-cat-payments':'Pagos','fq-cat-pixel':'Mi Píxel','fq-cat-tech':'Técnico',
     'fq-stat-questions':'Preguntas','fq-stat-categories':'Categorías','fq-stat-support':'Soporte',
     'fq-cta-title-q':'¿YA TIENES TODO CLARO? DEJA TU ','fq-cta-gold':'HUELLA',
     'ct-name-label':'Tu nombre o marca','ct-email-label':'Tu email',
     'ct-subject-label':'Asunto','ct-msg-label':'Tu mensaje','ct-country-label':'Tu país',
-    'ct-chip-1':'Compra de espacios','ct-chip-2':'Problema técnico','ct-chip-3':'Alianzas y marcas',
+    'ct-chip-1':'Compra de píxeles','ct-chip-2':'Problema técnico','ct-chip-3':'Alianzas y marcas',
     'ct-chip-4':'Prensa y medios','ct-chip-5':'Otro',
     'ct-online-strong':'En línea',
     'ct-email-title':'Email','ct-response-title':'Tiempo de respuesta',
@@ -2433,20 +2225,20 @@ const TRANS = {
     'feat-title-2':'Comunidad Global','feat-desc-2':'Forma parte del mural con personas de todo el mundo.',
     'feat-title-3':'Captura Tu Momento','feat-desc-3':'Sé parte de la historia del Mundial 2026.',
     'feat-title-4':'Sellado Eterno','feat-desc-4':'Al finalizar el Mundial, el mural se sellará para siempre.',
-    'feat-title-5':'Un Recuerdo Para Siempre','feat-desc-5':'117,500 espacios disponibles.',
+    'feat-title-5':'Un Recuerdo Para Siempre','feat-desc-5':'Un millón de píxeles. Un solo recuerdo.',
     // EXTRA MISSING ES
-    'fq-a2-body':'El mural se sellará el 19 de julio de 2026, al finalizar la final del Mundial. A partir de ese momento nadie podrá comprar más espacios y el mural quedará congelado eternamente.',
-    'fq-a3-body':'Cada espacio cuesta $1.00 USD. Puedes comprar desde 1 solo espacio hasta un bloque de 40×40 espacios. El precio es fijo — no hay descuentos ni aumentos.',
+    'fq-a2-body':'El mural se sellará el 19 de julio de 2026, al finalizar la final del Mundial. A partir de ese momento nadie podrá comprar más píxeles y el mural quedará congelado eternamente.',
+    'fq-a3-body':'Cada píxel cuesta $1.00 USD. Puedes comprar desde 1 solo píxel hasta un bloque de 100×100 píxeles. El precio es fijo — no hay descuentos ni aumentos.',
     'fq-a4-body':'Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Diners, Discover) a través de Payphone — una plataforma de pago 100% segura. El pago es encriptado y procesado al instante.',
-    'fq-a5-body':'Sí, puedes comprar tantos como quieras. El máximo por compra es un bloque de 40×40 espacios. Muchos fans compran bloques para mostrar su bandera, logo o mensaje más grande.',
+    'fq-a5-body':'Sí, puedes comprar tantos como quieras. El máximo por compra es un bloque de 100×100 píxeles. Muchos fans compran bloques para mostrar su bandera, logo o mensaje más grande.',
     'fq-a6-body':'Puedes subir cualquier imagen: bandera, logo, foto, fan art, texto pixelado o mensaje. También puedes enlazar tu Instagram, TikTok, Facebook, X o cualquier sitio web.',
-    'fq-a7-body':'No. La imagen que subas al momento de la compra es definitiva y permanente. Esto garantiza la integridad del mural y le da mayor valor a cada espacio. Elige bien tu imagen antes de comprar.',
+    'fq-a7-body':'No. La imagen que subas al momento de la compra es definitiva y permanente. Esto garantiza la integridad del mural y le da mayor valor a cada píxel. Elige bien tu imagen antes de comprar.',
     'fq-a8-body':'Tu imagen aparece en el mural de forma instantánea, segundos después de confirmar el pago. Podrás verla en tiempo real desde cualquier parte del mundo.',
     'fq-a9-body':'Desde cualquier país del mundo. El mural es 100% global — ya hay participantes de más de 50 países. Solo necesitas acceso a internet y $1 USD.',
-    'fq-a10-body':'Las compras son definitivas. Tu espacio es tuyo para siempre y queda grabado en el mural histórico. No ofrecemos reembolsos una vez confirmado el pago.',
+    'fq-a10-body':'Las compras son definitivas. Tu píxel es tuyo para siempre y queda grabado en el mural histórico. No ofrecemos reembolsos una vez confirmado el pago.',
     'fq-cat-mural':'El Mural',
     'fq-cat-pagos':'Pagos',
-    'fq-cat-pixel':'Mi Espacio',
+    'fq-cat-pixel':'Mi Píxel',
     'fq-cat-tecnico':'Técnico',
     'fq-cta-title-q':'¿YA TIENES TODO CLARO? DEJA TU ',
     'fq-cta-gold':'HUELLA',
@@ -2455,17 +2247,17 @@ const TRANS = {
     'mural-bar-title':'MURAL MUNDIAL ETERNO 2026',
     'secure-full-text':'🔒 Compra <strong style="color:var(--gold)">segura y permanente</strong>',
     'fq-title-cf':'PREGUNTAS FRECUENTES',
-    'fq-a5-cf':'¡Por supuesto! Puedes comprar tantos espacios como quieras. Más espacios = más área para tu imagen o mensaje. Muchos fans compran bloques de 10x10 o más.',
+    'fq-a5-cf':'¡Por supuesto! Puedes comprar tantos píxeles como quieras. Más píxeles = más espacio para tu imagen o mensaje. Muchos fans compran bloques de 10x10 o más.',
     'fq-a4-cf':'Aceptamos pagos a través de PayPal. Puedes usar tu cuenta PayPal o tarjeta de crédito/débito. El pago es seguro, encriptado y procesado instantáneamente.',
     'fq-a8-cf':'Tu imagen aparece en el mural de forma instantánea, segundos después de confirmar tu compra. Podrás verla en el mural en tiempo real.',
     'fq-a9-cf':'Desde cualquier país del mundo. El mural es global — ya hay participantes de más de 50 países. Cualquier persona apasionada por el fútbol puede ser parte.',
     'fq-a1-full':'Al finalizar el Mundial 2026 el mural se congela y sella permanentemente. Nadie podrá modificarlo ni eliminarlo. Es un recuerdo histórico digital eterno que quedará en línea para siempre.',
     'fq-secure-note':'🛡️ Pago seguro · Permanente · Instantáneo',
-    'pr-price-unit':'por espacio',
+    'pr-price-unit':'por píxel',
     'modal-max-title':'LÍMITE MÁXIMO',
     'modal-max-warn-btn':'✅ GRACIAS',
-    'modal-confirm-title-old':'🏆 Tu Espacio',
-    'modal-old-body':'Estás a punto de comprar este espacio por <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Tu huella quedará sellada para siempre al finalizar el Mundial 2026.',
+    'modal-confirm-title-old':'🏆 Tu Píxel',
+    'modal-old-body':'Estás a punto de comprar este píxel por <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Tu huella quedará sellada para siempre al finalizar el Mundial 2026.',
     'modal-old-secure':'Tu compra es segura con PayPal',
     'secure-payment-txt':'Pago 100% seguro 🔒 Visa · Mastercard · Payphone',
     'ct-chars-label':' caracteres restantes',
@@ -2473,13 +2265,10 @@ const TRANS = {
     'mu-wallet':'🔒 CONECTAR WALLET','mu-or':'o paga con tarjeta','mu-card':'💳 PAGAR CON TARJETA',
     // FOOTER
     'footer-tagline':'Tu huella. Para siempre.',
-    'fcta-title':'Tu lugar puede estar aquí.',
-    'fcta-sub':'Forma parte del mural digital del Mundial 2026 con tu selfie, bandera o empresa.',
-    'fcta-btn':'RESERVAR MI ESPACIO',
     'footer-copy':'© 2026 Mundial Eterno · Javier Hurtado. Todos los derechos reservados. No nos hacemos responsables del contenido, imágenes o enlaces de sitios externos. Las imágenes subidas por los usuarios son propiedad de sus respectivos dueños.',
     // MODALES
     'modal-confirm-title':'CONFIRMA TU SELECCIÓN',
-    'modal-lbl-block':'Bloque','modal-lbl-pixels':'Espacios','modal-lbl-total':'Total a pagar',
+    'modal-lbl-block':'Bloque','modal-lbl-pixels':'Píxeles','modal-lbl-total':'Total a pagar',
     'modal-lbl-once':'Pago único · Para siempre · No reembolsable',
     'modal-confirm-body':'¿Estás seguro? Una vez comprado, la imagen será <strong style="color:#fff;">permanente y definitiva</strong>.',
     'modal-confirm-yes':'✅ SÍ, CONFIRMO — SUBIR MI IMAGEN',
@@ -2504,30 +2293,13 @@ const TRANS = {
     'nav-precios':'Pricing','nav-faq':'FAQ','nav-contacto':'Contact',
     'btn-buy':'⊞ LEAVE YOUR MARK',
     // HERO
-    'hero-h1-1':'APPEAR ON THE MURAL OF THE',
+    'hero-h1-1':'LEAVE YOUR ETERNAL MARK',
     'hero-h1-2':'IN THE',
-    'hero-h1-gold':'WORLD CUP 2026',
-    'hero-sub':'Your selfie, flag or company can be part of the story of the World Cup.',
-    'hero-bullet-1':'📸 UPLOAD YOUR PHOTO',
-    'hero-bullet-2':'⊞ CHOOSE YOUR SPACE ON THE PITCH',
-    'hero-bullet-3':'🏆 STAY FOREVER',
-    'hero-cta':'I WANT MY SPACE →',
-    'hero-secure':'🔒 Secure payment from $1 USD',
-    'hero-mural-caption':'This is how the mural will look when thousands of fans from around the world leave their mark.',
-    'announce-bar':'🌎 More than 2,300 spaces already reserved. Your mark can stay forever.',
+    'hero-h1-gold':'HISTORY OF FOOTBALL',
+    'hero-sub':'The largest collaborative digital mural of the 2026 World Cup.<br>Every pixel is a piece of history. The mural will be sealed forever<br><strong>at the end of the 2026 World Cup.</strong>',
     'cd-start-label':'Days until<br>World Cup starts',
     'cd-end-label':'Days until<br>World Cup ends',
     'cd-dias':'DAYS',
-    'cd-en-curso':'IN PROGRESS!',
-    'hfc-title-1':'UPLOAD YOUR <span class="feat-card-gold">CONTENT</span>',
-    'hfc-desc-1':'Personalize your space with what represents you most.',
-    'hfc-tags-1':'<span>😊 SELFIE</span><span>🚩 FLAG</span><span>🏢 COMPANY LOGO</span>',
-    'hfc-title-2':'GLOBAL <span class="feat-card-gold">COMMUNITY</span>',
-    'hfc-desc-2':'Join fans from around the world in one single mural.',
-    'hfc-title-3':'YOUR PLACE <span class="feat-card-gold">IN HISTORY</span>',
-    'hfc-desc-3':'Your space will be part of a permanent memory of the 2026 World Cup.',
-    'hfc-title-4':'ETERNAL <span class="feat-card-gold">SEAL</span>',
-    'hfc-desc-4':'When the 2026 World Cup ends, the mural will close forever.',
     'sbar-people-title':'Millions of people','sbar-people-sub':'will be part',
     'sbar-pixels-title':'117,500','sbar-pixels-sub':'pixels available',
     'sbar-seal-title':'The mural will be sealed','sbar-seal-sub':'eternally',
@@ -2537,10 +2309,6 @@ const TRANS = {
     'mu-sub':'Click on the pitch to choose your pixel. Each space is worth $1.00 USD and is yours forever.',
     'mu-panel-title':'Buy Your Pixel',
     'mu-panel-sub':'Select on the pitch the pixel you want to buy',
-    'mu-upload-types-title':'WHAT CAN YOU UPLOAD?',
-    'mu-upload-item-1':'📸 Selfie',
-    'mu-upload-item-2':'🚩 Flag',
-    'mu-upload-item-3':'🏢 Company logo',
     'mu-hint':'Hold to select · 1 finger to pan · pinch to zoom',
     'mu-wallet':'🔒 CONNECT WALLET','mu-or':'or pay by card','mu-card':'💳 PAY BY CARD',
     'mu-secure-txt':'secure and permanent',
@@ -2550,20 +2318,20 @@ const TRANS = {
     // HOW IT WORKS
     'cf-label':'Step by step guide','cf-title-1':'HOW IT ','cf-title-gold':'WORKS',
     'cf-sub':'In 3 simple steps, your mark will remain in history forever.',
-    'cf-step1-badge':'STEP 01','cf-step1-title':'Choose your space',
+    'cf-step1-badge':'STEP 01','cf-step1-title':'Choose your pixel',
     'cf-step1-desc':'Explore the giant mural and click the exact spot where you want to leave your eternal mark.',
     'cf-step2-badge':'STEP 02','cf-step2-title':'Personalize your space',
     'cf-step2-desc':'Upload the image you want to show the world: flag, logo, phrase, fan art or memory.',
-    'cf-step3-badge':'STEP 03','cf-step3-title':'Choose and seal it',
-    'cf-step3-desc':'Pay $1 USD per space securely through PayPhone. Your space is yours forever in history.',
+    'cf-step3-badge':'STEP 03','cf-step3-title':'Buy and seal it',
+    'cf-step3-desc':'Pay $1 USD per pixel securely through PayPal. Your space is yours forever in history.',
     'cf-cta-title':'READY TO LEAVE YOUR ','cf-cta-gold':'ETERNAL MARK','cf-cta-sub':'The mural will be sealed forever at the end of the 2026 World Cup.',
-    'cf-cta-btn':'⊞ CHOOSE MY SPACE →',
+    'cf-cta-btn':'⊞ BUY MY PIXEL NOW',
     // PRICING
     'pr-label':'Your space in history','pr-title-1':'SIMPLE ','pr-title-gold':'PRICING',
-    'pr-sub':'One space, one dollar. That simple.<br>Anyone in the world can participate.',
-    'pr-main-name':'1 Space = $1.00 USD',
-    'pr-main-desc':'Buy from 1 space. Upload your name, photo, logo or link. It stays forever on the 2026 World Cup mural.',
-    'pr-buy-btn':'🔒 CHOOSE MY SPACE →',
+    'pr-sub':'One pixel, one dollar. That simple.<br>Anyone in the world can participate.',
+    'pr-main-name':'1 Pixel = $1.00 USD',
+    'pr-main-desc':'Buy from 1 pixel. Upload your name, photo, logo or link. It stays forever on the 2026 World Cup mural.',
+    'pr-buy-btn':'🔒 BUY MY PIXEL',
     // FAQ
     'fq-label':'Everything you need to know','fq-title-1':'FREQUENTLY ','fq-title-gold':'ASKED QUESTIONS',
     'fq-sub':'We answer all your questions before you leave your eternal mark.',
@@ -2572,17 +2340,17 @@ const TRANS = {
     'ct-sub':'Have questions, suggestions or want to be part of the project? Write to us.',
     'ct-send-btn':'✉ SEND MESSAGE',
     // FAQ QUESTIONS
-    'fq-q1':'Does my space really stay forever?',
+    'fq-q1':'Does my pixel really stay forever?',
     'fq-a1':'When the 2026 World Cup ends, the mural is permanently frozen. No one can modify or delete it. It is an eternal digital historical memory.',
     'fq-q2':'When exactly is the mural sealed?',
     'fq-a2':'The mural will be sealed on July 19, 2026, at the end of the World Cup final. From that moment it will be frozen eternally.',
-    'fq-q3':'How much does a space cost?',
-    'fq-a3':'Each space costs $1.00 USD. You can buy from 1 space up to a 100×100 block. The price is fixed.',
+    'fq-q3':'How much does a pixel cost?',
+    'fq-a3':'Each pixel costs $1.00 USD. You can buy from 1 pixel up to a 100×100 block. The price is fixed.',
     'fq-q4':'What payment methods do you accept?',
     'fq-a4':'We accept secure payments through PayPal. You can pay with your PayPal account or credit/debit card (Visa, Mastercard, Amex).',
-    'fq-q5':'Can I buy more than one space?',
-    'fq-a5':'Yes, you can buy as many as you want. The maximum is a 40×40 space block.',
-    'fq-q6':'What can I put on my space?',
+    'fq-q5':'Can I buy more than one pixel?',
+    'fq-a5':'Yes, you can buy as many as you want. The maximum is a 100×100 pixel block.',
+    'fq-q6':'What can I put on my pixel?',
     'fq-a6':'You can upload any image: flag, logo, photo, fan art or message. You can also link your social media.',
     'fq-q7':'Can I change my image after buying?',
     'fq-a7':'No. The image is final and permanent. Choose your image carefully before buying.',
@@ -2596,16 +2364,16 @@ const TRANS = {
     'fq-contact-desc':'We respond within 24 hours. You can also find us on social media.',
     'fq-contact-btn':'CONTACT',
     'fq-cta-sub':'The mural will be sealed eternally at the end of the 2026 World Cup.',
-    'fq-cta-btn':'⊞ CHOOSE MY SPACE →',
+    'fq-cta-btn':'⊞ BUY MY PIXEL — $1.00 USD',
     'fq-not-found':'Did not find your answer?',
     // PRICING
     'pr-min-desc':'$1 USD — anyone can participate from any country in the world.',
     'pr-max-desc':'The largest block available. Ideal for brands and companies that want maximum visibility on the mural.',
-    'pr-once-desc':'No subscription. Pay once and your space stays eternal on the mural.',
+    'pr-once-desc':'No subscription. Pay once and your pixel stays eternal on the mural.',
     'pr-global-desc':'Buyers from all over the world are already part of the historic mural.',
     'pr-lim-min':'Minimum','pr-lim-max':'Maximum','pr-lim-once':'One-time payment','pr-lim-global':'Global',
     'pr-cta-sub':'The mural will be sealed forever at the end of the 2026 World Cup.',
-    'pr-cta-btn':'⊞ CHOOSE MY SPACE →',
+    'pr-cta-btn':'⊞ BUY MY PIXEL NOW — $1.00 USD',
     // CONTACT
     'ct-email-desc':'Write to us at any time of the day.',
     'ct-response-desc':'We respond within 24 hours on business days. Support available in Spanish and English.',
@@ -2618,38 +2386,33 @@ const TRANS = {
     'ct-privacy':'Your information is private and will never be shared with third parties.',
     'ct-send-btn':'✉ SEND MESSAGE',
     // HOW IT WORKS LISTS
-    'cf-li-1':'Free zoom and navigation','cf-li-2':'View coordinates in real time','cf-li-3':'117,500 spaces available',
+    'cf-li-1':'Free zoom and navigation','cf-li-2':'View coordinates in real time','cf-li-3':'117,500 pixels available',
     'cf-li-4':'Images, flags and logos','cf-li-5':'Texts and messages','cf-li-6':'Pixel art and fan art',
-    'cf-li-7':'$1.00 USD per space you choose','cf-li-8':'Credit card','cf-li-9':'One-time, permanent payment',
+    'cf-li-7':'$1.00 USD per pixel','cf-li-8':'Wallet or credit card','cf-li-9':'One-time, permanent payment',
     'cf-video-title':'WATCH EXPLAINER VIDEO','cf-video-sub':'See how it works in less than 60 seconds · 0:58',
     // EXTRA ENGLISH
     'inicio-sold-bar':'🔒 REFERENCE IMAGE — THIS IS HOW IT WILL LOOK WHEN COMPLETE — 117,500 / 117,500 PIXELS (100%)',
     'inicio-panel-title':'BUY YOUR PIXEL',
-    'inicio-price-label':'1 SPACE','inicio-price-note':'One-time payment · Forever',
+    'inicio-price-label':'1 PIXEL','inicio-price-note':'One-time payment · Forever',
     'inicio-secure':'secure and permanent',
-    'mu-sold-bar':'SPACES SOLD: 2,354 / 117,500 (2.00%)',
-    'how-title':'HOW TO PARTICIPATE?',
-    'how-step-1':'Click on a green space.',
-    'how-step-2':'Choose the size.',
-    'how-step-3':'Upload your selfie, flag or logo.',
-    'how-step-4':'Your image will stay forever in the mural.',
+    'mu-sold-bar':'PIXELS SOLD: 0 / 117,500 (0.00%)',
     'mu-sel-none':'No pixel selected',
-    'pr-sub':'One space, one dollar. That simple.<br>Anyone in the world can participate.',
+    'pr-sub':'One pixel, one dollar. That simple.<br>Anyone in the world can participate.',
     'pr-rule-title':'The rule is simple',
-    'pr-calc-title':'Space calculator',
-    'pr-form-title':'What will go on your space?',
+    'pr-calc-title':'Pixel calculator',
+    'pr-form-title':'What will go on your pixel?',
     'pr-width-label':'Width','pr-height-label':'Height',
     'pr-total-label':'TOTAL TO PAY',
     'pr-forever-val':'FOREVER','pr-countries-val':'50+ COUNTRIES',
     'pr-secure-note':'🛡️ Secure payment · Permanent · Instant',
     'pr-cta-title-q':'READY TO LEAVE YOUR ','pr-cta-gold':'ETERNAL MARK',
     'cf-cta-title-q':'READY TO LEAVE YOUR ','cf-cta-gold':'ETERNAL MARK',
-    'fq-cat-all':'All','fq-cat-mural':'The Mural','fq-cat-payments':'Payments','fq-cat-pixel':'My Space','fq-cat-tech':'Technical',
+    'fq-cat-all':'All','fq-cat-mural':'The Mural','fq-cat-payments':'Payments','fq-cat-pixel':'My Pixel','fq-cat-tech':'Technical',
     'fq-stat-questions':'Questions','fq-stat-categories':'Categories','fq-stat-support':'Support',
     'fq-cta-title-q':'GOT EVERYTHING CLEAR? LEAVE YOUR ','fq-cta-gold':'MARK',
     'ct-name-label':'Your name or brand','ct-email-label':'Your email',
     'ct-subject-label':'Subject','ct-msg-label':'Your message','ct-country-label':'Your country',
-    'ct-chip-1':'Space purchase','ct-chip-2':'Technical issue','ct-chip-3':'Alliances and brands',
+    'ct-chip-1':'Pixel purchase','ct-chip-2':'Technical issue','ct-chip-3':'Alliances and brands',
     'ct-chip-4':'Press and media','ct-chip-5':'Other',
     'ct-online-strong':'Online',
     'ct-email-title':'Email','ct-response-title':'Response time',
@@ -2662,20 +2425,20 @@ const TRANS = {
     'feat-title-2':'Global Community','feat-desc-2':'Be part of the mural with people from all over the world.',
     'feat-title-3':'Capture Your Moment','feat-desc-3':'Be part of the history of the 2026 World Cup.',
     'feat-title-4':'Eternal Seal','feat-desc-4':'When the World Cup ends, the mural will be sealed forever.',
-    'feat-title-5':'A Memory Forever','feat-desc-5':'117,500 spaces available.',
+    'feat-title-5':'A Memory Forever','feat-desc-5':'One million pixels. One single memory.',
     // EXTRA MISSING EN
-    'fq-a2-body':'The mural will be sealed on July 19, 2026, when the World Cup Final ends. From that moment on, no one can buy more spaces and the mural will be frozen forever.',
-    'fq-a3-body':'Each space costs $1.00 USD. You can buy from 1 single space up to a 40×40 space block. The price is fixed — no discounts or increases.',
+    'fq-a2-body':'The mural will be sealed on July 19, 2026, when the World Cup Final ends. From that moment on, no one can buy more pixels and the mural will be frozen forever.',
+    'fq-a3-body':'Each pixel costs $1.00 USD. You can buy from 1 single pixel up to a 100×100 pixel block. The price is fixed — no discounts or increases.',
     'fq-a4-body':'We accept credit and debit cards (Visa, Mastercard, Diners, Discover) through Payphone — a 100% secure payment platform. Payment is encrypted and processed instantly.',
-    'fq-a5-body':'Yes, you can buy as many as you want. The maximum per purchase is a 40×40 space block. Many fans buy blocks to display their flag, logo or a larger message.',
+    'fq-a5-body':'Yes, you can buy as many as you want. The maximum per purchase is a 100×100 pixel block. Many fans buy blocks to display their flag, logo or a larger message.',
     'fq-a6-body':'You can upload any image: flag, logo, photo, fan art, pixelated text or message. You can also link your Instagram, TikTok, Facebook, X or any website.',
-    'fq-a7-body':'No. The image you upload at the time of purchase is final and permanent. This guarantees the integrity of the mural and adds value to each space. Choose your image carefully before buying.',
+    'fq-a7-body':'No. The image you upload at the time of purchase is final and permanent. This guarantees the integrity of the mural and adds value to each pixel. Choose your image carefully before buying.',
     'fq-a8-body':'Your image appears on the mural instantly, seconds after confirming payment. You can see it in real time from anywhere in the world.',
     'fq-a9-body':'From any country in the world. The mural is 100% global — there are already participants from over 50 countries. You only need internet access and $1 USD.',
-    'fq-a10-body':'Purchases are final. Your space is yours forever and is recorded in the historic mural. We do not offer refunds once payment is confirmed.',
+    'fq-a10-body':'Purchases are final. Your pixel is yours forever and is recorded in the historic mural. We do not offer refunds once payment is confirmed.',
     'fq-cat-mural':'The Mural',
     'fq-cat-pagos':'Payments',
-    'fq-cat-pixel':'My Space',
+    'fq-cat-pixel':'My Pixel',
     'fq-cat-tecnico':'Technical',
     'fq-cta-title-q':'ALL CLEAR? LEAVE YOUR ',
     'fq-cta-gold':'MARK',
@@ -2684,17 +2447,17 @@ const TRANS = {
     'mural-bar-title':'ETERNAL WORLD CUP MURAL 2026',
     'secure-full-text':'🔒 <strong style="color:var(--gold)">Secure and permanent</strong> purchase',
     'fq-title-cf':'FREQUENTLY ASKED QUESTIONS',
-    'fq-a5-cf':'Of course! You can buy as many spaces as you want. More spaces = more area for your image or message. Many fans buy 10x10 blocks or larger.',
+    'fq-a5-cf':'Of course! You can buy as many pixels as you want. More pixels = more space for your image or message. Many fans buy 10x10 blocks or larger.',
     'fq-a4-cf':'We accept payments through PayPal. You can use your PayPal account or credit/debit card. Payment is secure, encrypted and processed instantly.',
     'fq-a8-cf':'Your image appears on the mural instantly, seconds after confirming your purchase. You can see it in real time.',
     'fq-a9-cf':'From any country in the world. The mural is global — there are already participants from over 50 countries. Anyone passionate about football can be part of it.',
     'fq-a1-full':'When the 2026 World Cup ends, the mural is permanently frozen and sealed. No one can modify or delete it. It is an eternal digital historical memory that will remain online forever.',
     'fq-secure-note':'🛡️ Secure payment with PayPal · Permanent · Instant',
-    'pr-price-unit':'per space',
+    'pr-price-unit':'per pixel',
     'modal-max-title':'MAXIMUM LIMIT',
     'modal-max-warn-btn':'✅ THANKS',
-    'modal-confirm-title-old':'🏆 Your Space',
-    'modal-old-body':'You are about to purchase this space for <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Your mark will be sealed forever at the end of the 2026 World Cup.',
+    'modal-confirm-title-old':'🏆 Your Pixel',
+    'modal-old-body':'You are about to purchase this pixel for <strong style="color:var(--gold)">$1.00 USD</strong>.<br>Your mark will be sealed forever at the end of the 2026 World Cup.',
     'modal-old-secure':'Your purchase is secure with PayPal',
     'secure-payment-txt':'100% secure payment 🔒 Visa · Mastercard · Payphone',
     'ct-chars-label':' characters remaining',
@@ -2702,13 +2465,10 @@ const TRANS = {
     'mu-wallet':'🔒 CONNECT WALLET','mu-or':'or pay by card','mu-card':'💳 PAY BY CARD',
     // FOOTER
     'footer-tagline':'Your mark. Forever.',
-    'fcta-title':'Your place could be here.',
-    'fcta-sub':'Be part of the digital mural of the 2026 World Cup with your selfie, flag or company logo.',
-    'fcta-btn':'RESERVE MY SPACE',
     'footer-copy':'© 2026 Mundial Eterno · Javier Hurtado. All rights reserved. We are not responsible for the content, images or links of external sites. Images uploaded by users are the property of their respective owners.',
     // MODALS
     'modal-confirm-title':'CONFIRM YOUR SELECTION',
-    'modal-lbl-block':'Block','modal-lbl-pixels':'Spaces','modal-lbl-total':'Total to pay',
+    'modal-lbl-block':'Block','modal-lbl-pixels':'Pixels','modal-lbl-total':'Total to pay',
     'modal-lbl-once':'One-time payment · Forever · Non-refundable',
     'modal-confirm-body':'Are you sure? Once purchased, the image will be <strong style="color:#fff;">permanent and final</strong>.',
     'modal-confirm-yes':'✅ YES, CONFIRM — UPLOAD MY IMAGE',
@@ -2753,15 +2513,7 @@ function closeMobileMenu(){
   document.body.classList.remove('menu-open');
 }
 // Close menu when a link is clicked
-function syncBarHeight(){var b=document.getElementById('announce-bar');if(b)document.documentElement.style.setProperty('--bar-h',b.offsetHeight+'px');}
-window.addEventListener('resize',syncBarHeight);
-syncBarHeight();
-
-function closeHowTo(){var b=document.getElementById('how-to-banner');if(b)b.hidden=true;try{localStorage.setItem('how-to-closed','1');}catch(e){}}
-(function(){try{if(localStorage.getItem('how-to-closed')==='1'){var b=document.getElementById('how-to-banner');if(b)b.hidden=true;}}catch(e){}})();
-
 document.addEventListener('DOMContentLoaded',()=>{
-  syncBarHeight();
   document.querySelectorAll('#main-nav a').forEach(a=>{
     a.addEventListener('click', closeMobileMenu);
   });
@@ -2920,7 +2672,7 @@ function filterFaq(cat, btn){
       if(soldTxt){
         soldTxt.textContent=window._lang==='en'
           ?`PIXELS SOLD: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`
-          :`ESPACIOS VENDIDOS: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`;
+          :`PÍXELES VENDIDOS: ${totalSoldPx.toLocaleString()} / 117,500 (${pct}%)`;
       }
       draw(); drawMini();
     }
@@ -3150,7 +2902,7 @@ function filterFaq(cat, btn){
       selecting=false;
       const s=getSel();
       if(s){
-        const MAX_SEL=10;
+        const MAX_SEL=40;
         const w=s.x2-s.x1+1, h=s.y2-s.y1+1;
         if(w>MAX_SEL || h>MAX_SEL){
           // Solo aviso — NO abre confirmación — el usuario vuelve a elegir
@@ -3244,7 +2996,7 @@ function filterFaq(cat, btn){
       const s=getSel();
       if(s){
         const w=s.x2-s.x1+1, h=s.y2-s.y1+1;
-        if(w>10||h>10){ selS=null;selE=null;draw();drawMini();showMaxWarn();selecting=false;return; }
+        if(w>40||h>40){ selS=null;selE=null;draw();drawMini();showMaxWarn();selecting=false;return; }
         window.muSelX=s.x1; window.muSelY=s.y1;
         window._muSel={x1:s.x1,y1:s.y1,w,h};
         showConfirmModal(s);
@@ -3478,7 +3230,7 @@ function filterFaq(cat, btn){
 
   function updateCalc(){
     if(!prW || !prH) return;
-    const MAX=10; const en=window._lang==='en';
+    const MAX=40; const en=window._lang==='en';
     if(parseInt(prW.value)>MAX){ prW.value=MAX; showMaxWarn(null); }
     if(parseInt(prH.value)>MAX){ prH.value=MAX; showMaxWarn(null); }
     const w = parseInt(prW.value), h = parseInt(prH.value);
@@ -3488,11 +3240,13 @@ function filterFaq(cat, btn){
     prHV.textContent = h+' px';
     prTotal.textContent = price;
     prPixels.textContent = en
-      ? tot.toLocaleString()+' spaces · block '+w+'×'+h
-      : tot.toLocaleString()+' espacios · bloque '+w+'×'+h;
+      ? tot.toLocaleString()+' pixels · block '+w+'×'+h
+      : tot.toLocaleString()+' píxeles · bloque '+w+'×'+h;
     prDesc.textContent = getDesc(tot);
-    prSizeLabel.textContent = w+'×'+h+(en?' spaces':' espacios');
-    if(prBuyBtn) prBuyBtn.textContent = '🔒 ELEGIR MI ESPACIO →';
+    prSizeLabel.textContent = w+'×'+h+(en?' pixels':' píxeles');
+    if(prBuyBtn) prBuyBtn.textContent = en
+      ? '🔒 BUY MY PIXEL — '+price
+      : '🔒 COMPRAR MI PÍXEL — '+price;
     drawPreview(w,h);
   }
 
@@ -3824,9 +3578,7 @@ function uwProceed(){
   const backBtn=document.getElementById('mu-previewconfirm-back');
   if(backBtn) backBtn.textContent=en?'✏️ EDIT IMAGE':'✏️ EDITAR IMAGEN';
   document.getElementById('mu-upload-modal').style.display='none';
-  const _pcm=document.getElementById('mu-previewconfirm-modal');
-  _pcm.style.display='flex';
-  _pcm.scrollTop=0;
+  document.getElementById('mu-previewconfirm-modal').style.display='flex';
   reapplyLang('mu-previewconfirm-modal');
 }
 
@@ -4022,14 +3774,14 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 
 
 <!-- ── PREVIEW CONFIRM MODAL ── -->
-<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:flex-start;justify-content:center;overflow-y:scroll !important;-webkit-overflow-scrolling:touch;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;padding:1rem 0;">
+<div id="mu-previewconfirm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);align-items:center;justify-content:center;z-index:3002;backdrop-filter:blur(16px);font-family:'Montserrat',sans-serif;">
 <style>
-.upc{background:#0f0f0f;border:1px solid rgba(255,215,0,0.3);border-radius:18px;padding:1.8rem;max-width:400px;width:92%;position:relative;text-align:center;max-height:none;margin:auto;}
+.upc{background:#0f0f0f;border:1px solid rgba(255,215,0,0.3);border-radius:18px;padding:1.8rem;max-width:400px;width:92%;position:relative;text-align:center;}
 .upc-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#555;font-size:1.3rem;cursor:pointer;}
 .upc-emoji{font-size:2.2rem;margin-bottom:0.5rem;}
 .upc-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#FFD700;letter-spacing:0.04em;margin-bottom:0.3rem;}
 .upc-sub{font-size:0.82rem;color:#888;margin-bottom:1.2rem;line-height:1.5;}
-.upc-img-wrap{width:100%;border-radius:12px;overflow:clip;border:2px solid rgba(255,215,0,0.3);background:#0a200a;margin-bottom:1rem;position:relative;}
+.upc-img-wrap{width:100%;border-radius:12px;overflow:hidden;border:2px solid rgba(255,215,0,0.3);background:#0a200a;margin-bottom:1rem;position:relative;}
 .upc-img-wrap img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;}
 .upc-info{font-size:0.8rem;color:#888;margin-bottom:1.4rem;}
 .upc-btn-yes{width:100%;padding:14px;border-radius:10px;font-size:0.85rem;font-weight:900;letter-spacing:0.07em;text-transform:uppercase;border:none;cursor:pointer;background:linear-gradient(135deg,#FFD700,#FFC200);color:#000;font-family:'Montserrat',sans-serif;box-shadow:0 0 25px rgba(255,215,0,0.4);transition:all .2s;margin-bottom:10px;}
@@ -4037,11 +3789,6 @@ function handleFileSelect(input){uwHandleFile(input,'gallery');}
 .upc-btn-back{width:100%;padding:11px;border-radius:10px;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid rgba(255,215,0,0.2);background:transparent;color:#777;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
 .upc-btn-back:hover{border-color:rgba(255,215,0,0.4);color:#aaa;}
 .upc-secure{font-size:0.75rem;color:#aaa;margin-top:0.8rem;letter-spacing:0.04em;}
-@media(max-width:768px){
-  .upc{width:96%;padding:1.2rem 1.2rem 80px;border-radius:14px;overflow:visible !important;}
-  .upc-img-wrap{overflow:clip !important;}
-  .upc-img-wrap img{max-height:220px;}
-}
 </style>
   <div class="upc">
     <button class="upc-close" onclick="document.getElementById('mu-previewconfirm-modal').style.display='none';document.getElementById('mu-upload-modal').style.display='flex';">✕</button>
